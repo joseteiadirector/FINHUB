@@ -1,0 +1,38 @@
+import { Home, Receipt, Grid3x3, User } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+
+export const BottomNav = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const navItems = [
+    { icon: Home, label: "Início", path: "/dashboard" },
+    { icon: Receipt, label: "Extrato", path: "/transactions" },
+    { icon: Grid3x3, label: "Serviços", path: "/services" },
+    { icon: User, label: "Perfil", path: "/profile" },
+  ];
+
+  return (
+    <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-lg z-50">
+      <div className="max-w-md mx-auto flex justify-around items-center h-16 px-4">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = location.pathname === item.path;
+          
+          return (
+            <button
+              key={item.path}
+              onClick={() => navigate(item.path)}
+              className={`flex flex-col items-center gap-1 transition-colors ${
+                isActive ? "text-primary" : "text-muted-foreground"
+              }`}
+            >
+              <Icon size={22} />
+              <span className="text-xs font-medium">{item.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    </nav>
+  );
+};
