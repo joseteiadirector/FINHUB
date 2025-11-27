@@ -4,8 +4,9 @@ import { BottomNav } from "@/components/BottomNav";
 import { PredictiveAssistant } from "@/components/PredictiveAssistant";
 import { ContextualInsights } from "@/components/ContextualInsights";
 import { AIPersonalizedInsights } from "@/components/AIPersonalizedInsights";
+import { FinancialChatBot } from "@/components/FinancialChatBot";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, ArrowRight, Sparkles } from "lucide-react";
+import { TrendingUp, ArrowRight, Sparkles, MessageCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -37,19 +38,30 @@ const Dashboard = () => {
           <BalanceCard balance={8547.32} income={5000} expenses={1452.18} />
         </div>
 
-        {/* Assistente IA + Insights em Abas */}
+        {/* Assistente IA + Insights + Chat em Abas */}
         <div className="bg-card rounded-lg p-1">
-          <Tabs defaultValue="assistant" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-3">
+          <Tabs defaultValue="chat" className="w-full">
+            <TabsList className="grid w-full grid-cols-3 mb-3">
+              <TabsTrigger value="chat" className="text-xs">
+                <MessageCircle size={14} className="mr-1" />
+                Chat IA
+              </TabsTrigger>
               <TabsTrigger value="assistant" className="text-xs">
                 <Sparkles size={14} className="mr-1" />
-                Assistente IA
+                Assistente
               </TabsTrigger>
               <TabsTrigger value="insights" className="text-xs">
                 <TrendingUp size={14} className="mr-1" />
                 Insights
               </TabsTrigger>
             </TabsList>
+            
+            <TabsContent value="chat" className="mt-0 px-3 pb-3">
+              <FinancialChatBot 
+                transactions={recentTransactions}
+                currentBalance={8547.32}
+              />
+            </TabsContent>
             
             <TabsContent value="assistant" className="mt-0 px-3 pb-3 space-y-4">
               <AIPersonalizedInsights 
