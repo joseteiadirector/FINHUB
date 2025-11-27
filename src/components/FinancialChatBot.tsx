@@ -56,19 +56,19 @@ export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChat
   return (
     <Card className="flex flex-col h-[600px] bg-gradient-to-br from-card to-card/50">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border">
+      <div className="flex items-center justify-between p-4 border-b-4 border-foreground">
         <div className="flex items-center gap-2">
-          <div className="p-2 rounded-lg bg-primary/10">
-            <MessageCircle className="text-primary" size={20} />
+          <div className="p-3 rounded-2xl bg-foreground">
+            <MessageCircle className="text-background" size={24} />
           </div>
           <div>
-            <h3 className="font-display font-bold text-foreground uppercase tracking-tight">FinAssist</h3>
-            <p className="text-xs font-condensed text-muted-foreground">Seu assistente financeiro inteligente</p>
+            <h3 className="font-black text-foreground text-lg">FINASSIST</h3>
+            <p className="text-sm font-bold text-foreground/70">Seu assistente financeiro inteligente</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant="secondary" className="text-xs font-condensed font-bold uppercase">
-            IA em tempo real
+          <Badge variant="secondary" className="text-xs font-black bg-foreground text-background px-3 py-1">
+            IA TEMPO REAL
           </Badge>
           {messages.length > 0 && (
             <Button
@@ -76,6 +76,7 @@ export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChat
               size="sm"
               onClick={clearChat}
               disabled={isLoading}
+              className="hover:bg-foreground/10"
             >
               <Trash2 size={16} />
             </Button>
@@ -87,14 +88,14 @@ export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChat
       <ScrollArea className="flex-1 p-4" ref={scrollRef}>
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
-            <div className="p-4 rounded-full bg-primary/10">
-              <Bot size={48} className="text-primary" />
+            <div className="p-4 rounded-full bg-foreground">
+              <Bot size={48} className="text-background" />
             </div>
             <div>
-              <h4 className="font-display font-semibold text-foreground mb-2 uppercase tracking-tight">
-                Olá! Sou o FinAssist 👋
+              <h4 className="font-black text-foreground mb-2 text-xl">
+                OLÁ! SOU O FINASSIST 👋
               </h4>
-              <p className="text-sm font-condensed text-muted-foreground mb-4">
+              <p className="text-base font-bold text-foreground/70 mb-4">
                 Pergunte qualquer coisa sobre suas finanças e receba respostas em tempo real
               </p>
             </div>
@@ -104,7 +105,7 @@ export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChat
                   key={index}
                   variant="outline"
                   size="sm"
-                  className="text-xs h-auto py-2 px-3 whitespace-normal text-left"
+                  className="text-xs h-auto py-3 px-3 whitespace-normal text-left font-bold border-2 border-foreground hover:bg-foreground hover:text-background"
                   onClick={() => setInput(question)}
                 >
                   {question}
@@ -127,25 +128,25 @@ export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChat
                   </div>
                 )}
                 <div
-                  className={`max-w-[80%] rounded-lg p-3 ${
+                  className={`max-w-[80%] rounded-2xl p-4 border-2 border-foreground ${
                     message.role === "user"
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted"
+                      ? "bg-foreground text-background"
+                      : "bg-card text-foreground"
                   }`}
                 >
-                  <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                  <p className="text-sm whitespace-pre-wrap font-semibold">{message.content}</p>
                 </div>
                 {message.role === "user" && (
-                  <div className="p-2 rounded-full bg-primary h-8 w-8 flex items-center justify-center flex-shrink-0">
-                    <User size={16} className="text-primary-foreground" />
+                  <div className="p-2 rounded-full bg-foreground h-8 w-8 flex items-center justify-center flex-shrink-0">
+                    <User size={16} className="text-background" />
                   </div>
                 )}
               </div>
             ))}
             {isLoading && (
               <div className="flex gap-3 justify-start">
-                <div className="p-2 rounded-full bg-primary/10 h-8 w-8 flex items-center justify-center">
-                  <Bot size={16} className="text-primary" />
+                <div className="p-2 rounded-full bg-foreground h-8 w-8 flex items-center justify-center">
+                  <Bot size={16} className="text-background" />
                 </div>
                 <div className="bg-muted rounded-lg p-3">
                   <Loader2 className="h-4 w-4 animate-spin text-primary" />
@@ -171,8 +172,9 @@ export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChat
             onClick={handleSend}
             disabled={isLoading || !input.trim()}
             size="icon"
+            className="bg-foreground hover:bg-foreground/90 text-background font-black border-2 border-foreground shadow-lg h-12 w-12"
           >
-            <Send size={18} />
+            <Send size={20} />
           </Button>
         </div>
         <p className="text-xs text-muted-foreground mt-2 text-center">

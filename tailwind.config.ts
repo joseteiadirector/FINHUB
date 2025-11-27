@@ -138,6 +138,7 @@ export default {
   		},
   		fontFamily: {
   			sans: [
+  				'Poppins',
   				'Inter',
   				'ui-sans-serif',
   				'system-ui',
@@ -151,12 +152,11 @@ export default {
   				'sans-serif'
   			],
   			display: [
-  				'Bebas Neue',
-  				'Barlow Condensed',
+  				'Poppins',
   				'sans-serif'
   			],
   			condensed: [
-  				'Barlow Condensed',
+  				'Poppins',
   				'sans-serif'
   			],
   			serif: [
