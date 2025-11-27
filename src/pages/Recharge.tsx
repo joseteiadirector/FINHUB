@@ -41,12 +41,51 @@ const Recharge = () => {
     setStep("confirm");
   };
 
-  const handleRecharge = () => {
-    setStep("success");
-    toast({
-      title: "Recarga realizada!",
-      description: `R$ ${parseFloat(amount).toFixed(2).replace('.', ',')} recarregado com sucesso`,
-    });
+  const handleRecharge = async () => {
+    try {
+      const { supabase } = await import("@/integrations/supabase/client");
+      
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast({
+          title: "Erro de autenticação",
+          description: "Faça login para continuar",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: "Processando...",
+        description: "Redirecionando para pagamento",
+      });
+
+      const description = rechargeType === "phone" 
+        ? `Recarga ${selectedOperator} - ${phoneNumber}`
+        : `Recarga transporte - ${cardNumber}`;
+
+      const { data, error } = await supabase.functions.invoke("create-payment", {
+        body: {
+          amount: parseFloat(amount),
+          description,
+          productName: "Recarga",
+        },
+      });
+
+      if (error) throw error;
+      
+      if (data?.url) {
+        window.open(data.url, "_blank");
+        setStep("success");
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      toast({
+        title: "Erro no pagamento",
+        description: "Não foi possível processar a recarga",
+        variant: "destructive",
+      });
+    }
   };
 
   if (step === "success") {
