@@ -68,11 +68,11 @@ export const AIPersonalizedInsights = ({ transactions, currentBalance }: AIPerso
             <Sparkles className="text-purple-600 dark:text-purple-400" size={24} />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-foreground">Insights Personalizados por IA</h3>
-            <p className="text-xs text-muted-foreground">Análise inteligente em linguagem natural</p>
+            <h3 className="text-xl font-display font-bold text-foreground uppercase tracking-tight">Insights por IA</h3>
+            <p className="text-xs font-condensed text-muted-foreground">Análise inteligente em linguagem natural</p>
           </div>
         </div>
-        <Badge variant="secondary" className="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300">
+        <Badge variant="secondary" className="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 font-condensed font-bold uppercase text-xs">
           Lovable AI
         </Badge>
       </div>

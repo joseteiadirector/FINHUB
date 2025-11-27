@@ -35,14 +35,14 @@ const Dashboard = () => {
       <header className="bg-gradient-to-br from-card to-card/50 border-b border-border p-6 animate-fade-in">
         <div className="max-w-md mx-auto flex items-center justify-between">
           <div className="flex-1">
-            <h1 className="text-2xl font-bold text-foreground mb-1">
-              {loading ? "Olá! 👋" : `Olá, ${userName}! 👋`}
+            <h1 className="text-3xl font-display font-bold text-foreground mb-1 uppercase tracking-tight">
+              {loading ? "OLÁ! 👋" : `OLÁ, ${userName.toUpperCase()}! 👋`}
             </h1>
-            <p className="text-sm text-muted-foreground">Gerencie suas finanças com inteligência</p>
+            <p className="text-sm font-condensed text-muted-foreground">Gerencie suas finanças com inteligência</p>
           </div>
           <Avatar className="w-12 h-12 border-2 border-primary/20 cursor-pointer hover:scale-110 transition-transform" onClick={() => navigate("/profile")}>
             <AvatarImage src={profile?.avatar_url || undefined} alt="Avatar" />
-            <AvatarFallback className="bg-gradient-to-br from-primary/20 to-primary/10 text-primary text-lg">
+            <AvatarFallback className="bg-gradient-to-br from-primary/20 to-primary/10 text-primary text-lg font-display">
               {userInitial}
             </AvatarFallback>
           </Avatar>
@@ -99,9 +99,9 @@ const Dashboard = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <TrendingUp className="text-primary" size={20} />
-            <h2 className="text-lg font-semibold text-foreground">Gastos do mês</h2>
+            <h2 className="text-xl font-display font-bold text-foreground uppercase tracking-tight">Gastos do mês</h2>
           </div>
-          <p className="text-sm text-muted-foreground">Novembro</p>
+          <p className="text-sm font-condensed text-muted-foreground font-semibold">Novembro</p>
         </div>
 
         <div className="bg-card rounded-lg p-4">
@@ -117,12 +117,12 @@ const Dashboard = () => {
 
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold text-foreground">Transações recentes</h2>
+            <h2 className="text-xl font-display font-bold text-foreground uppercase tracking-tight">Transações recentes</h2>
             <Button 
               variant="ghost" 
               size="sm"
               onClick={() => navigate("/transactions")}
-              className="text-primary"
+              className="text-primary font-condensed font-semibold"
             >
               Ver todas <ArrowRight size={16} className="ml-1" />
             </Button>

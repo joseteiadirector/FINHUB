@@ -138,7 +138,7 @@ export default {
   		},
   		fontFamily: {
   			sans: [
-  				'Montserrat',
+  				'Inter',
   				'ui-sans-serif',
   				'system-ui',
   				'-apple-system',
@@ -148,6 +148,15 @@ export default {
   				'Helvetica Neue',
   				'Arial',
   				'Noto Sans',
+  				'sans-serif'
+  			],
+  			display: [
+  				'Bebas Neue',
+  				'Barlow Condensed',
+  				'sans-serif'
+  			],
+  			condensed: [
+  				'Barlow Condensed',
   				'sans-serif'
   			],
   			serif: [

@@ -130,10 +130,10 @@ export const PredictiveAssistant = ({ transactions, currentBalance }: Predictive
       <Card className={`p-6 ${getScoreBgColor(healthScore)} border-2`}>
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="text-lg font-bold text-foreground">Saúde Financeira</h3>
-            <p className="text-sm text-muted-foreground">Score preditivo em tempo real</p>
+            <h3 className="text-xl font-display font-bold text-foreground uppercase tracking-tight">Saúde Financeira</h3>
+            <p className="text-sm font-condensed text-muted-foreground">Score preditivo em tempo real</p>
           </div>
-          <div className={`text-4xl font-bold ${getScoreColor(healthScore)}`}>
+          <div className={`text-4xl font-display font-bold ${getScoreColor(healthScore)}`}>
             {healthScore}
           </div>
         </div>
@@ -142,9 +142,9 @@ export const PredictiveAssistant = ({ transactions, currentBalance }: Predictive
 
       {/* Previsões */}
       <Card className="p-4">
-        <h3 className="font-bold text-foreground mb-3 flex items-center gap-2">
+        <h3 className="font-display font-bold text-foreground mb-3 flex items-center gap-2 uppercase tracking-tight">
           <Calendar size={18} />
-          Previsões dos Próximos 30 Dias
+          Próximos 30 Dias
         </h3>
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-muted/50 p-3 rounded-lg">

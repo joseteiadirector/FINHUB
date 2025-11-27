@@ -62,12 +62,12 @@ export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChat
             <MessageCircle className="text-primary" size={20} />
           </div>
           <div>
-            <h3 className="font-bold text-foreground">FinAssist</h3>
-            <p className="text-xs text-muted-foreground">Seu assistente financeiro inteligente</p>
+            <h3 className="font-display font-bold text-foreground uppercase tracking-tight">FinAssist</h3>
+            <p className="text-xs font-condensed text-muted-foreground">Seu assistente financeiro inteligente</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant="secondary" className="text-xs">
+          <Badge variant="secondary" className="text-xs font-condensed font-bold uppercase">
             IA em tempo real
           </Badge>
           {messages.length > 0 && (
@@ -91,10 +91,10 @@ export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChat
               <Bot size={48} className="text-primary" />
             </div>
             <div>
-              <h4 className="font-semibold text-foreground mb-2">
+              <h4 className="font-display font-semibold text-foreground mb-2 uppercase tracking-tight">
                 Olá! Sou o FinAssist 👋
               </h4>
-              <p className="text-sm text-muted-foreground mb-4">
+              <p className="text-sm font-condensed text-muted-foreground mb-4">
                 Pergunte qualquer coisa sobre suas finanças e receba respostas em tempo real
               </p>
             </div>
