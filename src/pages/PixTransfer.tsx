@@ -99,8 +99,8 @@ const PixTransfer = () => {
               </div>
             )}
           </div>
-          <Button onClick={() => navigate("/dashboard")} className="w-full">
-            Voltar ao início
+          <Button onClick={() => navigate("/services")} className="w-full">
+            Voltar aos serviços
           </Button>
         </Card>
       </div>

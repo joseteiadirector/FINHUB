@@ -122,8 +122,8 @@ const Recharge = () => {
               <span className="text-sm font-medium text-foreground">{new Date().toLocaleDateString('pt-BR')}</span>
             </div>
           </div>
-          <Button onClick={() => navigate("/dashboard")} className="w-full">
-            Voltar ao início
+          <Button onClick={() => navigate("/services")} className="w-full">
+            Voltar aos serviços
           </Button>
         </Card>
       </div>
