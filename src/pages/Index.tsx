@@ -1,16 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Wallet, TrendingUp, Shield, Sparkles } from "lucide-react";
+import { Wallet, TrendingUp, Shield } from "lucide-react";
+import heroBackground from "@/assets/hero-background.png";
 
 const Index = () => {
   const navigate = useNavigate();
 
   return (
     <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
-      {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-primary/5 to-secondary/10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(var(--primary),0.1),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(var(--secondary),0.08),transparent_50%)]"></div>
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroBackground})` }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/80 to-background/90 backdrop-blur-[2px]"></div>
       </div>
 
       {/* Floating Elements */}
@@ -26,18 +29,8 @@ const Index = () => {
 
       {/* Main Content */}
       <div className="relative z-10 text-center px-4 max-w-2xl mx-auto animate-fade-in">
-        {/* Logo Icon */}
-        <div className="mb-8 flex justify-center animate-scale-in">
-          <div className="relative">
-            <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full"></div>
-            <div className="relative bg-gradient-to-br from-primary to-primary/80 p-6 rounded-3xl shadow-2xl">
-              <Sparkles size={48} className="text-primary-foreground" />
-            </div>
-          </div>
-        </div>
-
         {/* Brand Name */}
-        <h1 className="text-6xl md:text-7xl font-bold text-foreground mb-4 tracking-tight">
+        <h1 className="text-6xl md:text-7xl font-bold text-foreground mb-4 tracking-tight drop-shadow-lg">
           FinHub
         </h1>
 
