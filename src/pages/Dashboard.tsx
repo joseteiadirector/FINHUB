@@ -16,15 +16,17 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <header className="bg-card border-b border-border p-4">
+      <header className="bg-gradient-to-br from-card to-card/50 border-b border-border p-6 animate-fade-in">
         <div className="max-w-md mx-auto">
-          <h1 className="text-2xl font-bold text-foreground">Olá, João!</h1>
-          <p className="text-sm text-muted-foreground">Bem-vindo ao seu FinHub</p>
+          <h1 className="text-2xl font-bold text-foreground mb-1">Olá, João! 👋</h1>
+          <p className="text-sm text-muted-foreground">Gerencie suas finanças com inteligência</p>
         </div>
       </header>
 
-      <main className="max-w-md mx-auto p-4 space-y-6">
-        <BalanceCard balance={8547.32} income={5000} expenses={1452.18} />
+      <main className="max-w-md mx-auto p-4 space-y-6 animate-fade-in">
+        <div className="animate-scale-in">
+          <BalanceCard balance={8547.32} income={5000} expenses={1452.18} />
+        </div>
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
