@@ -31,30 +31,32 @@ const Services = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <header className="bg-card border-b border-border p-4 sticky top-0 z-10">
+      <header className="bg-card border-b-4 border-foreground p-6 sticky top-0 z-10 shadow-xl">
         <div className="max-w-md mx-auto flex items-center gap-4">
           <Button 
-            variant="ghost" 
+            variant="outline" 
             size="icon"
             onClick={() => navigate("/dashboard")}
+            className="border-4 border-foreground hover:bg-foreground hover:text-background transition-all"
           >
-            <ArrowLeft size={20} />
+            <ArrowLeft size={24} strokeWidth={3} />
           </Button>
-          <h1 className="text-xl font-bold text-foreground">Serviços</h1>
+          <h1 className="text-3xl font-black text-foreground">SERVIÇOS</h1>
         </div>
       </header>
 
-      <main className="max-w-md mx-auto p-4 animate-fade-in">
-        <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-4 mb-6 animate-scale-in">
-          <p className="text-sm text-foreground font-medium">
-            💎 Todos os serviços financeiros em um só lugar
+      <main className="max-w-md mx-auto p-6 animate-fade-in">
+        <div className="bg-card rounded-2xl p-5 mb-8 animate-scale-in border-4 border-foreground shadow-xl">
+          <p className="text-base text-foreground font-black text-center">
+            💎 TODOS OS SERVIÇOS FINANCEIROS EM UM SÓ LUGAR
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-5">
           {services.map((service, index) => (
             <div 
               key={service.title}
+              className="animate-scale-in"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <ServiceCard
