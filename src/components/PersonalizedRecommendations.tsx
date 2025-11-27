@@ -5,6 +5,7 @@ import { Sparkles, ArrowRight, RefreshCw, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface Transaction {
   amount: number;
@@ -27,11 +28,35 @@ interface Recommendation {
 
 export const PersonalizedRecommendations = ({ transactions, onActionClick }: PersonalizedRecommendationsProps) => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   
   const totalExpenses = transactions.filter(t => t.type === "expense").reduce((sum, t) => sum + t.amount, 0);
   const totalIncome = transactions.filter(t => t.type === "income").reduce((sum, t) => sum + t.amount, 0);
+
+  const handleActionClick = (action: string) => {
+    switch(action) {
+      case "Ver dicas de economia":
+      case "Criar orçamento":
+      case "Configurar meta":
+      case "Organizar gastos":
+      case "Gerenciar gastos":
+        navigate("/transactions");
+        break;
+      case "Ativar cashback":
+      case "Usar serviços":
+        navigate("/services");
+        break;
+      case "Ver progresso":
+        navigate("/dashboard");
+        break;
+      default:
+        if (onActionClick) {
+          onActionClick(action);
+        }
+    }
+  };
 
   const generateRecommendations = async () => {
     if (transactions.length === 0) {
@@ -113,24 +138,24 @@ export const PersonalizedRecommendations = ({ transactions, onActionClick }: Per
       {recommendations.length > 0 && (
         <div className="space-y-3">
           {recommendations.map((rec, index) => (
-            <Card key={index} className="p-4 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-4 border-foreground">
+            <Card key={index} className="p-4 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-4 border-foreground bg-card">
               <div className="space-y-3">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex-1">
                     <h3 className="font-black text-base text-foreground mb-1">{rec.title}</h3>
                     <p className="text-sm font-bold text-foreground/70">{rec.description}</p>
                   </div>
-                  <Badge variant="outline" className={`${impactColors[rec.impact]} font-black text-xs`}>
+                  <Badge variant="outline" className={`${impactColors[rec.impact]} font-black text-xs border-2`}>
                     {impactLabels[rec.impact]}
                   </Badge>
                 </div>
                 
                 {rec.action && (
                   <Button 
-                    variant="ghost" 
+                    variant="default" 
                     size="sm" 
-                    className="w-full justify-between font-bold hover:bg-foreground/10"
-                    onClick={() => onActionClick?.(rec.action!)}
+                    className="w-full justify-between bg-foreground hover:bg-foreground/90 text-background font-black"
+                    onClick={() => handleActionClick(rec.action!)}
                   >
                     {rec.action}
                     <ArrowRight size={16} />

@@ -102,9 +102,6 @@ const Dashboard = () => {
             <TabsContent value="dicas" className="mt-0 px-3 pb-3">
               <PersonalizedRecommendations 
                 transactions={recentTransactions}
-                onActionClick={(action) => {
-                  console.log("Action clicked:", action);
-                }}
               />
               <div className="mt-4">
                 <PredictiveAssistant 
