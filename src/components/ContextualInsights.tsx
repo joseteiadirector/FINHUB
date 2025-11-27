@@ -98,8 +98,8 @@ export const ContextualInsights = ({ transactions }: ContextualInsightsProps) =>
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between mb-2">
-        <h3 className="text-lg font-bold text-foreground">Insights Contextuais</h3>
-        <Badge variant="secondary" className="text-xs">
+        <h3 className="text-xl font-display font-bold text-foreground uppercase tracking-tight">Insights Contextuais</h3>
+        <Badge variant="secondary" className="text-xs font-condensed font-bold uppercase">
           Baseado em IA
         </Badge>
       </div>
@@ -119,12 +119,12 @@ export const ContextualInsights = ({ transactions }: ContextualInsightsProps) =>
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
-                    <h4 className="font-bold text-sm text-foreground">{insight.title}</h4>
-                    <Badge variant="outline" className="text-xs">
+                    <h4 className="font-display font-bold text-sm text-foreground uppercase tracking-tight">{insight.title}</h4>
+                    <Badge variant="outline" className="text-xs font-condensed font-semibold">
                       {insight.badge}
                     </Badge>
                   </div>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
+                  <p className="text-xs font-condensed text-muted-foreground leading-relaxed">
                     {insight.description}
                   </p>
                 </div>
@@ -137,16 +137,16 @@ export const ContextualInsights = ({ transactions }: ContextualInsightsProps) =>
       {/* Top Categories Breakdown */}
       {topCategories.length > 0 && (
         <Card className="p-4 mt-4 bg-gradient-to-br from-card to-card/50">
-          <h4 className="font-bold text-sm text-foreground mb-3">Top 3 Categorias</h4>
+          <h4 className="font-display font-bold text-sm text-foreground mb-3 uppercase tracking-tight">Top 3 Categorias</h4>
           <div className="space-y-2">
             {topCategories.map((cat, index) => (
               <div key={index} className="flex items-center justify-between">
-                <span className="text-xs text-muted-foreground">{cat.name}</span>
+                <span className="text-xs font-condensed text-muted-foreground">{cat.name}</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono text-foreground">
+                  <span className="text-xs font-mono font-semibold text-foreground">
                     R$ {cat.total.toFixed(2)}
                   </span>
-                  <Badge variant="secondary" className="text-xs">
+                  <Badge variant="secondary" className="text-xs font-condensed font-bold">
                     {cat.count}x
                   </Badge>
                 </div>

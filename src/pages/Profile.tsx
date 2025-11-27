@@ -72,7 +72,7 @@ const Profile = () => {
           >
             <ArrowLeft size={20} />
           </Button>
-          <h1 className="text-xl font-bold text-foreground">Perfil</h1>
+          <h1 className="text-2xl font-display font-bold text-foreground uppercase tracking-tight">Perfil</h1>
         </div>
       </header>
 
@@ -100,12 +100,12 @@ const Profile = () => {
               className="hidden"
             />
           </div>
-          <h2 className="text-2xl font-bold text-foreground mb-1">
+          <h2 className="text-3xl font-display font-bold text-foreground mb-1 uppercase tracking-tight">
             {profile?.full_name || "Usuário"}
           </h2>
-          <p className="text-sm text-muted-foreground">✉️ {user?.email}</p>
+          <p className="text-sm font-condensed text-muted-foreground font-semibold">✉️ {user?.email}</p>
           <div className="mt-4 inline-flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full">
-            <span className="text-xs font-medium text-primary">⭐ Membro desde Nov 2024</span>
+            <span className="text-xs font-condensed font-bold text-primary uppercase">⭐ Membro desde Nov 2024</span>
           </div>
         </Card>
 
@@ -123,8 +123,8 @@ const Profile = () => {
                     <Icon className="text-primary" size={22} />
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">{item.title}</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{item.description}</p>
+                    <h3 className="font-display font-bold text-foreground group-hover:text-primary transition-colors uppercase tracking-tight">{item.title}</h3>
+                    <p className="text-xs font-condensed text-muted-foreground leading-relaxed">{item.description}</p>
                   </div>
                 </div>
               </Card>
@@ -134,7 +134,7 @@ const Profile = () => {
 
         <Button 
           variant="outline" 
-          className="w-full hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20 transition-all hover:scale-105" 
+          className="w-full hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20 transition-all hover:scale-105 font-condensed font-bold uppercase tracking-wide" 
           size="lg"
           onClick={handleLogout}
         >

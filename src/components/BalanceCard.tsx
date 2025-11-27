@@ -15,8 +15,8 @@ export const BalanceCard = ({ balance, income, expenses }: BalanceCardProps) => 
     <Card className="bg-gradient-to-br from-primary via-primary to-primary/80 p-6 text-primary-foreground shadow-xl hover:shadow-2xl transition-all duration-300">
       <div className="flex justify-between items-start mb-4">
         <div className="transition-all duration-300">
-          <p className="text-sm opacity-90 mb-2 font-medium">💰 Saldo disponível</p>
-          <h2 className="text-4xl font-bold transition-all duration-300">
+          <p className="text-sm font-condensed opacity-90 mb-2 font-semibold uppercase tracking-wide">💰 Saldo disponível</p>
+          <h2 className="text-5xl font-display font-bold transition-all duration-300 tracking-tight">
             {showBalance ? `R$ ${balance.toFixed(2).replace('.', ',')}` : 'R$ ••••••'}
           </h2>
         </div>
@@ -31,14 +31,14 @@ export const BalanceCard = ({ balance, income, expenses }: BalanceCardProps) => 
       
       <div className="grid grid-cols-2 gap-4 mt-6 pt-4 border-t border-primary-foreground/20">
         <div>
-          <p className="text-xs opacity-75 mb-1">Receitas</p>
-          <p className="text-lg font-semibold">
+          <p className="text-xs font-condensed opacity-75 mb-1 font-semibold uppercase">Receitas</p>
+          <p className="text-xl font-display font-bold tracking-tight">
             {showBalance ? `R$ ${income.toFixed(2).replace('.', ',')}` : 'R$ ••••••'}
           </p>
         </div>
         <div>
-          <p className="text-xs opacity-75 mb-1">Despesas</p>
-          <p className="text-lg font-semibold">
+          <p className="text-xs font-condensed opacity-75 mb-1 font-semibold uppercase">Despesas</p>
+          <p className="text-xl font-display font-bold tracking-tight">
             {showBalance ? `R$ ${expenses.toFixed(2).replace('.', ',')}` : 'R$ ••••••'}
           </p>
         </div>
