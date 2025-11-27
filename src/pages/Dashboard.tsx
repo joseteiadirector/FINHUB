@@ -5,8 +5,10 @@ import { PredictiveAssistant } from "@/components/PredictiveAssistant";
 import { ContextualInsights } from "@/components/ContextualInsights";
 import { AIPersonalizedInsights } from "@/components/AIPersonalizedInsights";
 import { FinancialChatBot } from "@/components/FinancialChatBot";
+import { AchievementBadges } from "@/components/AchievementBadges";
+import { PersonalizedRecommendations } from "@/components/PersonalizedRecommendations";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, ArrowRight, Sparkles, MessageCircle, Home } from "lucide-react";
+import { TrendingUp, ArrowRight, Sparkles, MessageCircle, Home, Trophy, Lightbulb } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserProfile } from "@/hooks/useUserProfile";
@@ -63,44 +65,60 @@ const Dashboard = () => {
           <BalanceCard balance={8547.32} income={5000} expenses={1452.18} />
         </div>
 
-        {/* Assistente IA + Insights + Chat em Abas */}
+        {/* Seção de Personalização: IA, Conquistas e Recomendações */}
         <div className="bg-card rounded-2xl p-1 border-4 border-foreground shadow-xl">
-          <Tabs defaultValue="chat" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-3 bg-foreground">
-              <TabsTrigger value="chat" className="text-sm font-black data-[state=active]:bg-background data-[state=active]:text-foreground">
-                <MessageCircle size={16} className="mr-1" />
+          <Tabs defaultValue="ia" className="w-full">
+            <TabsList className="grid w-full grid-cols-4 mb-3 bg-foreground">
+              <TabsTrigger value="ia" className="text-xs font-black data-[state=active]:bg-background data-[state=active]:text-foreground">
+                <Sparkles size={14} className="mr-1" />
+                IA
+              </TabsTrigger>
+              <TabsTrigger value="conquistas" className="text-xs font-black data-[state=active]:bg-background data-[state=active]:text-foreground">
+                <Trophy size={14} className="mr-1" />
+                BADGES
+              </TabsTrigger>
+              <TabsTrigger value="dicas" className="text-xs font-black data-[state=active]:bg-background data-[state=active]:text-foreground">
+                <Lightbulb size={14} className="mr-1" />
+                DICAS
+              </TabsTrigger>
+              <TabsTrigger value="chat" className="text-xs font-black data-[state=active]:bg-background data-[state=active]:text-foreground">
+                <MessageCircle size={14} className="mr-1" />
                 CHAT
               </TabsTrigger>
-              <TabsTrigger value="assistant" className="text-sm font-black data-[state=active]:bg-background data-[state=active]:text-foreground">
-                <Sparkles size={16} className="mr-1" />
-                ASSISTENTE
-              </TabsTrigger>
-              <TabsTrigger value="insights" className="text-sm font-black data-[state=active]:bg-background data-[state=active]:text-foreground">
-                <TrendingUp size={16} className="mr-1" />
-                INSIGHTS
-              </TabsTrigger>
             </TabsList>
+            
+            <TabsContent value="ia" className="mt-0 px-3 pb-3 space-y-4">
+              <AIPersonalizedInsights 
+                transactions={recentTransactions} 
+                currentBalance={8547.32}
+              />
+              <ContextualInsights transactions={recentTransactions} />
+            </TabsContent>
+            
+            <TabsContent value="conquistas" className="mt-0 px-3 pb-3">
+              <AchievementBadges transactions={recentTransactions} />
+            </TabsContent>
+            
+            <TabsContent value="dicas" className="mt-0 px-3 pb-3">
+              <PersonalizedRecommendations 
+                transactions={recentTransactions}
+                onActionClick={(action) => {
+                  console.log("Action clicked:", action);
+                }}
+              />
+              <div className="mt-4">
+                <PredictiveAssistant 
+                  transactions={recentTransactions} 
+                  currentBalance={8547.32}
+                />
+              </div>
+            </TabsContent>
             
             <TabsContent value="chat" className="mt-0 px-3 pb-3">
               <FinancialChatBot 
                 transactions={recentTransactions}
                 currentBalance={8547.32}
               />
-            </TabsContent>
-            
-            <TabsContent value="assistant" className="mt-0 px-3 pb-3 space-y-4">
-              <AIPersonalizedInsights 
-                transactions={recentTransactions} 
-                currentBalance={8547.32}
-              />
-              <PredictiveAssistant 
-                transactions={recentTransactions} 
-                currentBalance={8547.32}
-              />
-            </TabsContent>
-            
-            <TabsContent value="insights" className="mt-0 px-3 pb-3">
-              <ContextualInsights transactions={recentTransactions} />
             </TabsContent>
           </Tabs>
         </div>
