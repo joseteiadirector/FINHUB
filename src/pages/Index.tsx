@@ -30,12 +30,6 @@ const Index = () => {
     confirmPassword: "",
   });
 
-  useEffect(() => {
-    if (!loading && user) {
-      navigate("/dashboard");
-    }
-  }, [user, loading, navigate]);
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -73,6 +67,7 @@ const Index = () => {
       description: "Bem-vindo de volta ao FinHub.",
     });
     setAuthModalOpen(false);
+    navigate("/dashboard");
   };
 
   const handleSignup = async (e: React.FormEvent) => {
@@ -136,6 +131,7 @@ const Index = () => {
       description: "Bem-vindo ao FinHub.",
     });
     setAuthModalOpen(false);
+    navigate("/dashboard");
   };
 
   return (
