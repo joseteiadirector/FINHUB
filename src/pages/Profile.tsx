@@ -3,9 +3,38 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowLeft, User, Bell, Lock, HelpCircle, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+  const { toast } = useToast();
+  const [profile, setProfile] = useState<{ full_name: string | null } | null>(null);
+
+  useEffect(() => {
+    if (user) {
+      supabase
+        .from("profiles")
+        .select("full_name")
+        .eq("id", user.id)
+        .single()
+        .then(({ data }) => {
+          if (data) setProfile(data);
+        });
+    }
+  }, [user]);
+
+  const handleLogout = async () => {
+    await signOut();
+    toast({
+      title: "Logout realizado",
+      description: "Até logo!",
+    });
+    navigate("/");
+  };
 
   const menuItems = [
     { icon: User, title: "Dados pessoais", description: "Edite suas informações" },
@@ -34,8 +63,10 @@ const Profile = () => {
           <div className="w-20 h-20 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full mx-auto flex items-center justify-center mb-4 hover:scale-110 transition-transform">
             <User className="text-primary" size={40} />
           </div>
-          <h2 className="text-2xl font-bold text-foreground mb-1">João Silva</h2>
-          <p className="text-sm text-muted-foreground">✉️ joao.silva@email.com</p>
+          <h2 className="text-2xl font-bold text-foreground mb-1">
+            {profile?.full_name || "Usuário"}
+          </h2>
+          <p className="text-sm text-muted-foreground">✉️ {user?.email}</p>
           <div className="mt-4 inline-flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full">
             <span className="text-xs font-medium text-primary">⭐ Membro desde Nov 2024</span>
           </div>
@@ -68,6 +99,7 @@ const Profile = () => {
           variant="outline" 
           className="w-full hover:bg-destructive/10 hover:text-destructive hover:border-destructive/20 transition-all hover:scale-105" 
           size="lg"
+          onClick={handleLogout}
         >
           <LogOut className="mr-2" size={20} />
           Sair da conta

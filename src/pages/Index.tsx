@@ -1,10 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { Wallet, TrendingUp, Shield } from "lucide-react";
+import { useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import heroBackground from "@/assets/hero-background.png";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
+
+  useEffect(() => {
+    if (!loading && user) {
+      navigate("/dashboard");
+    }
+  }, [user, loading, navigate]);
 
   return (
     <div className="min-h-screen relative overflow-hidden flex items-end justify-center pb-12">
@@ -37,7 +45,7 @@ const Index = () => {
         <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-6">
           <Button 
             size="lg" 
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/auth")}
             className="w-full sm:w-auto min-w-[160px] h-12 text-base rounded-full bg-primary hover:bg-primary/90 shadow-2xl hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
             Entrar
@@ -45,7 +53,7 @@ const Index = () => {
           <Button 
             size="lg"
             variant="outline"
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigate("/auth")}
             className="w-full sm:w-auto min-w-[160px] h-12 text-base rounded-full border-2 bg-background/80 backdrop-blur-sm hover:bg-background shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
           >
             Cadastrar
