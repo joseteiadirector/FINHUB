@@ -9,6 +9,10 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 import { useCategorization } from "@/hooks/useCategorization";
 import { useToast } from "@/hooks/use-toast";
+import { PersonalizedInsights } from "@/components/PersonalizedInsights";
+import { PersonalizedRecommendations } from "@/components/PersonalizedRecommendations";
+import { AchievementBadges } from "@/components/AchievementBadges";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Transaction {
   title: string;
@@ -106,7 +110,15 @@ const TransactionsEnhanced = () => {
         </div>
       </header>
 
-      <main className="max-w-md mx-auto p-4 space-y-6">
+      <main className="max-w-md mx-auto p-4">
+        <Tabs defaultValue="transactions" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="transactions">Transações</TabsTrigger>
+            <TabsTrigger value="insights">Insights</TabsTrigger>
+            <TabsTrigger value="achievements">Conquistas</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="transactions" className="space-y-6">
         {/* Summary Cards */}
         <div className="grid grid-cols-2 gap-4">
           <Card className="p-4">
@@ -198,19 +210,38 @@ const TransactionsEnhanced = () => {
           </Button>
         </div>
 
-        {/* Transactions List */}
-        <div className="space-y-2">
-          {filteredTransactions.map((transaction, index) => (
-            <div key={index} className="bg-card rounded-lg relative">
-              {transaction.aiCategorized && (
-                <div className="absolute top-2 right-2 bg-primary/10 rounded-full p-1">
-                  <Sparkles className="text-primary" size={14} />
+            {/* Transactions List */}
+            <div className="space-y-2">
+              {filteredTransactions.map((transaction, index) => (
+                <div key={index} className="bg-card rounded-lg relative">
+                  {transaction.aiCategorized && (
+                    <div className="absolute top-2 right-2 bg-primary/10 rounded-full p-1">
+                      <Sparkles className="text-primary" size={14} />
+                    </div>
+                  )}
+                  <TransactionItem {...transaction} />
                 </div>
-              )}
-              <TransactionItem {...transaction} />
+              ))}
             </div>
-          ))}
-        </div>
+          </TabsContent>
+
+          <TabsContent value="insights" className="space-y-6">
+            <PersonalizedInsights transactions={transactions} />
+            <PersonalizedRecommendations 
+              transactions={transactions}
+              onActionClick={(action) => {
+                toast({
+                  title: action,
+                  description: "Esta funcionalidade estará disponível em breve",
+                });
+              }}
+            />
+          </TabsContent>
+
+          <TabsContent value="achievements" className="space-y-6">
+            <AchievementBadges transactions={transactions} />
+          </TabsContent>
+        </Tabs>
       </main>
 
       <BottomNav />
