@@ -1,17 +1,25 @@
 import { BalanceCard } from "@/components/BalanceCard";
 import { TransactionItem } from "@/components/TransactionItem";
 import { BottomNav } from "@/components/BottomNav";
+import { PredictiveAssistant } from "@/components/PredictiveAssistant";
+import { ContextualInsights } from "@/components/ContextualInsights";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, ArrowRight } from "lucide-react";
+import { TrendingUp, ArrowRight, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Dashboard = () => {
   const navigate = useNavigate();
 
   const recentTransactions = [
-    { title: "Salário", date: "Hoje", amount: 5000, type: "income" as const, category: "Trabalho" },
-    { title: "Supermercado", date: "Ontem", amount: 245.80, type: "expense" as const, category: "Alimentação" },
-    { title: "Netflix", date: "15 Nov", amount: 39.90, type: "expense" as const, category: "Entretenimento" },
+    { title: "Salário", date: "2024-11-27", amount: 5000, type: "income" as const, category: "Trabalho" },
+    { title: "Supermercado", date: "2024-11-26", amount: 245.80, type: "expense" as const, category: "Alimentação" },
+    { title: "Netflix", date: "2024-11-25", amount: 39.90, type: "expense" as const, category: "Entretenimento" },
+    { title: "Uber", date: "2024-11-24", amount: 28.50, type: "expense" as const, category: "Transporte" },
+    { title: "Restaurante", date: "2024-11-23", amount: 156.00, type: "expense" as const, category: "Alimentação" },
+    { title: "Academia", date: "2024-11-22", amount: 120.00, type: "expense" as const, category: "Saúde" },
+    { title: "Gasolina", date: "2024-11-21", amount: 200.00, type: "expense" as const, category: "Transporte" },
+    { title: "Farmácia", date: "2024-11-20", amount: 45.00, type: "expense" as const, category: "Saúde" },
   ];
 
   return (
@@ -26,6 +34,33 @@ const Dashboard = () => {
       <main className="max-w-md mx-auto p-4 space-y-6 animate-fade-in">
         <div className="animate-scale-in">
           <BalanceCard balance={8547.32} income={5000} expenses={1452.18} />
+        </div>
+
+        {/* Assistente IA + Insights em Abas */}
+        <div className="bg-card rounded-lg p-1">
+          <Tabs defaultValue="assistant" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-3">
+              <TabsTrigger value="assistant" className="text-xs">
+                <Sparkles size={14} className="mr-1" />
+                Assistente IA
+              </TabsTrigger>
+              <TabsTrigger value="insights" className="text-xs">
+                <TrendingUp size={14} className="mr-1" />
+                Insights
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="assistant" className="mt-0 px-3 pb-3">
+              <PredictiveAssistant 
+                transactions={recentTransactions} 
+                currentBalance={8547.32}
+              />
+            </TabsContent>
+            
+            <TabsContent value="insights" className="mt-0 px-3 pb-3">
+              <ContextualInsights transactions={recentTransactions} />
+            </TabsContent>
+          </Tabs>
         </div>
 
         <div className="flex items-center justify-between">
