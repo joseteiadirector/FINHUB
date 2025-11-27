@@ -3,6 +3,7 @@ import { TransactionItem } from "@/components/TransactionItem";
 import { BottomNav } from "@/components/BottomNav";
 import { PredictiveAssistant } from "@/components/PredictiveAssistant";
 import { ContextualInsights } from "@/components/ContextualInsights";
+import { AIPersonalizedInsights } from "@/components/AIPersonalizedInsights";
 import { Button } from "@/components/ui/button";
 import { TrendingUp, ArrowRight, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -50,7 +51,11 @@ const Dashboard = () => {
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="assistant" className="mt-0 px-3 pb-3">
+            <TabsContent value="assistant" className="mt-0 px-3 pb-3 space-y-4">
+              <AIPersonalizedInsights 
+                transactions={recentTransactions} 
+                currentBalance={8547.32}
+              />
               <PredictiveAssistant 
                 transactions={recentTransactions} 
                 currentBalance={8547.32}
