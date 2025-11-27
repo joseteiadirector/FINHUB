@@ -68,20 +68,20 @@ const Dashboard = () => {
         {/* Seção de Personalização: IA, Conquistas e Recomendações */}
         <div className="bg-card rounded-2xl p-1 border-4 border-foreground shadow-xl">
           <Tabs defaultValue="ia" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-3 bg-foreground">
-              <TabsTrigger value="ia" className="text-xs font-black data-[state=active]:bg-background data-[state=active]:text-foreground">
+            <TabsList className="grid w-full grid-cols-4 mb-3 bg-card border-2 border-foreground">
+              <TabsTrigger value="ia" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background">
                 <Sparkles size={14} className="mr-1" />
                 IA
               </TabsTrigger>
-              <TabsTrigger value="conquistas" className="text-xs font-black data-[state=active]:bg-background data-[state=active]:text-foreground">
+              <TabsTrigger value="conquistas" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background">
                 <Trophy size={14} className="mr-1" />
                 BADGES
               </TabsTrigger>
-              <TabsTrigger value="dicas" className="text-xs font-black data-[state=active]:bg-background data-[state=active]:text-foreground">
+              <TabsTrigger value="dicas" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background">
                 <Lightbulb size={14} className="mr-1" />
                 DICAS
               </TabsTrigger>
-              <TabsTrigger value="chat" className="text-xs font-black data-[state=active]:bg-background data-[state=active]:text-foreground">
+              <TabsTrigger value="chat" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background">
                 <MessageCircle size={14} className="mr-1" />
                 CHAT
               </TabsTrigger>
