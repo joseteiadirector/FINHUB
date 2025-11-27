@@ -9,9 +9,13 @@ import { Button } from "@/components/ui/button";
 import { TrendingUp, ArrowRight, Sparkles, MessageCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useUserProfile } from "@/hooks/useUserProfile";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { profile, loading } = useUserProfile();
+  
+  const userName = profile?.full_name || "Usuário";
 
   const recentTransactions = [
     { title: "Salário", date: "2024-11-27", amount: 5000, type: "income" as const, category: "Trabalho" },
@@ -28,7 +32,9 @@ const Dashboard = () => {
     <div className="min-h-screen bg-background pb-20">
       <header className="bg-gradient-to-br from-card to-card/50 border-b border-border p-6 animate-fade-in">
         <div className="max-w-md mx-auto">
-          <h1 className="text-2xl font-bold text-foreground mb-1">Olá, João! 👋</h1>
+          <h1 className="text-2xl font-bold text-foreground mb-1">
+            {loading ? "Olá! 👋" : `Olá, ${userName}! 👋`}
+          </h1>
           <p className="text-sm text-muted-foreground">Gerencie suas finanças com inteligência</p>
         </div>
       </header>
