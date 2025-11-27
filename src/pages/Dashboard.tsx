@@ -10,12 +10,14 @@ import { TrendingUp, ArrowRight, Sparkles, MessageCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserProfile } from "@/hooks/useUserProfile";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { profile, loading } = useUserProfile();
   
   const userName = profile?.full_name || "Usuário";
+  const userInitial = profile?.full_name?.charAt(0).toUpperCase() || "U";
 
   const recentTransactions = [
     { title: "Salário", date: "2024-11-27", amount: 5000, type: "income" as const, category: "Trabalho" },
@@ -31,11 +33,19 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background pb-20">
       <header className="bg-gradient-to-br from-card to-card/50 border-b border-border p-6 animate-fade-in">
-        <div className="max-w-md mx-auto">
-          <h1 className="text-2xl font-bold text-foreground mb-1">
-            {loading ? "Olá! 👋" : `Olá, ${userName}! 👋`}
-          </h1>
-          <p className="text-sm text-muted-foreground">Gerencie suas finanças com inteligência</p>
+        <div className="max-w-md mx-auto flex items-center justify-between">
+          <div className="flex-1">
+            <h1 className="text-2xl font-bold text-foreground mb-1">
+              {loading ? "Olá! 👋" : `Olá, ${userName}! 👋`}
+            </h1>
+            <p className="text-sm text-muted-foreground">Gerencie suas finanças com inteligência</p>
+          </div>
+          <Avatar className="w-12 h-12 border-2 border-primary/20 cursor-pointer hover:scale-110 transition-transform" onClick={() => navigate("/profile")}>
+            <AvatarImage src={profile?.avatar_url || undefined} alt="Avatar" />
+            <AvatarFallback className="bg-gradient-to-br from-primary/20 to-primary/10 text-primary text-lg">
+              {userInitial}
+            </AvatarFallback>
+          </Avatar>
         </div>
       </header>
 
