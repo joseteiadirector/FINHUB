@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
+import TransactionsEnhanced from "./pages/TransactionsEnhanced";
 import Services from "./pages/Services";
 import Profile from "./pages/Profile";
 import PixTransfer from "./pages/PixTransfer";
@@ -24,7 +25,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/transactions" element={<Transactions />} />
+          <Route path="/transactions" element={<TransactionsEnhanced />} />
           <Route path="/services" element={<Services />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/pix" element={<PixTransfer />} />
