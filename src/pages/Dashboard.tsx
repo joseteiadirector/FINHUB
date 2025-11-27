@@ -6,7 +6,7 @@ import { ContextualInsights } from "@/components/ContextualInsights";
 import { AIPersonalizedInsights } from "@/components/AIPersonalizedInsights";
 import { FinancialChatBot } from "@/components/FinancialChatBot";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, ArrowRight, Sparkles, MessageCircle } from "lucide-react";
+import { TrendingUp, ArrowRight, Sparkles, MessageCircle, Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserProfile } from "@/hooks/useUserProfile";
@@ -33,7 +33,16 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background pb-20">
       <header className="bg-card border-b-4 border-foreground p-6 animate-fade-in shadow-xl">
-        <div className="max-w-md mx-auto flex items-center justify-between">
+        <div className="max-w-md mx-auto flex items-center justify-between gap-3">
+          <Button 
+            variant="outline" 
+            size="icon"
+            onClick={() => navigate("/")}
+            className="border-4 border-foreground hover:bg-foreground hover:text-background transition-all"
+            aria-label="Ir para início"
+          >
+            <Home size={24} />
+          </Button>
           <div className="flex-1">
             <h1 className="text-4xl font-black text-foreground mb-1">
               {loading ? "OLÁ! 👋" : `OLÁ, ${userName.toUpperCase()}! 👋`}
