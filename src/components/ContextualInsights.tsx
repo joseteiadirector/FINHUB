@@ -68,7 +68,6 @@ export const ContextualInsights = ({ transactions }: ContextualInsightsProps) =>
   const insights = [
     {
       icon: Clock,
-      color: "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400",
       title: "Padrão Temporal",
       description: timePatterns.peakDay 
         ? `Você gasta mais às ${timePatterns.peakDay.day}s: R$ ${timePatterns.peakDay.amount.toFixed(2)}`
@@ -77,7 +76,6 @@ export const ContextualInsights = ({ transactions }: ContextualInsightsProps) =>
     },
     {
       icon: ShoppingBag,
-      color: "bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400",
       title: "Categoria Dominante",
       description: topCategories[0] 
         ? `${topCategories[0].name}: ${topCategories[0].count} transações, média de R$ ${topCategories[0].avg.toFixed(2)}`
@@ -86,7 +84,6 @@ export const ContextualInsights = ({ transactions }: ContextualInsightsProps) =>
     },
     {
       icon: Zap,
-      color: "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400",
       title: "Ação Recomendada",
       description: topCategories[0]
         ? `Configure um limite mensal para ${topCategories[0].name}`
@@ -110,12 +107,12 @@ export const ContextualInsights = ({ transactions }: ContextualInsightsProps) =>
           return (
             <Card 
               key={index}
-              className="p-4 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-fade-in border-4 border-foreground"
+              className="p-4 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-fade-in border-4 border-foreground bg-card"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="flex items-start gap-3">
-                <div className={`p-3 rounded-2xl ${insight.color}`}>
-                  <Icon size={24} />
+                <div className="p-3 rounded-2xl bg-foreground">
+                  <Icon size={24} className="text-background" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">

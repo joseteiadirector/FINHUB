@@ -61,7 +61,7 @@ export const AIPersonalizedInsights = ({ transactions, currentBalance }: AIPerso
   };
 
   return (
-    <Card className="p-6 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-950/20 dark:to-blue-950/20 border-2 border-purple-200 dark:border-purple-800">
+    <Card className="p-6 bg-card border-4 border-foreground shadow-xl">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <div className="p-3 rounded-2xl bg-foreground">
