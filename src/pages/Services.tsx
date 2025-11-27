@@ -9,17 +9,21 @@ const Services = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleServiceClick = (serviceName: string) => {
-    toast({
-      title: `${serviceName} em breve!`,
-      description: "Esta funcionalidade estará disponível em breve.",
-    });
+  const handleServiceClick = (serviceName: string, route?: string) => {
+    if (route) {
+      navigate(route);
+    } else {
+      toast({
+        title: `${serviceName} em breve!`,
+        description: "Esta funcionalidade estará disponível em breve.",
+      });
+    }
   };
 
   const services = [
-    { icon: Zap, title: "PIX", description: "Transferências instantâneas" },
-    { icon: CreditCard, title: "Pagamentos", description: "Pague suas contas" },
-    { icon: Smartphone, title: "Recargas", description: "Celular, transporte e mais" },
+    { icon: Zap, title: "PIX", description: "Transferências instantâneas", route: "/pix" },
+    { icon: CreditCard, title: "Pagamentos", description: "Pague suas contas", route: "/bill-payment" },
+    { icon: Smartphone, title: "Recargas", description: "Celular, transporte e mais", route: "/recharge" },
     { icon: Gift, title: "Cashback", description: "Ganhe de volta em compras" },
     { icon: Shield, title: "Seguros", description: "Proteja o que importa" },
     { icon: DollarSign, title: "Empréstimos", description: "Crédito quando precisar" },
@@ -52,7 +56,7 @@ const Services = () => {
               icon={service.icon}
               title={service.title}
               description={service.description}
-              onClick={() => handleServiceClick(service.title)}
+              onClick={() => handleServiceClick(service.title, service.route)}
             />
           ))}
         </div>
