@@ -30,12 +30,6 @@ const Index = () => {
     confirmPassword: "",
   });
 
-  useEffect(() => {
-    if (!loading && user) {
-      navigate("/dashboard");
-    }
-  }, [user, loading, navigate]);
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
