@@ -32,12 +32,47 @@ const BillPayment = () => {
     setStep("confirm");
   };
 
-  const handlePayment = () => {
-    setStep("success");
-    toast({
-      title: "Pagamento realizado!",
-      description: `R$ ${parseFloat(amount).toFixed(2).replace('.', ',')} pago com sucesso`,
-    });
+  const handlePayment = async () => {
+    try {
+      const { supabase } = await import("@/integrations/supabase/client");
+      
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast({
+          title: "Erro de autenticação",
+          description: "Faça login para continuar",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: "Processando...",
+        description: "Redirecionando para pagamento",
+      });
+
+      const { data, error } = await supabase.functions.invoke("create-payment", {
+        body: {
+          amount: parseFloat(amount),
+          description: `Pagamento de conta - ${barcode}`,
+          productName: "Pagamento de Conta",
+        },
+      });
+
+      if (error) throw error;
+      
+      if (data?.url) {
+        window.open(data.url, "_blank");
+        setStep("success");
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      toast({
+        title: "Erro no pagamento",
+        description: "Não foi possível processar o pagamento",
+        variant: "destructive",
+      });
+    }
   };
 
   if (step === "success") {
