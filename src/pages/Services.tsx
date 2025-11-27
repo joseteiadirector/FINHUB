@@ -44,20 +44,26 @@ const Services = () => {
         </div>
       </header>
 
-      <main className="max-w-md mx-auto p-4">
-        <p className="text-sm text-muted-foreground mb-6">
-          Todos os serviços financeiros que você precisa em um só lugar
-        </p>
+      <main className="max-w-md mx-auto p-4 animate-fade-in">
+        <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-4 mb-6 animate-scale-in">
+          <p className="text-sm text-foreground font-medium">
+            💎 Todos os serviços financeiros em um só lugar
+          </p>
+        </div>
 
         <div className="grid grid-cols-2 gap-4">
-          {services.map((service) => (
-            <ServiceCard
+          {services.map((service, index) => (
+            <div 
               key={service.title}
-              icon={service.icon}
-              title={service.title}
-              description={service.description}
-              onClick={() => handleServiceClick(service.title, service.route)}
-            />
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
+              <ServiceCard
+                icon={service.icon}
+                title={service.title}
+                description={service.description}
+                onClick={() => handleServiceClick(service.title, service.route)}
+              />
+            </div>
           ))}
         </div>
       </main>

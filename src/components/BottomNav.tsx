@@ -13,7 +13,7 @@ export const BottomNav = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-lg z-50">
+    <nav className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-lg border-t border-border shadow-2xl z-50 animate-slide-up">
       <div className="max-w-md mx-auto flex justify-around items-center h-16 px-4">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -23,11 +23,16 @@ export const BottomNav = () => {
             <button
               key={item.path}
               onClick={() => navigate(item.path)}
-              className={`flex flex-col items-center gap-1 transition-colors ${
-                isActive ? "text-primary" : "text-muted-foreground"
+              className={`flex flex-col items-center gap-1 transition-all duration-200 hover:scale-110 active:scale-95 relative ${
+                isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
               }`}
+              aria-label={item.label}
+              aria-current={isActive ? "page" : undefined}
             >
-              <Icon size={22} />
+              {isActive && (
+                <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full animate-pulse" />
+              )}
+              <Icon size={22} className={isActive ? "animate-scale-in" : ""} />
               <span className="text-xs font-medium">{item.label}</span>
             </button>
           );
