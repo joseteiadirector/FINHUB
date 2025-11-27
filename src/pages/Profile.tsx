@@ -1,24 +1,28 @@
 import { BottomNav } from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, User, Bell, Lock, HelpCircle, LogOut } from "lucide-react";
+import { ArrowLeft, User, Bell, Lock, HelpCircle, LogOut, Camera } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAvatarUpload } from "@/hooks/useAvatarUpload";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Profile = () => {
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
   const { toast } = useToast();
-  const [profile, setProfile] = useState<{ full_name: string | null } | null>(null);
+  const [profile, setProfile] = useState<{ full_name: string | null; avatar_url: string | null } | null>(null);
+  const { uploadAvatar, uploading } = useAvatarUpload();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (user) {
       supabase
         .from("profiles")
-        .select("full_name")
+        .select("full_name, avatar_url")
         .eq("id", user.id)
         .single()
         .then(({ data }) => {
@@ -26,6 +30,20 @@ const Profile = () => {
         });
     }
   }, [user]);
+
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && user) {
+      const avatarUrl = await uploadAvatar(file, user.id);
+      if (avatarUrl) {
+        setProfile((prev) => prev ? { ...prev, avatar_url: avatarUrl } : null);
+      }
+    }
+  };
 
   const handleLogout = async () => {
     await signOut();
@@ -60,8 +78,27 @@ const Profile = () => {
 
       <main className="max-w-md mx-auto p-4 space-y-6 animate-fade-in">
         <Card className="p-6 text-center bg-gradient-to-br from-card to-card/50 animate-scale-in">
-          <div className="w-20 h-20 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full mx-auto flex items-center justify-center mb-4 hover:scale-110 transition-transform">
-            <User className="text-primary" size={40} />
+          <div className="relative w-20 h-20 mx-auto mb-4">
+            <Avatar className="w-20 h-20">
+              <AvatarImage src={profile?.avatar_url || undefined} alt="Avatar" />
+              <AvatarFallback className="bg-gradient-to-br from-primary/20 to-primary/10 text-primary text-2xl">
+                {profile?.full_name?.charAt(0).toUpperCase() || "U"}
+              </AvatarFallback>
+            </Avatar>
+            <button
+              onClick={handleAvatarClick}
+              disabled={uploading}
+              className="absolute bottom-0 right-0 p-1.5 bg-primary text-primary-foreground rounded-full hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Camera size={14} />
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="hidden"
+            />
           </div>
           <h2 className="text-2xl font-bold text-foreground mb-1">
             {profile?.full_name || "Usuário"}
