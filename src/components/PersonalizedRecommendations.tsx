@@ -1,7 +1,10 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, ArrowRight } from "lucide-react";
+import { Sparkles, ArrowRight, RefreshCw, Loader2 } from "lucide-react";
+import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface Transaction {
   amount: number;
@@ -15,81 +18,65 @@ interface PersonalizedRecommendationsProps {
   onActionClick?: (action: string) => void;
 }
 
+interface Recommendation {
+  title: string;
+  description: string;
+  impact: "high" | "medium" | "low";
+  action?: string;
+}
+
 export const PersonalizedRecommendations = ({ transactions, onActionClick }: PersonalizedRecommendationsProps) => {
-  // Heurísticas para gerar recomendações
+  const { toast } = useToast();
+  const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  
   const totalExpenses = transactions.filter(t => t.type === "expense").reduce((sum, t) => sum + t.amount, 0);
   const totalIncome = transactions.filter(t => t.type === "income").reduce((sum, t) => sum + t.amount, 0);
-  
-  const categoryTotals = transactions
-    .filter(t => t.type === "expense")
-    .reduce((acc, t) => {
-      acc[t.category] = (acc[t.category] || 0) + t.amount;
-      return acc;
-    }, {} as Record<string, number>);
 
-  const recommendations: Array<{
-    title: string;
-    description: string;
-    impact: "high" | "medium" | "low";
-    action?: string;
-  }> = [];
+  const generateRecommendations = async () => {
+    if (transactions.length === 0) {
+      toast({
+        title: "Sem dados suficientes",
+        description: "Adicione transações para gerar recomendações.",
+        variant: "destructive",
+      });
+      return;
+    }
 
-  // Recomendação 1: Alta porcentagem em alimentação
-  if (categoryTotals["Alimentação"] && categoryTotals["Alimentação"] / totalExpenses > 0.3) {
-    recommendations.push({
-      title: "Reduza gastos com alimentação",
-      description: `Você gasta ${((categoryTotals["Alimentação"] / totalExpenses) * 100).toFixed(0)}% do seu orçamento com alimentação. Considere cozinhar mais em casa!`,
-      impact: "high",
-      action: "Ver dicas de economia"
-    });
-  }
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('generate-recommendations', {
+        body: { 
+          transactions, 
+          currentBalance: totalIncome - totalExpenses 
+        }
+      });
 
-  // Recomendação 2: Muitas transações pequenas
-  const smallTransactions = transactions.filter(t => t.type === "expense" && t.amount < 50).length;
-  if (smallTransactions > 5) {
-    recommendations.push({
-      title: "Atenção às pequenas despesas",
-      description: `Você fez ${smallTransactions} pequenas compras este mês. Pequenos gastos somam muito!`,
-      impact: "medium",
-      action: "Criar orçamento"
-    });
-  }
-
-  // Recomendação 3: Taxa de economia baixa
-  const savingsRate = ((totalIncome - totalExpenses) / totalIncome * 100);
-  if (savingsRate < 10) {
-    recommendations.push({
-      title: "Aumente sua taxa de economia",
-      description: `Você está economizando apenas ${savingsRate.toFixed(1)}%. O ideal é economizar pelo menos 20% da renda.`,
-      impact: "high",
-      action: "Configurar meta"
-    });
-  }
-
-  // Recomendação 4: Oportunidade de cashback
-  const shoppingExpenses = categoryTotals["Compras"] || 0;
-  if (shoppingExpenses > 200) {
-    recommendations.push({
-      title: "Ganhe cashback em compras",
-      description: `Com R$ ${shoppingExpenses.toFixed(2).replace('.', ',')} em compras, você poderia ganhar até R$ ${(shoppingExpenses * 0.05).toFixed(2).replace('.', ',')} em cashback!`,
-      impact: "medium",
-      action: "Ativar cashback"
-    });
-  }
-
-  // Recomendação padrão se não houver outras
-  if (recommendations.length === 0) {
-    recommendations.push({
-      title: "Continue assim!",
-      description: "Seus hábitos financeiros estão equilibrados. Continue monitorando seus gastos regularmente.",
-      impact: "low"
-    });
-  }
+      if (error) throw error;
+      
+      if (data?.recommendations) {
+        setRecommendations(data.recommendations);
+        toast({
+          title: "Recomendações atualizadas!",
+          description: "Análise personalizada gerada com IA.",
+        });
+      }
+    } catch (error) {
+      console.error("Error generating recommendations:", error);
+      toast({
+        title: "Erro ao gerar recomendações",
+        description: error instanceof Error ? error.message : "Tente novamente",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const impactColors = {
-    high: "bg-red-100 text-red-700 border-red-200",
-    medium: "bg-yellow-100 text-yellow-700 border-yellow-200",
-    low: "bg-green-100 text-green-700 border-green-200"
+    high: "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400",
+    medium: "bg-yellow-100 text-yellow-700 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400",
+    low: "bg-green-100 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400"
   };
 
   const impactLabels = {
@@ -100,40 +87,78 @@ export const PersonalizedRecommendations = ({ transactions, onActionClick }: Per
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2">
-        <Sparkles className="text-primary" size={20} />
-        <h2 className="text-lg font-semibold text-foreground">Recomendações Personalizadas</h2>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="p-3 rounded-2xl bg-foreground">
+            <Sparkles className="text-background" size={24} />
+          </div>
+          <div>
+            <h2 className="text-2xl font-black text-foreground">RECOMENDAÇÕES IA</h2>
+            <p className="text-sm font-bold text-foreground/70">Dicas personalizadas para você</p>
+          </div>
+        </div>
+        <Badge variant="secondary" className="bg-foreground text-background font-black px-3 py-1">
+          LOVABLE AI
+        </Badge>
       </div>
+
+      {recommendations.length === 0 && !isLoading && (
+        <Card className="p-6 text-center border-4 border-foreground">
+          <p className="text-foreground/70 mb-4 font-bold">
+            Clique no botão para gerar recomendações personalizadas com IA
+          </p>
+        </Card>
+      )}
       
-      <div className="space-y-3">
-        {recommendations.map((rec, index) => (
-          <Card key={index} className="p-4 hover:shadow-md transition-shadow">
-            <div className="space-y-3">
-              <div className="flex items-start justify-between gap-2">
-                <div className="flex-1">
-                  <h3 className="font-semibold text-foreground mb-1">{rec.title}</h3>
-                  <p className="text-sm text-muted-foreground">{rec.description}</p>
+      {recommendations.length > 0 && (
+        <div className="space-y-3">
+          {recommendations.map((rec, index) => (
+            <Card key={index} className="p-4 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-4 border-foreground">
+              <div className="space-y-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex-1">
+                    <h3 className="font-black text-base text-foreground mb-1">{rec.title}</h3>
+                    <p className="text-sm font-bold text-foreground/70">{rec.description}</p>
+                  </div>
+                  <Badge variant="outline" className={`${impactColors[rec.impact]} font-black text-xs`}>
+                    {impactLabels[rec.impact]}
+                  </Badge>
                 </div>
-                <Badge variant="outline" className={impactColors[rec.impact]}>
-                  {impactLabels[rec.impact]}
-                </Badge>
+                
+                {rec.action && (
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full justify-between font-bold hover:bg-foreground/10"
+                    onClick={() => onActionClick?.(rec.action!)}
+                  >
+                    {rec.action}
+                    <ArrowRight size={16} />
+                  </Button>
+                )}
               </div>
-              
-              {rec.action && (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="w-full justify-between"
-                  onClick={() => onActionClick?.(rec.action!)}
-                >
-                  {rec.action}
-                  <ArrowRight size={16} />
-                </Button>
-              )}
-            </div>
-          </Card>
-        ))}
-      </div>
+            </Card>
+          ))}
+        </div>
+      )}
+
+      <Button
+        onClick={generateRecommendations}
+        disabled={isLoading}
+        className="w-full bg-foreground hover:bg-foreground/90 text-background font-black h-12 rounded-xl border-2 border-foreground shadow-lg"
+      >
+        {isLoading ? (
+          <>
+            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+            GERANDO...
+          </>
+        ) : (
+          <>
+            <RefreshCw className="mr-2 h-5 w-5" />
+            {recommendations.length > 0 ? "ATUALIZAR DICAS" : "GERAR DICAS COM IA"}
+          </>
+        )}
+      </Button>
     </div>
   );
 };
