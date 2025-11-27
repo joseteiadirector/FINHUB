@@ -64,16 +64,16 @@ export const AIPersonalizedInsights = ({ transactions, currentBalance }: AIPerso
     <Card className="p-6 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-950/20 dark:to-blue-950/20 border-2 border-purple-200 dark:border-purple-800">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <div className="p-2 rounded-lg bg-purple-100 dark:bg-purple-900/30">
-            <Sparkles className="text-purple-600 dark:text-purple-400" size={24} />
+          <div className="p-3 rounded-2xl bg-foreground">
+            <Sparkles className="text-background" size={28} />
           </div>
           <div>
-            <h3 className="text-xl font-display font-bold text-foreground uppercase tracking-tight">Insights por IA</h3>
-            <p className="text-xs font-condensed text-muted-foreground">Análise inteligente em linguagem natural</p>
+            <h3 className="text-2xl font-black text-foreground">INSIGHTS POR IA</h3>
+            <p className="text-sm font-bold text-foreground/70">Análise inteligente em linguagem natural</p>
           </div>
         </div>
-        <Badge variant="secondary" className="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 font-condensed font-bold uppercase text-xs">
-          Lovable AI
+        <Badge variant="secondary" className="bg-foreground text-background font-black text-xs px-3 py-1">
+          LOVABLE AI
         </Badge>
       </div>
 
@@ -90,9 +90,9 @@ export const AIPersonalizedInsights = ({ transactions, currentBalance }: AIPerso
           {displayedInsights.map((insight, index) => (
             <Card 
               key={index} 
-              className="p-4 bg-card hover:shadow-md transition-all duration-300 border-l-4 border-l-purple-500"
+              className="p-4 bg-card hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-fade-in border-4 border-foreground"
             >
-              <p className="text-sm text-foreground leading-relaxed">
+              <p className="text-base font-bold text-foreground leading-relaxed">
                 {insight}
               </p>
             </Card>
@@ -103,17 +103,17 @@ export const AIPersonalizedInsights = ({ transactions, currentBalance }: AIPerso
       <Button
         onClick={handleGenerateInsights}
         disabled={isLoading}
-        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+        className="w-full bg-foreground hover:bg-foreground/90 text-background font-black text-base h-12 rounded-xl border-2 border-foreground shadow-lg"
       >
         {isLoading ? (
           <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Gerando insights...
+            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+            GERANDO INSIGHTS...
           </>
         ) : (
           <>
-            <RefreshCw className="mr-2 h-4 w-4" />
-            {displayedInsights.length > 0 ? "Atualizar Insights" : "Gerar Insights com IA"}
+            <RefreshCw className="mr-2 h-5 w-5" />
+            {displayedInsights.length > 0 ? "ATUALIZAR INSIGHTS" : "GERAR INSIGHTS COM IA"}
           </>
         )}
       </Button>

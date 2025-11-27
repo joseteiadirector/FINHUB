@@ -98,9 +98,9 @@ export const ContextualInsights = ({ transactions }: ContextualInsightsProps) =>
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between mb-2">
-        <h3 className="text-xl font-display font-bold text-foreground uppercase tracking-tight">Insights Contextuais</h3>
-        <Badge variant="secondary" className="text-xs font-condensed font-bold uppercase">
-          Baseado em IA
+        <h3 className="text-2xl font-black text-foreground">INSIGHTS CONTEXTUAIS</h3>
+        <Badge variant="secondary" className="text-xs font-black bg-foreground text-background px-3 py-1">
+          BASEADO EM IA
         </Badge>
       </div>
 
@@ -110,21 +110,21 @@ export const ContextualInsights = ({ transactions }: ContextualInsightsProps) =>
           return (
             <Card 
               key={index}
-              className="p-4 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 animate-fade-in"
+              className="p-4 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-fade-in border-4 border-foreground"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="flex items-start gap-3">
-                <div className={`p-2.5 rounded-xl ${insight.color}`}>
-                  <Icon size={20} />
+                <div className={`p-3 rounded-2xl ${insight.color}`}>
+                  <Icon size={24} />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
-                    <h4 className="font-display font-bold text-sm text-foreground uppercase tracking-tight">{insight.title}</h4>
-                    <Badge variant="outline" className="text-xs font-condensed font-semibold">
+                    <h4 className="font-black text-base text-foreground">{insight.title}</h4>
+                    <Badge variant="outline" className="text-xs font-black border-2 border-foreground">
                       {insight.badge}
                     </Badge>
                   </div>
-                  <p className="text-xs font-condensed text-muted-foreground leading-relaxed">
+                  <p className="text-sm font-bold text-foreground/70 leading-relaxed">
                     {insight.description}
                   </p>
                 </div>
@@ -136,17 +136,17 @@ export const ContextualInsights = ({ transactions }: ContextualInsightsProps) =>
 
       {/* Top Categories Breakdown */}
       {topCategories.length > 0 && (
-        <Card className="p-4 mt-4 bg-gradient-to-br from-card to-card/50">
-          <h4 className="font-display font-bold text-sm text-foreground mb-3 uppercase tracking-tight">Top 3 Categorias</h4>
+        <Card className="p-4 mt-4 bg-card border-4 border-foreground shadow-lg">
+          <h4 className="font-black text-base text-foreground mb-3">TOP 3 CATEGORIAS</h4>
           <div className="space-y-2">
             {topCategories.map((cat, index) => (
               <div key={index} className="flex items-center justify-between">
-                <span className="text-xs font-condensed text-muted-foreground">{cat.name}</span>
+                <span className="text-sm font-bold text-foreground/70">{cat.name}</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono font-semibold text-foreground">
+                  <span className="text-base font-mono font-black text-foreground">
                     R$ {cat.total.toFixed(2)}
                   </span>
-                  <Badge variant="secondary" className="text-xs font-condensed font-bold">
+                  <Badge variant="secondary" className="text-xs font-black bg-foreground text-background px-2 py-1">
                     {cat.count}x
                   </Badge>
                 </div>

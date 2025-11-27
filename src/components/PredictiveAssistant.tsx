@@ -127,40 +127,40 @@ export const PredictiveAssistant = ({ transactions, currentBalance }: Predictive
   return (
     <div className="space-y-4">
       {/* Health Score */}
-      <Card className={`p-6 ${getScoreBgColor(healthScore)} border-2`}>
+      <Card className={`p-6 ${getScoreBgColor(healthScore)} border-4 border-foreground`}>
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="text-xl font-display font-bold text-foreground uppercase tracking-tight">Saúde Financeira</h3>
-            <p className="text-sm font-condensed text-muted-foreground">Score preditivo em tempo real</p>
+            <h3 className="text-2xl font-black text-foreground">SAÚDE FINANCEIRA</h3>
+            <p className="text-base font-bold text-foreground/70">Score preditivo em tempo real</p>
           </div>
-          <div className={`text-4xl font-display font-bold ${getScoreColor(healthScore)}`}>
+          <div className={`text-5xl font-black ${getScoreColor(healthScore)}`}>
             {healthScore}
           </div>
         </div>
-        <Progress value={healthScore} className="h-3" />
+        <Progress value={healthScore} className="h-4" />
       </Card>
 
       {/* Previsões */}
-      <Card className="p-4">
-        <h3 className="font-display font-bold text-foreground mb-3 flex items-center gap-2 uppercase tracking-tight">
-          <Calendar size={18} />
-          Próximos 30 Dias
-        </h3>
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-muted/50 p-3 rounded-lg">
-            <p className="text-xs text-muted-foreground mb-1">Saldo em 30 dias</p>
-            <p className={`text-lg font-bold ${predictions.projectedEndOfMonth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-              R$ {predictions.projectedEndOfMonth.toFixed(2)}
-            </p>
+        <Card className="p-6 bg-card border-4 border-foreground shadow-xl">
+          <h3 className="font-black text-foreground mb-3 flex items-center gap-2 text-lg">
+            <Calendar size={22} />
+            PRÓXIMOS 30 DIAS
+          </h3>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="bg-muted/50 p-4 rounded-2xl border-2 border-foreground">
+              <p className="text-sm text-foreground/70 mb-1 font-bold">SALDO EM 30 DIAS</p>
+              <p className={`text-2xl font-black ${predictions.projectedEndOfMonth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                R$ {predictions.projectedEndOfMonth.toFixed(2)}
+              </p>
+            </div>
+            <div className="bg-muted/50 p-4 rounded-2xl border-2 border-foreground">
+              <p className="text-sm text-foreground/70 mb-1 font-bold">GASTO MÉDIO/DIA</p>
+              <p className="text-2xl font-black text-foreground">
+                R$ {predictions.avgDailyExpense.toFixed(2)}
+              </p>
+            </div>
           </div>
-          <div className="bg-muted/50 p-3 rounded-lg">
-            <p className="text-xs text-muted-foreground mb-1">Gasto médio/dia</p>
-            <p className="text-lg font-bold text-foreground">
-              R$ {predictions.avgDailyExpense.toFixed(2)}
-            </p>
-          </div>
-        </div>
-      </Card>
+        </Card>
 
       {/* Alertas e Ações */}
       <div className="space-y-3">
@@ -169,46 +169,40 @@ export const PredictiveAssistant = ({ transactions, currentBalance }: Predictive
           const isUrgent = alert.type === "critical";
           
           return (
-            <Card 
-              key={index}
-              className={`p-4 animate-fade-in border-l-4 ${
-                isUrgent 
-                  ? 'border-l-red-500 bg-red-50 dark:bg-red-900/10' 
-                  : alert.type === "warning"
-                  ? 'border-l-yellow-500 bg-yellow-50 dark:bg-yellow-900/10'
-                  : 'border-l-blue-500 bg-blue-50 dark:bg-blue-900/10'
-              }`}
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <div className="flex items-start gap-3">
-                <div className={`p-2 rounded-full ${
+              <Card 
+                key={index}
+                className={`p-4 animate-fade-in border-l-4 border-4 ${
                   isUrgent 
-                    ? 'bg-red-100 dark:bg-red-900/30' 
+                    ? 'border-l-red-500 bg-red-50 dark:bg-red-900/10 border-red-500' 
                     : alert.type === "warning"
-                    ? 'bg-yellow-100 dark:bg-yellow-900/30'
-                    : 'bg-blue-100 dark:bg-blue-900/30'
-                }`}>
-                  <Icon size={20} className={
+                    ? 'border-l-yellow-500 bg-yellow-50 dark:bg-yellow-900/10 border-yellow-500'
+                    : 'border-l-blue-500 bg-blue-50 dark:bg-blue-900/10 border-blue-500'
+                }`}
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className="flex items-start gap-3">
+                  <div className={`p-3 rounded-2xl ${
                     isUrgent 
-                      ? 'text-red-600 dark:text-red-400' 
+                      ? 'bg-red-600' 
                       : alert.type === "warning"
-                      ? 'text-yellow-600 dark:text-yellow-400'
-                      : 'text-blue-600 dark:text-blue-400'
-                  } />
+                      ? 'bg-yellow-600'
+                      : 'bg-blue-600'
+                  }`}>
+                    <Icon size={24} className="text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-black text-base text-foreground mb-1">{alert.title}</h4>
+                    <p className="text-sm font-bold text-foreground/70 mb-2">{alert.message}</p>
+                    <Button 
+                      size="sm" 
+                      variant={isUrgent ? "default" : "outline"}
+                      className="text-sm h-9 font-black border-2 border-foreground"
+                    >
+                      {alert.action}
+                    </Button>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <h4 className="font-bold text-sm text-foreground mb-1">{alert.title}</h4>
-                  <p className="text-xs text-muted-foreground mb-2">{alert.message}</p>
-                  <Button 
-                    size="sm" 
-                    variant={isUrgent ? "default" : "outline"}
-                    className="text-xs h-7"
-                  >
-                    {alert.action}
-                  </Button>
-                </div>
-              </div>
-            </Card>
+              </Card>
           );
         })}
       </div>

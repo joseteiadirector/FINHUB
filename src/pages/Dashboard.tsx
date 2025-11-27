@@ -32,17 +32,17 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <header className="bg-gradient-to-br from-card to-card/50 border-b border-border p-6 animate-fade-in">
+      <header className="bg-card border-b-4 border-foreground p-6 animate-fade-in shadow-xl">
         <div className="max-w-md mx-auto flex items-center justify-between">
           <div className="flex-1">
-            <h1 className="text-3xl font-display font-bold text-foreground mb-1 uppercase tracking-tight">
+            <h1 className="text-4xl font-black text-foreground mb-1">
               {loading ? "OLÁ! 👋" : `OLÁ, ${userName.toUpperCase()}! 👋`}
             </h1>
-            <p className="text-sm font-condensed text-muted-foreground">Gerencie suas finanças com inteligência</p>
+            <p className="text-base font-semibold text-foreground/70">Gerencie suas finanças com inteligência</p>
           </div>
-          <Avatar className="w-12 h-12 border-2 border-primary/20 cursor-pointer hover:scale-110 transition-transform" onClick={() => navigate("/profile")}>
+          <Avatar className="w-14 h-14 border-4 border-foreground cursor-pointer hover:scale-110 transition-transform shadow-lg" onClick={() => navigate("/profile")}>
             <AvatarImage src={profile?.avatar_url || undefined} alt="Avatar" />
-            <AvatarFallback className="bg-gradient-to-br from-primary/20 to-primary/10 text-primary text-lg font-display">
+            <AvatarFallback className="bg-foreground text-background text-xl font-black">
               {userInitial}
             </AvatarFallback>
           </Avatar>
@@ -55,20 +55,20 @@ const Dashboard = () => {
         </div>
 
         {/* Assistente IA + Insights + Chat em Abas */}
-        <div className="bg-card rounded-lg p-1">
+        <div className="bg-card rounded-2xl p-1 border-4 border-foreground shadow-xl">
           <Tabs defaultValue="chat" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-3">
-              <TabsTrigger value="chat" className="text-xs">
-                <MessageCircle size={14} className="mr-1" />
-                Chat IA
+            <TabsList className="grid w-full grid-cols-3 mb-3 bg-foreground">
+              <TabsTrigger value="chat" className="text-sm font-black data-[state=active]:bg-background data-[state=active]:text-foreground">
+                <MessageCircle size={16} className="mr-1" />
+                CHAT
               </TabsTrigger>
-              <TabsTrigger value="assistant" className="text-xs">
-                <Sparkles size={14} className="mr-1" />
-                Assistente
+              <TabsTrigger value="assistant" className="text-sm font-black data-[state=active]:bg-background data-[state=active]:text-foreground">
+                <Sparkles size={16} className="mr-1" />
+                ASSISTENTE
               </TabsTrigger>
-              <TabsTrigger value="insights" className="text-xs">
-                <TrendingUp size={14} className="mr-1" />
-                Insights
+              <TabsTrigger value="insights" className="text-sm font-black data-[state=active]:bg-background data-[state=active]:text-foreground">
+                <TrendingUp size={16} className="mr-1" />
+                INSIGHTS
               </TabsTrigger>
             </TabsList>
             
@@ -98,37 +98,37 @@ const Dashboard = () => {
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <TrendingUp className="text-primary" size={20} />
-            <h2 className="text-xl font-display font-bold text-foreground uppercase tracking-tight">Gastos do mês</h2>
+            <TrendingUp className="text-foreground" size={24} />
+            <h2 className="text-2xl font-black text-foreground">GASTOS DO MÊS</h2>
           </div>
-          <p className="text-sm font-condensed text-muted-foreground font-semibold">Novembro</p>
+          <p className="text-base font-bold text-foreground/70">Novembro</p>
         </div>
 
-        <div className="bg-card rounded-lg p-4">
+        <div className="bg-card rounded-2xl p-4 border-4 border-foreground shadow-lg">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-sm text-muted-foreground">Limite de gastos</span>
-            <span className="text-sm font-semibold text-foreground">65% usado</span>
+            <span className="text-base font-black text-foreground">LIMITE DE GASTOS</span>
+            <span className="text-base font-black text-foreground">65% USADO</span>
           </div>
-          <div className="w-full bg-muted rounded-full h-2">
-            <div className="bg-primary h-2 rounded-full" style={{ width: "65%" }}></div>
+          <div className="w-full bg-muted rounded-full h-3 border-2 border-foreground">
+            <div className="bg-foreground h-full rounded-full" style={{ width: "65%" }}></div>
           </div>
-          <p className="text-xs text-muted-foreground mt-2">R$ 1.452,18 de R$ 2.200,00</p>
+          <p className="text-sm font-bold text-foreground/70 mt-2">R$ 1.452,18 de R$ 2.200,00</p>
         </div>
 
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-display font-bold text-foreground uppercase tracking-tight">Transações recentes</h2>
+            <h2 className="text-2xl font-black text-foreground">TRANSAÇÕES RECENTES</h2>
             <Button 
               variant="ghost" 
               size="sm"
               onClick={() => navigate("/transactions")}
-              className="text-primary font-condensed font-semibold"
+              className="text-foreground font-bold hover:bg-foreground/10"
             >
-              Ver todas <ArrowRight size={16} className="ml-1" />
+              Ver todas <ArrowRight size={18} className="ml-1" />
             </Button>
           </div>
           
-          <div className="bg-card rounded-lg divide-y divide-border">
+          <div className="bg-card rounded-2xl divide-y-2 divide-foreground border-4 border-foreground shadow-lg">
             {recentTransactions.map((transaction, index) => (
               <TransactionItem key={index} {...transaction} />
             ))}
