@@ -88,6 +88,33 @@ const Dashboard = () => {
           </div>
         </div>
 
+        {/* Seção de Dicas e Recomendações Separada */}
+        <div className="bg-card rounded-2xl p-4 md:p-6 border-4 border-foreground shadow-xl animate-fade-in">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 rounded-2xl bg-foreground relative">
+              <Lightbulb className="text-background" size={24} />
+              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+              </span>
+            </div>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-black text-foreground">DICAS PERSONALIZADAS</h2>
+              <p className="text-sm font-bold text-foreground/70">Recomendações inteligentes para suas finanças</p>
+            </div>
+          </div>
+          
+          <div className="space-y-4">
+            <PersonalizedRecommendations 
+              transactions={transactions}
+            />
+            <PredictiveAssistant 
+              transactions={transactions} 
+              currentBalance={balance}
+            />
+          </div>
+        </div>
+
         {/* Card FAQ Separado */}
         <div className="bg-card rounded-2xl p-4 md:p-6 border-4 border-foreground shadow-xl animate-fade-in">
           <div className="flex items-center gap-3 mb-6">
@@ -217,17 +244,6 @@ const Dashboard = () => {
                   BADGES
                 </TabsTrigger>
                 <TabsTrigger 
-                  value="dicas" 
-                  className="flex-shrink-0 snap-center min-w-[100px] md:min-w-[110px] px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-black text-xs md:text-sm text-foreground border-3 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all relative hover:scale-105 active:scale-95 shadow-md data-[state=active]:shadow-xl"
-                >
-                  <Lightbulb size={16} className="mr-1.5 md:mr-2 animate-pulse" />
-                  DICAS
-                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                  </span>
-                </TabsTrigger>
-                <TabsTrigger 
                   value="chat" 
                   className="flex-shrink-0 snap-center min-w-[100px] md:min-w-[110px] px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-black text-xs md:text-sm text-foreground border-3 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all relative hover:scale-105 active:scale-95 shadow-md data-[state=active]:shadow-xl"
                 >
@@ -257,17 +273,6 @@ const Dashboard = () => {
               <AchievementBadges transactions={transactions} />
             </TabsContent>
             
-            <TabsContent value="dicas" className="mt-0 flex-1 min-h-0">
-              <PersonalizedRecommendations 
-                transactions={transactions}
-              />
-              <div className="mt-4">
-                <PredictiveAssistant 
-                  transactions={transactions} 
-                  currentBalance={balance}
-                />
-              </div>
-            </TabsContent>
             
             <TabsContent value="chat" className="mt-0 flex-1 min-h-0">
               <FinancialChatBot 
