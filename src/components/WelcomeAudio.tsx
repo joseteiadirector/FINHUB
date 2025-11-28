@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-const WELCOME_TEXT = "Olá! Seja bem-vindo ao FinHub. Sua plataforma completa para gerenciar finanças de forma inteligente. Aqui você encontra categorização automática de despesas, análises personalizadas por IA e acesso a todos os serviços financeiros que você precisa. Se não tem acesso, crie ou faça seu login. Vamos começar?";
+const WELCOME_TEXT = "Bem-vindo ao FinHub! Controle suas finanças com inteligência. Vamos começar?";
 
 export const WelcomeAudio = () => {
   const [isPlaying, setIsPlaying] = useState(false);
