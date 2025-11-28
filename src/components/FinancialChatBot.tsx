@@ -35,7 +35,7 @@ export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChat
       const { data, error } = await supabase.functions.invoke('text-to-speech', {
         body: { 
           text,
-          voiceId: 'IKne3meq5aSn9XLyUdCD' // Charlie voice
+          voiceId: 'TX3LPaxmHKxFdv7VOQHJ' // Liam voice - better for Portuguese
         }
       });
 
