@@ -220,7 +220,8 @@ const Insurance = () => {
 
             <Button
               onClick={handleHireInsurance}
-              className="w-full bg-foreground hover:bg-foreground/90 text-background font-black h-14 text-lg"
+              disabled={false}
+              className="w-full bg-foreground hover:bg-foreground/90 text-background font-black h-14 text-lg cursor-pointer"
             >
               CONTRATAR AGORA
             </Button>

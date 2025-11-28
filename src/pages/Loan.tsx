@@ -220,7 +220,8 @@ const Loan = () => {
 
             <Button
               onClick={handleRequestLoan}
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-black h-14 text-lg"
+              disabled={false}
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-black h-14 text-lg cursor-pointer"
             >
               SOLICITAR EMPRÉSTIMO
             </Button>
