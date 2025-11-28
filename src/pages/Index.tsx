@@ -73,6 +73,7 @@ const Index = () => {
 
   const handleDirectAccess = () => {
     // Acesso direto do desenvolvedor - bypass de autenticação
+    localStorage.setItem("dev_mode", "true");
     toast({
       title: "Modo Desenvolvedor",
       description: "Acesso direto ao dashboard.",
