@@ -39,44 +39,55 @@ serve(async (req) => {
         return acc;
       }, {} as Record<string, number>);
 
-    const prompt = `Você é um assistente financeiro pessoal especializado. Analise os seguintes dados financeiros e gere uma análise completa em JSON:
+    // Gerar um número aleatório para variar os insights
+    const randomSeed = Math.floor(Math.random() * 100);
+    const focusType = randomSeed < 25 ? 'economia' : randomSeed < 50 ? 'alertas' : randomSeed < 75 ? 'padrões' : 'previsões';
 
-Dados:
-- Saldo atual: R$ ${currentBalance.toFixed(2)}
-- Total de despesas: R$ ${totalExpenses.toFixed(2)}
-- Total de receitas: R$ ${totalIncome.toFixed(2)}
-- Número de transações: ${transactions.length}
-- Gastos por categoria: ${JSON.stringify(categoryBreakdown)}
+    const prompt = `Você é um assistente financeiro inteligente e empático. Analise esses dados financeiros reais e gere insights VARIADOS e DINÂMICOS focando em: ${focusType}.
 
-Retorne APENAS um JSON válido seguindo EXATAMENTE esta estrutura:
+📊 DADOS FINANCEIROS ATUAIS:
+Saldo atual: R$ ${currentBalance.toFixed(2)}
+Receitas totais: R$ ${totalIncome.toFixed(2)} (${transactions.filter(t => t.type === 'income').length} transações)
+Despesas totais: R$ ${totalExpenses.toFixed(2)} (${transactions.filter(t => t.type === 'expense').length} transações)
+
+Gastos detalhados por categoria:
+${Object.entries(categoryBreakdown).map(([cat, val]) => `- ${cat}: R$ ${(val as number).toFixed(2)} (${(((val as number)/totalExpenses)*100).toFixed(1)}%)`).join('\n')}
+
+🎯 FOCO DESTA ANÁLISE: ${focusType.toUpperCase()}
+
+TIPOS DE INSIGHTS para variar (use ${focusType} como prioridade):
+1. ECONOMIA: "Você pode economizar R$X reduzindo Y em Z%"
+2. ALERTAS: "⚠️ Gastos com X representam Y% do total, acima do recomendado"
+3. PADRÕES: "✅ Parabéns! Você manteve gastos com X abaixo de R$Y"
+4. PREVISÕES: "No ritmo atual, você terá R$X até o final do mês"
+5. COMPARAÇÕES: "Gastos com X são 2x maiores que gastos com Y"
+6. OPORTUNIDADES: "Redirecione R$X de Y para economia"
+
+Retorne APENAS JSON válido (sem markdown):
 {
-  "healthScore": número de 0-100 (quanto maior melhor a saúde financeira),
-  "status": "excellent" | "good" | "warning" | "danger",
+  "healthScore": número 0-100 calculado como ((totalIncome - totalExpenses) / totalIncome * 100),
+  "status": "excellent" (score >80) | "good" (60-80) | "warning" (40-60) | "danger" (<40),
   "insights": [
-    "Insight 1 (1-2 frases)",
-    "Insight 2 (1-2 frases)",
-    "Insight 3 (1-2 frases)"
+    "3-5 insights DIFERENTES usando dados reais",
+    "Priorize tipo ${focusType} mas varie os outros",
+    "Use números específicos das transações",
+    "Seja empático e motivador"
   ],
   "categoryAnalysis": [
     {
-      "category": "nome da categoria que mais gasta",
-      "percentage": número 0-100,
-      "status": "safe" | "attention" | "danger"
+      "category": "nome real da categoria dos dados",
+      "percentage": porcentagem exata do total de despesas,
+      "status": "safe" (<30% do total) | "attention" (30-50%) | "danger" (>50%)
     }
   ],
   "recommendations": [
-    "Recomendação prática 1",
-    "Recomendação prática 2"
+    "2-4 ações PRÁTICAS E ESPECÍFICAS",
+    "Exemplo: 'Reduza gastos com Alimentação em 15% (economizaria R$X/mês)'",
+    "Seja direto e acionável"
   ]
 }
 
-Critérios de healthScore:
-- 80-100: excellent (economizando bem, gastos controlados)
-- 60-79: good (situação equilibrada)
-- 40-59: warning (precisa atenção)
-- 0-39: danger (situação preocupante)
-
-Seja específico com os números reais do usuário.`;
+IMPORTANTE: Varie os insights em CADA geração. Use os números REAIS. Seja específico e empático.`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
