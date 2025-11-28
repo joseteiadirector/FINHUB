@@ -152,39 +152,23 @@ export const PersonalizedRecommendations = ({ transactions, onActionClick }: Per
       </div>
 
       {recommendations.length === 0 && !isLoading && (
-        <Card className="p-6 text-center border-4 border-foreground">
-          <p className="text-foreground/70 mb-4 font-bold">
-            Clique no botão para gerar recomendações personalizadas com IA
+        <Card className="p-4 text-center border-2 border-foreground">
+          <p className="text-foreground/70 text-sm font-bold">
+            Gere dicas personalizadas
           </p>
         </Card>
       )}
       
       {recommendations.length > 0 && (
-        <div className="space-y-3">
-          {recommendations.map((rec, index) => (
-            <Card key={index} className="p-4 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-4 border-foreground bg-card">
-              <div className="space-y-3">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex-1">
-                    <h3 className="font-black text-base text-foreground mb-1">{rec.title}</h3>
-                    <p className="text-sm font-bold text-foreground/70">{rec.description}</p>
-                  </div>
-                  <Badge variant="outline" className={`${impactColors[rec.impact]} font-black text-xs border-2`}>
-                    {impactLabels[rec.impact]}
-                  </Badge>
+        <div className="space-y-2">
+          {recommendations.slice(0, 2).map((rec, index) => (
+            <Card key={index} className="p-3 hover:shadow-lg transition-all border-2 border-foreground cursor-pointer" onClick={() => handleActionClick(rec.action || 'Ver detalhes', rec)}>
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex-1">
+                  <h3 className="font-black text-sm text-foreground">{rec.title}</h3>
+                  <p className="text-xs font-bold text-foreground/70 mt-1">{rec.description}</p>
                 </div>
-                
-                {rec.action && (
-                  <Button 
-                    variant="default" 
-                    size="sm" 
-                    className="w-full justify-between bg-foreground hover:bg-foreground/90 text-background font-black"
-                    onClick={() => handleActionClick(rec.action!, rec)}
-                  >
-                    {rec.action}
-                    <ArrowRight size={16} />
-                  </Button>
-                )}
+                <ArrowRight className="text-foreground flex-shrink-0" size={16} />
               </div>
             </Card>
           ))}
@@ -194,17 +178,17 @@ export const PersonalizedRecommendations = ({ transactions, onActionClick }: Per
       <Button
         onClick={generateRecommendations}
         disabled={isLoading}
-        className="w-full bg-foreground hover:bg-foreground/90 text-background font-black h-12 rounded-xl border-2 border-foreground shadow-lg"
+        className="w-full bg-foreground hover:bg-foreground/90 text-background font-black h-11 border-2 border-foreground"
       >
         {isLoading ? (
           <>
-            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             GERANDO...
           </>
         ) : (
           <>
-            <RefreshCw className="mr-2 h-5 w-5" />
-            {recommendations.length > 0 ? "ATUALIZAR DICAS" : "GERAR DICAS COM IA"}
+            <RefreshCw className="mr-2 h-4 w-4" />
+            {recommendations.length > 0 ? "ATUALIZAR" : "GERAR DICAS"}
           </>
         )}
       </Button>

@@ -166,114 +166,65 @@ export const AIPersonalizedInsights = ({ transactions, currentBalance }: AIPerso
         </Badge>
       </div>
 
-      {/* Score de Saúde Financeira */}
       {parsedInsights && (
         <div className="space-y-4 mb-4">
-          {/* Card principal com título dinâmico */}
-          <Card className={`p-6 border-4 ${getStatusColor(parsedInsights.status)} animate-scale-in`}>
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                {getStatusIcon(parsedInsights.status)}
-                <div>
-                  <h4 className="text-2xl font-black">{parsedInsights.analysisTitle || 'SAÚDE FINANCEIRA'}</h4>
-                  <p className="text-sm font-bold opacity-70">{parsedInsights.analysisSubtitle || 'Score baseado em seus hábitos'}</p>
-                </div>
+          {/* Score com emoji */}
+          <Card className={`p-5 border-4 ${getStatusColor(parsedInsights.status)}`}>
+            <div className="flex items-center justify-between">
+              <div>
+                <h4 className="text-xl font-black">{parsedInsights.analysisTitle || 'ANÁLISE'}</h4>
+                <p className="text-xs font-bold opacity-70">{parsedInsights.analysisSubtitle}</p>
               </div>
               <div className="text-center">
-                <div className="text-5xl font-black">{getStatusEmoji(parsedInsights.status)}</div>
-                <div className="text-3xl font-black mt-2">{parsedInsights.healthScore}/100</div>
+                <div className="text-4xl">{getStatusEmoji(parsedInsights.status)}</div>
+                <div className="text-2xl font-black">{parsedInsights.healthScore}/100</div>
               </div>
-            </div>
-            
-            {/* Barra de progresso animada */}
-            <div className="w-full bg-background/30 rounded-full h-4 border-2 border-current mt-4">
-              <div 
-                className="h-full rounded-full transition-all duration-1000 ease-out bg-current"
-                style={{ width: `${parsedInsights.healthScore}%` }}
-              ></div>
             </div>
           </Card>
 
-          {/* Gráfico de Categorias */}
+          {/* Gráfico único */}
           {parsedInsights.categoryAnalysis && parsedInsights.categoryAnalysis.length > 0 && (
-            <Card className="p-6 bg-card border-4 border-foreground animate-fade-in">
-              <h4 className="text-xl font-black text-foreground mb-4 flex items-center gap-2">
-                <TrendingUp size={24} />
-                ANÁLISE POR CATEGORIA
-              </h4>
-              <ResponsiveContainer width="100%" height={200}>
+            <Card className="p-4 border-4 border-foreground">
+              <ResponsiveContainer width="100%" height={180}>
                 <BarChart data={parsedInsights.categoryAnalysis}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#000" opacity={0.1} />
-                  <XAxis 
-                    dataKey="category" 
-                    tick={{ fill: 'currentColor', fontWeight: 'bold', fontSize: 12 }}
-                  />
-                  <YAxis 
-                    tick={{ fill: 'currentColor', fontWeight: 'bold', fontSize: 12 }}
-                  />
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'hsl(var(--card))',
-                      border: '3px solid hsl(var(--foreground))',
-                      borderRadius: '8px',
-                      fontWeight: 'bold'
-                    }}
-                  />
-                  <Bar dataKey="percentage" radius={[8, 8, 0, 0]}>
+                  <XAxis dataKey="category" tick={{ fill: 'currentColor', fontWeight: 'bold', fontSize: 11 }} />
+                  <YAxis tick={{ fill: 'currentColor', fontWeight: 'bold', fontSize: 11 }} />
+                  <Tooltip contentStyle={{ backgroundColor: 'hsl(var(--card))', border: '2px solid hsl(var(--foreground))', borderRadius: '8px', fontWeight: 'bold' }} />
+                  <Bar dataKey="percentage" radius={[6, 6, 0, 0]}>
                     {parsedInsights.categoryAnalysis.map((entry: any, index: number) => (
                       <Cell key={`cell-${index}`} fill={getBarColor(entry.status)} />
                     ))}
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
-              
-              {/* Legenda de cores */}
-              <div className="flex justify-center gap-4 mt-4 flex-wrap">
-                <Badge className="bg-green-500 text-white font-black">🟢 Seguro</Badge>
-                <Badge className="bg-orange-500 text-white font-black">🟠 Atenção</Badge>
-                <Badge className="bg-red-500 text-white font-black">🔴 Perigo</Badge>
-              </div>
             </Card>
           )}
 
-          {/* Insights em texto */}
+          {/* 2 insights curtos */}
           {parsedInsights.insights && parsedInsights.insights.length > 0 && (
-            <div className="space-y-3">
-              {parsedInsights.insights.map((insight: string, index: number) => (
-                <Card 
-                  key={index} 
-                  className="p-4 bg-card hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-fade-in border-4 border-foreground"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <p className="text-base font-bold text-foreground leading-relaxed">
-                    💡 {insight}
-                  </p>
+            <div className="space-y-2">
+              {parsedInsights.insights.slice(0, 2).map((insight: string, index: number) => (
+                <Card key={index} className="p-3 border-2 border-foreground">
+                  <p className="text-sm font-bold text-foreground">💡 {insight}</p>
                 </Card>
               ))}
             </div>
           )}
 
-          {/* Recomendações Clicáveis */}
+          {/* Recomendações clicáveis */}
           {parsedInsights.recommendations && parsedInsights.recommendations.length > 0 && (
-            <div className="space-y-3">
-              <h4 className="text-xl font-black text-foreground flex items-center gap-2">
-                ✨ RECOMENDAÇÕES ATIVAS
-              </h4>
-              {parsedInsights.recommendations.map((rec: string, index: number) => (
+            <div className="space-y-2">
+              <h4 className="text-lg font-black text-foreground">✨ AÇÕES</h4>
+              {parsedInsights.recommendations.slice(0, 2).map((rec: string, index: number) => (
                 <Card 
                   key={index} 
-                  className="p-4 bg-card border-4 border-foreground hover:shadow-xl transition-all cursor-pointer hover:-translate-y-1"
+                  className="p-3 border-2 border-foreground cursor-pointer hover:shadow-lg transition-all"
                   onClick={() => handleRecommendationClick(rec, index)}
                 >
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-bold text-foreground flex-1">
-                      ▸ {rec}
-                    </p>
-                    <ArrowRight className="text-foreground ml-2 flex-shrink-0" size={20} />
+                    <p className="text-xs font-bold text-foreground">▸ {rec}</p>
+                    <ArrowRight className="text-foreground flex-shrink-0" size={16} />
                   </div>
-                  <p className="text-xs text-foreground/60 mt-2 font-bold">
-                    Clique para ver análise detalhada com gráficos
-                  </p>
                 </Card>
               ))}
             </div>
@@ -282,9 +233,9 @@ export const AIPersonalizedInsights = ({ transactions, currentBalance }: AIPerso
       )}
 
       {!parsedInsights && !isLoading && (
-        <div className="text-center py-8">
-          <p className="text-muted-foreground mb-4 font-bold">
-            Clique no botão para gerar uma análise visual completa com gráficos e score
+        <div className="text-center py-6">
+          <p className="text-muted-foreground text-sm font-bold">
+            Gere análise visual com gráficos
           </p>
         </div>
       )}
@@ -292,17 +243,17 @@ export const AIPersonalizedInsights = ({ transactions, currentBalance }: AIPerso
       <Button
         onClick={handleGenerateInsights}
         disabled={isLoading}
-        className="w-full bg-foreground hover:bg-foreground/90 text-background font-black text-base h-12 rounded-xl border-2 border-foreground shadow-lg"
+        className="w-full bg-foreground hover:bg-foreground/90 text-background font-black h-11 border-2 border-foreground"
       >
         {isLoading ? (
           <>
-            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-            GERANDO ANÁLISE...
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            GERANDO...
           </>
         ) : (
           <>
-            <RefreshCw className="mr-2 h-5 w-5" />
-            {parsedInsights ? "ATUALIZAR ANÁLISE" : "GERAR ANÁLISE COM IA"}
+            <RefreshCw className="mr-2 h-4 w-4" />
+            {parsedInsights ? "ATUALIZAR" : "GERAR ANÁLISE"}
           </>
         )}
       </Button>
