@@ -133,30 +133,33 @@ export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChat
       {/* Chat Area */}
       <ScrollArea className="flex-1 p-3 sm:p-4" ref={scrollRef}>
         {messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-center space-y-3 sm:space-y-4 py-4">
+          <div className="flex flex-col items-center justify-center h-full text-center space-y-3 sm:space-y-4 py-2">
             <div className="p-3 sm:p-4 rounded-full bg-foreground">
-              <Bot size={36} className="text-background sm:w-12 sm:h-12" />
+              <Bot size={32} className="text-background sm:w-12 sm:h-12" />
             </div>
-            <div className="px-4">
-              <h4 className="font-black text-foreground mb-2 text-lg sm:text-xl">
+            <div className="px-3 sm:px-4">
+              <h4 className="font-black text-foreground mb-2 text-base sm:text-xl">
                 OLÁ! SOU O FINASSIST 👋
               </h4>
-              <p className="text-sm sm:text-base font-bold text-foreground/70 mb-3 sm:mb-4">
+              <p className="text-xs sm:text-base font-bold text-foreground/70 mb-3 sm:mb-4">
                 Pergunte qualquer coisa sobre suas finanças e receba respostas em tempo real
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-md px-4">
-              {suggestedQuestions.map((question, index) => (
-                <Button
-                  key={index}
-                  variant="outline"
-                  size="sm"
-                  className="text-xs sm:text-sm h-auto py-3 px-3 whitespace-normal text-left font-bold border-2 border-foreground hover:bg-foreground hover:text-background"
-                  onClick={() => setInput(question)}
-                >
-                  {question}
-                </Button>
-              ))}
+            <div className="w-full px-2 sm:px-4 space-y-2">
+              <p className="text-xs font-black text-foreground/80 mb-2">PERGUNTAS RÁPIDAS:</p>
+              <div className="grid grid-cols-1 gap-2 w-full">
+                {suggestedQuestions.map((question, index) => (
+                  <Button
+                    key={index}
+                    variant="outline"
+                    size="sm"
+                    className="text-xs sm:text-sm h-auto py-3 px-3 whitespace-normal text-left font-bold border-2 border-foreground hover:bg-foreground hover:text-background transition-all w-full"
+                    onClick={() => setInput(question)}
+                  >
+                    {question}
+                  </Button>
+                ))}
+              </div>
             </div>
           </div>
         ) : (
