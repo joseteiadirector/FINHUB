@@ -7,11 +7,13 @@ import { AIPersonalizedInsights } from "@/components/AIPersonalizedInsights";
 import { FinancialChatBot } from "@/components/FinancialChatBot";
 import { AchievementBadges } from "@/components/AchievementBadges";
 import { PersonalizedRecommendations } from "@/components/PersonalizedRecommendations";
+import { AddTransactionDialog } from "@/components/AddTransactionDialog";
 import { Button } from "@/components/ui/button";
 import { TrendingUp, ArrowRight, Sparkles, MessageCircle, Home, Trophy, Lightbulb, HelpCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserProfile } from "@/hooks/useUserProfile";
+import { useTransactions } from "@/hooks/useTransactions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Accordion,
@@ -23,20 +25,14 @@ import {
 const Dashboard = () => {
   const navigate = useNavigate();
   const { profile, loading } = useUserProfile();
+  const { transactions, loading: transactionsLoading } = useTransactions();
   
   const userName = profile?.full_name || "Usuário";
   const userInitial = profile?.full_name?.charAt(0).toUpperCase() || "U";
 
-  const recentTransactions = [
-    { title: "Salário", date: "2024-11-27", amount: 5000, type: "income" as const, category: "Trabalho" },
-    { title: "Supermercado", date: "2024-11-26", amount: 245.80, type: "expense" as const, category: "Alimentação" },
-    { title: "Netflix", date: "2024-11-25", amount: 39.90, type: "expense" as const, category: "Entretenimento" },
-    { title: "Uber", date: "2024-11-24", amount: 28.50, type: "expense" as const, category: "Transporte" },
-    { title: "Restaurante", date: "2024-11-23", amount: 156.00, type: "expense" as const, category: "Alimentação" },
-    { title: "Academia", date: "2024-11-22", amount: 120.00, type: "expense" as const, category: "Saúde" },
-    { title: "Gasolina", date: "2024-11-21", amount: 200.00, type: "expense" as const, category: "Transporte" },
-    { title: "Farmácia", date: "2024-11-20", amount: 45.00, type: "expense" as const, category: "Saúde" },
-  ];
+  const totalIncome = transactions.filter(t => t.type === "income").reduce((sum, t) => sum + t.amount, 0);
+  const totalExpenses = transactions.filter(t => t.type === "expense").reduce((sum, t) => sum + t.amount, 0);
+  const balance = totalIncome - totalExpenses;
 
   return (
     <div className="min-h-screen bg-background pb-20 relative overflow-hidden">
@@ -68,8 +64,10 @@ const Dashboard = () => {
 
       <main className="max-w-md mx-auto p-4 space-y-6 animate-fade-in">
         <div className="animate-scale-in">
-          <BalanceCard balance={8547.32} income={5000} expenses={1452.18} />
+          <BalanceCard balance={balance} income={totalIncome} expenses={totalExpenses} />
         </div>
+
+        <AddTransactionDialog />
 
         {/* Seção de Personalização: IA, Conquistas, Recomendações, Chat e FAQ */}
         <div className="bg-card rounded-2xl p-1 border-4 border-foreground shadow-xl">
@@ -99,32 +97,32 @@ const Dashboard = () => {
             
             <TabsContent value="ia" className="mt-0 px-3 pb-3 space-y-4">
               <AIPersonalizedInsights 
-                transactions={recentTransactions} 
-                currentBalance={8547.32}
+                transactions={transactions} 
+                currentBalance={balance}
               />
-              <ContextualInsights transactions={recentTransactions} />
+              <ContextualInsights transactions={transactions} />
             </TabsContent>
             
             <TabsContent value="conquistas" className="mt-0 px-3 pb-3">
-              <AchievementBadges transactions={recentTransactions} />
+              <AchievementBadges transactions={transactions} />
             </TabsContent>
             
             <TabsContent value="dicas" className="mt-0 px-3 pb-3">
               <PersonalizedRecommendations 
-                transactions={recentTransactions}
+                transactions={transactions}
               />
               <div className="mt-4">
                 <PredictiveAssistant 
-                  transactions={recentTransactions} 
-                  currentBalance={8547.32}
+                  transactions={transactions} 
+                  currentBalance={balance}
                 />
               </div>
             </TabsContent>
             
             <TabsContent value="chat" className="mt-0 px-3 pb-3">
               <FinancialChatBot 
-                transactions={recentTransactions}
-                currentBalance={8547.32}
+                transactions={transactions}
+                currentBalance={balance}
               />
             </TabsContent>
             
@@ -269,9 +267,19 @@ const Dashboard = () => {
           </div>
           
           <div className="bg-card rounded-2xl divide-y-2 divide-foreground border-4 border-foreground shadow-lg">
-            {recentTransactions.map((transaction, index) => (
-              <TransactionItem key={index} {...transaction} />
-            ))}
+            {transactionsLoading ? (
+              <div className="p-6 text-center text-foreground/70 font-bold">
+                Carregando transações...
+              </div>
+            ) : transactions.length === 0 ? (
+              <div className="p-6 text-center text-foreground/70 font-bold">
+                Nenhuma transação ainda. Adicione sua primeira!
+              </div>
+            ) : (
+              transactions.slice(0, 8).map((transaction, index) => (
+                <TransactionItem key={transaction.id || index} {...transaction} />
+              ))
+            )}
           </div>
         </div>
       </main>
