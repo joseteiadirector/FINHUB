@@ -84,6 +84,9 @@ export const PersonalizedRecommendations = ({ transactions = [], onActionClick }
   };
 
   const generateRecommendations = async () => {
+    // Prevenir múltiplas chamadas simultâneas
+    if (isLoading) return;
+    
     if (safeTransactions.length === 0) {
       toast({
         title: "Sem dados suficientes",
@@ -94,6 +97,17 @@ export const PersonalizedRecommendations = ({ transactions = [], onActionClick }
     }
 
     setIsLoading(true);
+    
+    // Timeout de segurança para evitar travamentos
+    const timeoutId = setTimeout(() => {
+      setIsLoading(false);
+      toast({
+        title: "Tempo limite excedido",
+        description: "Tente novamente em alguns instantes.",
+        variant: "destructive",
+      });
+    }, 30000); // 30 segundos
+
     try {
       const { data, error } = await supabase.functions.invoke('generate-recommendations', {
         body: { 
@@ -101,6 +115,8 @@ export const PersonalizedRecommendations = ({ transactions = [], onActionClick }
           currentBalance: totalIncome - totalExpenses 
         }
       });
+
+      clearTimeout(timeoutId);
 
       if (error) throw error;
       
@@ -112,6 +128,7 @@ export const PersonalizedRecommendations = ({ transactions = [], onActionClick }
         });
       }
     } catch (error) {
+      clearTimeout(timeoutId);
       console.error("Error generating recommendations:", error);
       toast({
         title: "Erro ao gerar recomendações",
