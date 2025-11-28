@@ -54,8 +54,8 @@ const Loan = () => {
 
   const handleRequestLoan = () => {
     toast({
-      title: "🎉 Solicitação enviada!",
-      description: "Seu empréstimo será analisado em até 24 horas.",
+      title: "📧 Solicitação enviada!",
+      description: "O contrato do seu empréstimo será enviado ao seu email cadastrado em até 24 horas.",
     });
   };
 
