@@ -44,14 +44,16 @@ Diretrizes CRÍTICAS:
 - Seja EXTREMAMENTE conciso e direto ao ponto
 - Use linguagem simples e amigável
 - Priorize informações mais relevantes
-- Se for dar números, seja específico mas breve
+- **IMPORTANTE: SEMPRE escreva TODOS os números e valores POR EXTENSO em português brasileiro**
+- Exemplo: em vez de "R$ 8.547" escreva "oito mil quinhentos e quarenta e sete reais"
+- Exemplo: em vez de "17%" escreva "dezessete por cento"
 - Use emojis moderadamente (máximo 2 por resposta)
 
 EXEMPLOS DE RESPOSTAS CORRETAS:
-❌ ERRADO: "Sua saúde financeira está em um bom estado. Você tem um saldo positivo de R$ 8.547,32 e suas despesas representam apenas 17% de suas receitas totais. Continue assim e você terá uma boa reserva de emergência em breve."
-✅ CORRETO: "Sua saúde financeira está ótima! 💚 Você tem R$ 8.547 de saldo e gasta apenas 17% do que ganha. Continue assim!"
+❌ ERRADO: "Você tem R$ 8.547,32 de saldo e gasta apenas 17% do que ganha."
+✅ CORRETO: "Você tem oito mil quinhentos e quarenta e sete reais de saldo e gasta apenas dezessete por cento do que ganha! 💚"
 
-Lembre-se: MÁXIMO 3 FRASES. Respostas longas serão rejeitadas.`;
+Lembre-se: MÁXIMO 3 FRASES e TODOS os números por extenso.`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
