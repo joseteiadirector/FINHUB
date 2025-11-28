@@ -19,6 +19,7 @@ import Insurance from "./pages/Insurance";
 import Loan from "./pages/Loan";
 import NotFound from "./pages/NotFound";
 import FAQ from "./pages/FAQ";
+import Referrals from "./pages/Referrals";
 
 const queryClient = new QueryClient();
 
@@ -135,6 +136,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <FAQ />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/referrals"
+              element={
+                <ProtectedRoute>
+                  <Referrals />
                 </ProtectedRoute>
               }
             />

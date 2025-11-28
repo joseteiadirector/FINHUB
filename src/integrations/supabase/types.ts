@@ -20,6 +20,8 @@ export type Database = {
           created_at: string
           full_name: string | null
           id: string
+          referral_code: string | null
+          referred_by: string | null
           updated_at: string
         }
         Insert: {
@@ -27,6 +29,8 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id: string
+          referral_code?: string | null
+          referred_by?: string | null
           updated_at?: string
         }
         Update: {
@@ -34,7 +38,30 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id?: string
+          referral_code?: string | null
+          referred_by?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      referrals: {
+        Row: {
+          created_at: string
+          id: string
+          referred_user_id: string
+          referrer_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          referred_user_id: string
+          referrer_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          referred_user_id?: string
+          referrer_id?: string
         }
         Relationships: []
       }
@@ -79,10 +106,18 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      referral_stats: {
+        Row: {
+          badge_level: string | null
+          referral_code: string | null
+          referral_count: number | null
+          user_id: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      generate_referral_code: { Args: never; Returns: string }
     }
     Enums: {
       [_ in never]: never
