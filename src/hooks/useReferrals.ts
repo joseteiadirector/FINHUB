@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import confetti from "canvas-confetti";
 
 interface ReferralStats {
   referralCode: string;
@@ -126,6 +127,15 @@ export const useReferrals = () => {
       // Criar indicação de exemplo visual na primeira cópia
       if (stats?.referralCount === 0 && !hasExampleReferral) {
         setHasExampleReferral(true);
+        
+        // Disparar confete celebrativo
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#FFD700', '#FFA500', '#FF6347', '#4169E1', '#32CD32']
+        });
+        
         toast({
           title: "🎉 Link copiado + Emblema Bronze desbloqueado!",
           description: "Indicação de exemplo criada! Compartilhe seu link de verdade para ganhar mais emblemas.",
