@@ -27,7 +27,7 @@ interface Recommendation {
   action?: string;
 }
 
-export const PersonalizedRecommendations = ({ transactions, onActionClick }: PersonalizedRecommendationsProps) => {
+export const PersonalizedRecommendations = ({ transactions = [], onActionClick }: PersonalizedRecommendationsProps) => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
@@ -35,12 +35,14 @@ export const PersonalizedRecommendations = ({ transactions, onActionClick }: Per
   const [selectedRecommendation, setSelectedRecommendation] = useState<any>(null);
   const [showModal, setShowModal] = useState(false);
   
-  const totalExpenses = transactions.filter(t => t.type === "expense").reduce((sum, t) => sum + t.amount, 0);
-  const totalIncome = transactions.filter(t => t.type === "income").reduce((sum, t) => sum + t.amount, 0);
+  // Garantir que transactions é sempre um array válido
+  const safeTransactions = Array.isArray(transactions) ? transactions : [];
+  const totalExpenses = safeTransactions.filter(t => t.type === "expense").reduce((sum, t) => sum + t.amount, 0);
+  const totalIncome = safeTransactions.filter(t => t.type === "income").reduce((sum, t) => sum + t.amount, 0);
 
   const handleActionClick = (action: string, rec: Recommendation) => {
     // Calcular dados reais baseados nas transações
-    const expenses = transactions.filter(t => t.type === 'expense');
+    const expenses = safeTransactions.filter(t => t.type === 'expense');
     const totalExpenses = expenses.reduce((sum, t) => sum + t.amount, 0);
     
     // Extrair percentuais e valores da recomendação
@@ -82,7 +84,7 @@ export const PersonalizedRecommendations = ({ transactions, onActionClick }: Per
   };
 
   const generateRecommendations = async () => {
-    if (transactions.length === 0) {
+    if (safeTransactions.length === 0) {
       toast({
         title: "Sem dados suficientes",
         description: "Adicione transações para gerar recomendações.",
@@ -95,14 +97,14 @@ export const PersonalizedRecommendations = ({ transactions, onActionClick }: Per
     try {
       const { data, error } = await supabase.functions.invoke('generate-recommendations', {
         body: { 
-          transactions, 
+          transactions: safeTransactions, 
           currentBalance: totalIncome - totalExpenses 
         }
       });
 
       if (error) throw error;
       
-      if (data?.recommendations) {
+      if (data?.recommendations && Array.isArray(data.recommendations)) {
         setRecommendations(data.recommendations);
         toast({
           title: "Recomendações atualizadas!",
