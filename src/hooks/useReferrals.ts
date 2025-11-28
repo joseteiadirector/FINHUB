@@ -136,6 +136,31 @@ export const useReferrals = () => {
           colors: ['#FFD700', '#FFA500', '#FF6347', '#4169E1', '#32CD32']
         });
         
+        // Enviar email automático de conquista Bronze
+        const sendBronzeEmail = async () => {
+          try {
+            const { data: profile } = await supabase
+              .from("profiles")
+              .select("full_name")
+              .eq("id", user?.id)
+              .single();
+
+            await supabase.functions.invoke("send-referral-email", {
+              body: {
+                recipientEmail: user?.email || "",
+                recipientName: profile?.full_name || "Usuário",
+                referralLink: `${window.location.origin}/?ref=${stats?.referralCode}`,
+                senderName: "Equipe FinHub",
+                isBronzeAchievement: true,
+              },
+            });
+          } catch (error) {
+            console.error("Error sending bronze achievement email:", error);
+          }
+        };
+        
+        sendBronzeEmail();
+        
         toast({
           title: "🎉 Link copiado + Emblema Bronze desbloqueado!",
           description: "Indicação de exemplo criada! Compartilhe seu link de verdade para ganhar mais emblemas.",
