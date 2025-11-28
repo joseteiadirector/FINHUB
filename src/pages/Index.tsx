@@ -73,34 +73,9 @@ const Index = () => {
     navigate("/dashboard");
   };
 
-  const handleDirectAccess = async () => {
-    // Acesso direto com conta de demonstração
-    setAuthLoading(true);
-    
-    // Fazer login com a conta de demonstração
-    const { error } = await supabase.auth.signInWithPassword({
-      email: "jose.vev26@gmail.com",
-      password: "demo123456",
-    });
-
-    setAuthLoading(false);
-
-    if (error) {
-      console.error("Erro no acesso direto:", error);
-      toast({
-        title: "Erro ao acessar",
-        description: "Não foi possível carregar seus dados.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    localStorage.setItem("dev_mode", "true");
-    toast({
-      title: "Modo Desenvolvedor",
-      description: "Acesso direto ao dashboard.",
-    });
-    navigate("/dashboard");
+  const handleDirectAccess = () => {
+    // Botão "Entrar" abre o modal de autenticação normal
+    setAuthModalOpen(true);
   };
 
   const handleSignup = async (e: React.FormEvent) => {
@@ -199,17 +174,9 @@ const Index = () => {
           <Button 
             size="lg" 
             onClick={handleDirectAccess}
-            disabled={authLoading}
             className="w-full sm:w-auto min-w-[160px] h-12 text-base rounded-full bg-primary hover:bg-primary/90 shadow-2xl hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
-            {authLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Carregando...
-              </>
-            ) : (
-              "Entrar"
-            )}
+            Entrar
           </Button>
           <Button 
             size="lg"
