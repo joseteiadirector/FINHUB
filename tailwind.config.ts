@@ -117,6 +117,20 @@ export default {
           '50%': {
             transform: 'translateY(-20px)'
           }
+        },
+        'color-change': {
+          '0%, 100%': {
+            color: '#000000'
+          },
+          '25%': {
+            color: '#ef4444'
+          },
+          '50%': {
+            color: '#22c55e'
+          },
+          '75%': {
+            color: '#3b82f6'
+          }
         }
       },
       animation: {
@@ -125,7 +139,8 @@ export default {
         'fade-in': 'fade-in 0.3s ease-out',
         'scale-in': 'scale-in 0.2s ease-out',
         'slide-up': 'slide-up 0.3s ease-out',
-        'float': 'float 6s ease-in-out infinite'
+        'float': 'float 6s ease-in-out infinite',
+        'color-change': 'color-change 2s ease-in-out infinite'
       },
   		boxShadow: {
   			'2xs': 'var(--shadow-2xs)',
