@@ -36,9 +36,9 @@ serve(async (req) => {
           text,
           model_id: 'eleven_turbo_v2_5', // Fastest model with multilingual support
           voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.75,
-            speed: 1.15,
+            stability: 0.6,
+            similarity_boost: 0.8,
+            speed: 0.95, // Slower for better clarity with numbers
           },
         }),
       }
