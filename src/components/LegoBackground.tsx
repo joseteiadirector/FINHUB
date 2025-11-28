@@ -1,67 +1,66 @@
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import { useRef } from 'react';
-import * as THREE from 'three';
-
-const LegoBlock = ({ position, color }: { position: [number, number, number]; color: string }) => {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  return (
-    <mesh ref={meshRef} position={position}>
-      <boxGeometry args={[1, 0.4, 1]} />
-      <meshStandardMaterial 
-        color={color} 
-        metalness={0.3} 
-        roughness={0.4}
-        transparent
-        opacity={0.15}
-      />
-    </mesh>
-  );
-};
-
-const LegoScene = () => {
+export const LegoBackground = () => {
   const blocks = [
-    { pos: [-3, 0, -2] as [number, number, number], color: '#FCD34D' },
-    { pos: [-1, 0, -2] as [number, number, number], color: '#FBBF24' },
-    { pos: [1, 0, -2] as [number, number, number], color: '#F59E0B' },
-    { pos: [3, 0, -2] as [number, number, number], color: '#D97706' },
-    { pos: [-2, 0.4, -2] as [number, number, number], color: '#FBBF24' },
-    { pos: [0, 0.4, -2] as [number, number, number], color: '#F59E0B' },
-    { pos: [2, 0.4, -2] as [number, number, number], color: '#FCD34D' },
-    { pos: [-1, 0.8, -2] as [number, number, number], color: '#D97706' },
-    { pos: [1, 0.8, -2] as [number, number, number], color: '#FBBF24' },
-    { pos: [0, 1.2, -2] as [number, number, number], color: '#F59E0B' },
+    { top: '10%', left: '5%', size: 60, color: '#FCD34D', delay: 0 },
+    { top: '20%', left: '15%', size: 80, color: '#FBBF24', delay: 0.5 },
+    { top: '15%', left: '75%', size: 70, color: '#F59E0B', delay: 1 },
+    { top: '40%', left: '10%', size: 90, color: '#D97706', delay: 1.5 },
+    { top: '50%', left: '80%', size: 75, color: '#FCD34D', delay: 2 },
+    { top: '70%', left: '20%', size: 85, color: '#FBBF24', delay: 2.5 },
+    { top: '65%', left: '70%', size: 65, color: '#F59E0B', delay: 3 },
+    { top: '30%', left: '50%', size: 95, color: '#D97706', delay: 3.5 },
+    { top: '80%', left: '45%', size: 70, color: '#FCD34D', delay: 4 },
   ];
 
   return (
-    <>
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[5, 5, 5]} intensity={0.8} />
-      <directionalLight position={[-5, -5, -5]} intensity={0.3} />
-      
+    <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
       {blocks.map((block, i) => (
-        <LegoBlock key={i} position={block.pos} color={block.color} />
+        <div
+          key={i}
+          className="absolute animate-float"
+          style={{
+            top: block.top,
+            left: block.left,
+            width: `${block.size}px`,
+            height: `${block.size}px`,
+            animationDelay: `${block.delay}s`,
+          }}
+        >
+          <div
+            className="w-full h-full relative"
+            style={{
+              background: `linear-gradient(135deg, ${block.color} 0%, ${block.color}dd 50%, ${block.color}99 100%)`,
+              borderRadius: '8px',
+              boxShadow: `
+                inset -2px -2px 4px rgba(0,0,0,0.2),
+                inset 2px 2px 4px rgba(255,255,255,0.3),
+                4px 4px 12px rgba(0,0,0,0.15)
+              `,
+              transform: 'perspective(600px) rotateX(20deg) rotateY(-10deg)',
+              opacity: 0.25,
+            }}
+          >
+            {/* Pinos do Lego */}
+            <div className="absolute top-2 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full"
+              style={{
+                background: `linear-gradient(135deg, ${block.color}ee, ${block.color}88)`,
+                boxShadow: 'inset 1px 1px 2px rgba(255,255,255,0.4), 1px 1px 3px rgba(0,0,0,0.3)'
+              }}
+            />
+            <div className="absolute top-2 left-1/4 w-3 h-3 rounded-full"
+              style={{
+                background: `linear-gradient(135deg, ${block.color}ee, ${block.color}88)`,
+                boxShadow: 'inset 1px 1px 2px rgba(255,255,255,0.4), 1px 1px 3px rgba(0,0,0,0.3)'
+              }}
+            />
+            <div className="absolute top-2 right-1/4 w-3 h-3 rounded-full"
+              style={{
+                background: `linear-gradient(135deg, ${block.color}ee, ${block.color}88)`,
+                boxShadow: 'inset 1px 1px 2px rgba(255,255,255,0.4), 1px 1px 3px rgba(0,0,0,0.3)'
+              }}
+            />
+          </div>
+        </div>
       ))}
-    </>
-  );
-};
-
-export const LegoBackground = () => {
-  return (
-    <div className="absolute inset-0 -z-10 opacity-60">
-      <Canvas
-        camera={{ position: [0, 0, 8], fov: 50 }}
-        style={{ background: 'transparent' }}
-      >
-        <LegoScene />
-        <OrbitControls 
-          enableZoom={false} 
-          enablePan={false}
-          autoRotate
-          autoRotateSpeed={0.5}
-        />
-      </Canvas>
     </div>
   );
 };
