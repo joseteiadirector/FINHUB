@@ -111,31 +111,31 @@ const Referrals = () => {
   };
 
   return (
-    <div className="min-h-screen pb-24 pt-6 px-4">
-      <div className="max-w-2xl mx-auto space-y-6">
+    <div className="min-h-screen pb-20 md:pb-24 pt-4 md:pt-6 px-3 md:px-4 bg-background">
+      <div className="max-w-2xl mx-auto space-y-4 md:space-y-6">
         {/* Botão Voltar */}
         <Button
           onClick={() => navigate("/dashboard")}
           variant="ghost"
-          className="font-bold gap-2"
+          className="font-bold gap-2 text-sm md:text-base"
         >
-          <ArrowLeft className="w-5 h-5" />
+          <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
           VOLTAR
         </Button>
 
         {/* Header */}
         <div className="text-center space-y-2">
-          <h1 className="text-4xl font-black flex items-center justify-center gap-2">
-            <Gift className="w-8 h-8" />
+          <h1 className="text-2xl md:text-4xl font-black flex items-center justify-center gap-2">
+            <Gift className="w-6 h-6 md:w-8 md:h-8" />
             INDICAÇÕES
           </h1>
-          <p className="text-lg font-bold opacity-75">
+          <p className="text-sm md:text-lg font-bold opacity-75">
             Compartilhe o FinHub e ganhe emblemas exclusivos!
           </p>
         </div>
 
         {/* Progress Card */}
-        <Card className="p-6 bg-card border-4">
+        <Card className="p-4 md:p-6 bg-card border-3 md:border-4">
           <ReferralProgress
             referralCount={stats?.referralCount || 0}
             badgeLevel={stats?.badgeLevel || 'none'}
@@ -143,20 +143,20 @@ const Referrals = () => {
         </Card>
 
         {/* Referral Link Card */}
-        <Card className="p-6 bg-card border-4 space-y-4">
-          <div className="flex items-center gap-2 text-xl font-black">
-            <Sparkles className="w-6 h-6" />
+        <Card className="p-4 md:p-6 bg-card border-3 md:border-4 space-y-3 md:space-y-4">
+          <div className="flex items-center gap-2 text-lg md:text-xl font-black">
+            <Sparkles className="w-5 h-5 md:w-6 md:h-6" />
             <h2>SEU LINK MÁGICO</h2>
           </div>
           
-          <div className="bg-muted p-4 rounded-lg font-mono text-sm break-all">
+          <div className="bg-muted p-3 md:p-4 rounded-lg font-mono text-xs md:text-sm break-all">
             {getReferralLink()}
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <Button
               onClick={copyReferralLink}
-              className="font-bold"
+              className="font-bold text-sm w-full"
               variant="outline"
             >
               <Copy className="w-4 h-4 mr-2" />
@@ -165,23 +165,23 @@ const Referrals = () => {
             
             <Dialog open={isEmailDialogOpen} onOpenChange={setIsEmailDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="font-bold" variant="default">
+                <Button className="font-bold text-sm w-full" variant="default">
                   <Mail className="w-4 h-4 mr-2" />
                   ENVIAR EMAIL
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
+              <DialogContent className="sm:max-w-md mx-4">
                 <DialogHeader>
-                  <DialogTitle className="text-2xl font-black">
+                  <DialogTitle className="text-xl md:text-2xl font-black">
                     📧 Enviar Convite por Email
                   </DialogTitle>
-                  <DialogDescription className="font-bold">
+                  <DialogDescription className="font-bold text-sm">
                     Digite o email e nome da pessoa que você quer convidar para o FinHub.
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 py-4">
                   <div className="space-y-2">
-                    <Label htmlFor="recipient-name" className="font-bold">
+                    <Label htmlFor="recipient-name" className="font-bold text-sm">
                       Nome do destinatário
                     </Label>
                     <Input
@@ -190,10 +190,11 @@ const Referrals = () => {
                       value={recipientName}
                       onChange={(e) => setRecipientName(e.target.value)}
                       disabled={isSending}
+                      className="text-sm"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="recipient-email" className="font-bold">
+                    <Label htmlFor="recipient-email" className="font-bold text-sm">
                       Email do destinatário
                     </Label>
                     <Input
@@ -203,11 +204,12 @@ const Referrals = () => {
                       value={recipientEmail}
                       onChange={(e) => setRecipientEmail(e.target.value)}
                       disabled={isSending}
+                      className="text-sm"
                     />
                   </div>
                   <Button
                     onClick={handleSendEmail}
-                    className="w-full font-bold"
+                    className="w-full font-bold text-sm"
                     disabled={isSending || !recipientEmail.trim() || !recipientName.trim()}
                   >
                     {isSending ? "Enviando..." : "Enviar Convite"}
@@ -217,12 +219,12 @@ const Referrals = () => {
             </Dialog>
           </div>
 
-          <div className="bg-primary/10 p-4 rounded-lg space-y-2">
+          <div className="bg-primary/10 p-3 md:p-4 rounded-lg space-y-2">
             <div className="flex items-center gap-2 mb-2">
-              <MessageCircle className="w-5 h-5 text-green-600" />
-              <p className="font-bold text-sm">💡 COMPARTILHE NO WHATSAPP:</p>
+              <MessageCircle className="w-4 h-4 md:w-5 md:h-5 text-green-600 flex-shrink-0" />
+              <p className="font-bold text-xs md:text-sm">💡 COMPARTILHE NO WHATSAPP:</p>
             </div>
-            <ul className="text-sm space-y-1 list-disc list-inside">
+            <ul className="text-xs md:text-sm space-y-1 list-disc list-inside">
               <li>Copie seu link mágico acima</li>
               <li>Cole no WhatsApp e envie para amigos</li>
               <li>Quando eles se cadastrarem, você ganha 1 ponto</li>
@@ -232,17 +234,17 @@ const Referrals = () => {
         </Card>
 
         {/* Referrals List */}
-        <Card className="p-6 bg-card border-4">
-          <div className="flex items-center gap-2 text-xl font-black mb-4">
-            <Users className="w-6 h-6" />
+        <Card className="p-4 md:p-6 bg-card border-3 md:border-4">
+          <div className="flex items-center gap-2 text-lg md:text-xl font-black mb-4">
+            <Users className="w-5 h-5 md:w-6 md:h-6" />
             <h2>SUAS INDICAÇÕES ({stats?.referralCount || 0})</h2>
           </div>
 
           {!stats?.referrals || stats.referrals.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
-              <Users className="w-12 h-12 mx-auto mb-2 opacity-50" />
-              <p className="font-bold">Nenhuma indicação ainda</p>
-              <p className="text-sm">Compartilhe seu link para começar!</p>
+            <div className="text-center py-6 md:py-8 text-muted-foreground">
+              <Users className="w-10 h-10 md:w-12 md:h-12 mx-auto mb-2 opacity-50" />
+              <p className="font-bold text-sm md:text-base">Nenhuma indicação ainda</p>
+              <p className="text-xs md:text-sm">Compartilhe seu link para começar!</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -251,14 +253,14 @@ const Referrals = () => {
                   key={referral.id}
                   className="flex items-center gap-3 p-3 bg-muted rounded-lg"
                 >
-                  <Avatar>
+                  <Avatar className="w-10 h-10 md:w-12 md:h-12">
                     <AvatarImage src={referral.referred_user?.avatar_url} />
                     <AvatarFallback>
                       {referral.referred_user?.full_name?.charAt(0) || "U"}
                     </AvatarFallback>
                   </Avatar>
-                  <div className="flex-1">
-                    <p className="font-bold">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-sm md:text-base truncate">
                       {referral.referred_user?.full_name || "Usuário"}
                     </p>
                     <p className="text-xs text-muted-foreground">
