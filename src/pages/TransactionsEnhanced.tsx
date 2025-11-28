@@ -148,19 +148,32 @@ const TransactionsEnhanced = () => {
           </Card>
         </div>
 
-        {/* AI Categorization Button */}
-        <Button 
-          onClick={handleAIRecategorize} 
-          className="w-full relative"
-          variant="outline"
-        >
-          <Sparkles className="mr-2 animate-pulse" size={20} />
-          Recategorizar com IA
-          <span className="absolute -top-1 -right-1 flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-          </span>
-        </Button>
+        {/* AI Categorization Card */}
+        <Card className="bg-foreground text-background p-6 border-0 shadow-xl">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <Sparkles className="animate-pulse" size={24} />
+                <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                </span>
+              </div>
+              <div>
+                <h3 className="text-lg font-black">RECATEGORIZAR COM IA</h3>
+                <p className="text-sm text-background/70">Análise inteligente de transações</p>
+              </div>
+            </div>
+            <Button 
+              onClick={handleAIRecategorize} 
+              variant="secondary"
+              size="sm"
+              className="bg-background text-foreground hover:bg-background/90"
+            >
+              Aplicar
+            </Button>
+          </div>
+        </Card>
 
         {/* Category Chart */}
         <Card className="p-6">
