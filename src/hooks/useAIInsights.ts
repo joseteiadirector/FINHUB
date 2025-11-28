@@ -10,7 +10,7 @@ interface Transaction {
 export const useAIInsights = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [insights, setInsights] = useState<string>("");
+  const [insights, setInsights] = useState<any>(null);
 
   const generateInsights = async (transactions: Transaction[], currentBalance: number) => {
     setIsLoading(true);

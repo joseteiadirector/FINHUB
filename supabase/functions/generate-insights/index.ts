@@ -39,7 +39,7 @@ serve(async (req) => {
         return acc;
       }, {} as Record<string, number>);
 
-    const prompt = `Você é um assistente financeiro pessoal especializado. Analise os seguintes dados financeiros e gere 3-4 insights personalizados em linguagem natural, clara e objetiva:
+    const prompt = `Você é um assistente financeiro pessoal especializado. Analise os seguintes dados financeiros e gere uma análise completa em JSON:
 
 Dados:
 - Saldo atual: R$ ${currentBalance.toFixed(2)}
@@ -48,13 +48,35 @@ Dados:
 - Número de transações: ${transactions.length}
 - Gastos por categoria: ${JSON.stringify(categoryBreakdown)}
 
-Gere insights úteis, específicos e acionáveis sobre:
-1. Padrões de gastos preocupantes ou positivos
-2. Oportunidades de economia
-3. Comparação entre receitas e despesas
-4. Recomendações práticas personalizadas
+Retorne APENAS um JSON válido seguindo EXATAMENTE esta estrutura:
+{
+  "healthScore": número de 0-100 (quanto maior melhor a saúde financeira),
+  "status": "excellent" | "good" | "warning" | "danger",
+  "insights": [
+    "Insight 1 (1-2 frases)",
+    "Insight 2 (1-2 frases)",
+    "Insight 3 (1-2 frases)"
+  ],
+  "categoryAnalysis": [
+    {
+      "category": "nome da categoria que mais gasta",
+      "percentage": número 0-100,
+      "status": "safe" | "attention" | "danger"
+    }
+  ],
+  "recommendations": [
+    "Recomendação prática 1",
+    "Recomendação prática 2"
+  ]
+}
 
-Responda em português brasileiro, sendo direto e amigável. Cada insight deve ter 1-2 frases curtas.`;
+Critérios de healthScore:
+- 80-100: excellent (economizando bem, gastos controlados)
+- 60-79: good (situação equilibrada)
+- 40-59: warning (precisa atenção)
+- 0-39: danger (situação preocupante)
+
+Seja específico com os números reais do usuário.`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
@@ -62,21 +84,19 @@ Responda em português brasileiro, sendo direto e amigável. Cada insight deve t
         'Authorization': `Bearer ${LOVABLE_API_KEY}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
-        messages: [
-          {
-            role: 'system',
-            content: 'Você é um consultor financeiro pessoal experiente que fornece insights claros, diretos e acionáveis em português brasileiro.'
-          },
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 500,
-      }),
+        body: JSON.stringify({
+          model: 'google/gemini-2.5-flash',
+          messages: [
+            {
+              role: 'system',
+              content: 'Você é um consultor financeiro que retorna APENAS JSON válido com análise financeira detalhada.'
+            },
+            {
+              role: 'user',
+              content: prompt
+            }
+          ],
+        }),
     });
 
     if (response.status === 429) {
@@ -100,7 +120,13 @@ Responda em português brasileiro, sendo direto e amigável. Cada insight deve t
     }
 
     const data = await response.json();
-    const insights = data.choices[0].message.content;
+    const content = data.choices[0].message.content;
+    
+    console.log('Raw AI response:', content);
+    
+    // Limpar markdown se existir
+    const cleanContent = content.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+    const insights = JSON.parse(cleanContent);
 
     return new Response(
       JSON.stringify({ insights }),
