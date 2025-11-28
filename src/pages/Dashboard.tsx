@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { WelcomeAudio } from "@/components/WelcomeAudio";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -36,15 +37,18 @@ const Dashboard = () => {
     <div className="min-h-screen bg-background pb-20">
       <header className="bg-card border-b-4 border-foreground p-6 animate-fade-in shadow-xl">
         <div className="max-w-md mx-auto flex items-center justify-between gap-3">
-          <Button 
-            variant="outline" 
-            size="icon"
-            onClick={() => navigate("/")}
-            className="border-4 border-foreground hover:bg-foreground hover:text-background transition-all"
-            aria-label="Ir para início"
-          >
-            <Home size={24} />
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button 
+              variant="outline" 
+              size="icon"
+              onClick={() => navigate("/")}
+              className="border-4 border-foreground hover:bg-foreground hover:text-background transition-all"
+              aria-label="Ir para início"
+            >
+              <Home size={24} />
+            </Button>
+            <WelcomeAudio />
+          </div>
           <div className="flex-1">
             <h1 className="text-4xl font-black text-foreground mb-1">
               {loading ? "OLÁ! 👋" : `OLÁ, ${userName.toUpperCase()}! 👋`}
