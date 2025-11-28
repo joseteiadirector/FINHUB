@@ -13,7 +13,7 @@ interface Transaction {
   title: string;
 }
 
-export const useFinancialChat = () => {
+export const useFinancialChat = (onAssistantResponse?: (text: string) => void) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -154,6 +154,11 @@ export const useFinancialChat = () => {
               /* ignore partial leftovers */
             }
           }
+        }
+
+        // Call callback when response is complete
+        if (onAssistantResponse && assistantContent) {
+          onAssistantResponse(assistantContent);
         }
       } catch (error) {
         console.error("Chat error:", error);

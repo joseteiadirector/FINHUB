@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageCircle, Send, Trash2, Loader2, Bot, User } from "lucide-react";
+import { MessageCircle, Send, Trash2, Loader2, Bot, User, Volume2 } from "lucide-react";
 import { useFinancialChat } from "@/hooks/useFinancialChat";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface Transaction {
   amount: number;
@@ -22,8 +24,45 @@ interface FinancialChatBotProps {
 
 export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChatBotProps) => {
   const [input, setInput] = useState("");
-  const { messages, sendMessage, isLoading, clearChat } = useFinancialChat();
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const handleAssistantResponse = async (text: string) => {
+    // Auto-play audio for assistant response
+    try {
+      const { data, error } = await supabase.functions.invoke('text-to-speech', {
+        body: { 
+          text,
+          voiceId: 'IKne3meq5aSn9XLyUdCD' // Charlie voice
+        }
+      });
+
+      if (error) throw error;
+
+      if (data?.audioContent) {
+        const audio = new Audio(`data:audio/mpeg;base64,${data.audioContent}`);
+        audioRef.current = audio;
+
+        audio.onended = () => {
+          setIsPlayingAudio(false);
+        };
+
+        audio.onerror = () => {
+          console.error('Error playing audio');
+          setIsPlayingAudio(false);
+        };
+
+        setIsPlayingAudio(true);
+        await audio.play();
+      }
+    } catch (error) {
+      console.error('Error generating audio:', error);
+    }
+  };
+
+  const { messages, sendMessage, isLoading, clearChat } = useFinancialChat(handleAssistantResponse);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -68,7 +107,14 @@ export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChat
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="secondary" className="text-xs font-black bg-foreground text-background px-3 py-1">
-            IA TEMPO REAL
+            {isPlayingAudio ? (
+              <span className="flex items-center gap-1">
+                <Volume2 size={12} className="animate-pulse" />
+                FALANDO
+              </span>
+            ) : (
+              "IA TEMPO REAL"
+            )}
           </Badge>
           {messages.length > 0 && (
             <Button
