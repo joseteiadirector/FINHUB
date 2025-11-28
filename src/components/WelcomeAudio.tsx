@@ -20,7 +20,7 @@ export const WelcomeAudio = () => {
   const cachedAudioRef = useRef<string | null>(null);
   const { toast } = useToast();
 
-  // Pre-load audio on component mount
+  // Pre-load audio on component mount (with silent failure for public links)
   useEffect(() => {
     const preloadAudio = async () => {
       try {
@@ -36,11 +36,14 @@ export const WelcomeAudio = () => {
           setIsPreloaded(true);
         }
       } catch (error) {
-        console.log('Pre-load failed, will load on demand');
+        // Silent failure for public access - audio will load on demand
+        setIsPreloaded(false);
       }
     };
 
-    preloadAudio();
+    // Small delay to not block initial page load
+    const timeoutId = setTimeout(preloadAudio, 500);
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const playWelcomeAudio = async () => {
@@ -64,7 +67,9 @@ export const WelcomeAudio = () => {
           }
         });
 
-        if (error) throw error;
+        if (error) {
+          throw new Error('Não foi possível carregar o áudio');
+        }
         audioContent = data?.audioContent;
         cachedAudioRef.current = audioContent;
       }
@@ -90,10 +95,10 @@ export const WelcomeAudio = () => {
         setIsPlaying(true);
       }
     } catch (error) {
-      console.error('Error playing welcome audio:', error);
+      // Silent console log, only show toast to user
       toast({
-        title: "Erro ao carregar áudio",
-        description: "Não foi possível carregar a mensagem de boas-vindas.",
+        title: "Áudio indisponível",
+        description: "A mensagem de boas-vindas não está disponível no momento.",
         variant: "destructive",
       });
     } finally {
