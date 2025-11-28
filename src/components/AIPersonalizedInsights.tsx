@@ -121,13 +121,14 @@ export const AIPersonalizedInsights = ({ transactions, currentBalance }: AIPerso
       {/* Score de Saúde Financeira */}
       {parsedInsights && (
         <div className="space-y-4 mb-4">
+          {/* Card principal com título dinâmico */}
           <Card className={`p-6 border-4 ${getStatusColor(parsedInsights.status)} animate-scale-in`}>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 {getStatusIcon(parsedInsights.status)}
                 <div>
-                  <h4 className="text-2xl font-black">SAÚDE FINANCEIRA</h4>
-                  <p className="text-sm font-bold opacity-70">Score baseado em seus hábitos</p>
+                  <h4 className="text-2xl font-black">{parsedInsights.analysisTitle || 'SAÚDE FINANCEIRA'}</h4>
+                  <p className="text-sm font-bold opacity-70">{parsedInsights.analysisSubtitle || 'Score baseado em seus hábitos'}</p>
                 </div>
               </div>
               <div className="text-center">

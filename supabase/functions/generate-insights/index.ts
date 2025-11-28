@@ -41,18 +41,18 @@ serve(async (req) => {
 
     // Gerar diferentes tipos de análise para variar os insights
     const analysisTypes = [
-      'economia_oportunidades',
-      'alertas_gastos',
-      'metas_sugeridas',
-      'comparacao_categorias',
-      'habitos_positivos',
-      'previsao_mensal',
-      'dicas_categoria'
+      { key: 'economia_oportunidades', title: 'OPORTUNIDADES DE ECONOMIA', subtitle: 'Onde você pode economizar mais' },
+      { key: 'alertas_gastos', title: 'ALERTAS DE GASTOS', subtitle: 'Atenção aos gastos elevados' },
+      { key: 'metas_sugeridas', title: 'METAS FINANCEIRAS', subtitle: 'Objetivos para você alcançar' },
+      { key: 'comparacao_categorias', title: 'COMPARAÇÃO DE CATEGORIAS', subtitle: 'Entenda seus padrões de gasto' },
+      { key: 'habitos_positivos', title: 'CONQUISTAS FINANCEIRAS', subtitle: 'Reconhecendo seus acertos' },
+      { key: 'previsao_mensal', title: 'PREVISÃO FINANCEIRA', subtitle: 'Projeção para os próximos dias' },
+      { key: 'dicas_categoria', title: 'DICAS INTELIGENTES', subtitle: 'Sugestões personalizadas para você' }
     ];
     const randomIndex = Math.floor(Math.random() * analysisTypes.length);
-    const analysisType = analysisTypes[randomIndex];
+    const selectedAnalysis = analysisTypes[randomIndex];
 
-    const prompt = `Você é um assistente financeiro criativo e empático. Analise os dados e gere uma análise DIFERENTE focada em: ${analysisType}.
+    const prompt = `Você é um assistente financeiro criativo e empático. Analise os dados e gere uma análise DIFERENTE focada em: ${selectedAnalysis.key}.
 
 📊 DADOS:
 Saldo: R$ ${currentBalance.toFixed(2)}
@@ -60,7 +60,8 @@ Receitas: R$ ${totalIncome.toFixed(2)}
 Despesas: R$ ${totalExpenses.toFixed(2)}
 Categorias: ${Object.entries(categoryBreakdown).map(([cat, val]) => `${cat}: R$ ${(val as number).toFixed(2)}`).join(', ')}
 
-🎯 TIPO DE ANÁLISE: ${analysisType}
+🎯 TIPO DE ANÁLISE: ${selectedAnalysis.key}
+📌 TÍTULO: ${selectedAnalysis.title}
 
 GERE INSIGHTS BASEADOS NO TIPO:
 
@@ -74,10 +75,13 @@ GERE INSIGHTS BASEADOS NO TIPO:
 
 Retorne APENAS JSON válido:
 {
+  "analysisType": "${selectedAnalysis.key}",
+  "analysisTitle": "${selectedAnalysis.title}",
+  "analysisSubtitle": "${selectedAnalysis.subtitle}",
   "healthScore": número 0-100 variado,
   "status": varie entre "excellent" | "good" | "warning" | "danger",
   "insights": [
-    "3-5 insights CRIATIVOS do tipo ${analysisType}",
+    "3-5 insights CRIATIVOS do tipo ${selectedAnalysis.key}",
     "Use emojis e linguagem motivadora",
     "Seja específico com valores reais"
   ],
@@ -85,12 +89,12 @@ Retorne APENAS JSON válido:
     {"category": "categoria real", "percentage": valor real, "status": "safe|attention|danger"}
   ],
   "recommendations": [
-    "2-4 ações PRÁTICAS tipo ${analysisType}",
+    "2-4 ações PRÁTICAS tipo ${selectedAnalysis.key}",
     "Seja criativo e varie entre tipos"
   ]
 }
 
-IMPORTANTE: VARIE COMPLETAMENTE os insights baseado no tipo ${analysisType}. Seja criativo!`;
+IMPORTANTE: VARIE COMPLETAMENTE os insights baseado no tipo ${selectedAnalysis.key}. Seja criativo!`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
