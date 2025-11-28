@@ -31,6 +31,13 @@ const Index = () => {
     confirmPassword: "",
   });
 
+  useEffect(() => {
+    const isDevMode = localStorage.getItem("dev_mode") === "true";
+    if (isDevMode) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     
