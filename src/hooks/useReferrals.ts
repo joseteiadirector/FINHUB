@@ -122,6 +122,26 @@ export const useReferrals = () => {
   const unlockBronzeBadge = async () => {
     setHasExampleReferral(true);
     
+    // Atualizar stats imediatamente para mostrar o emblema
+    if (stats) {
+      setStats({
+        ...stats,
+        referralCount: 1,
+        badgeLevel: 'bronze',
+        referrals: [
+          {
+            id: 'example-referral',
+            created_at: new Date().toISOString(),
+            referred_user: {
+              full_name: "🎉 Usuário de Exemplo",
+              avatar_url: "",
+            }
+          },
+          ...stats.referrals
+        ]
+      });
+    }
+    
     // Disparar confete celebrativo
     confetti({
       particleCount: 100,
@@ -156,9 +176,6 @@ export const useReferrals = () => {
       description: "Parabéns! Você ganhou seu primeiro emblema. Continue compartilhando!",
       duration: 5000,
     });
-    
-    // Recarregar stats para atualizar o emblema
-    setTimeout(() => fetchReferralStats(), 100);
   };
 
   const copyReferralLink = async () => {
