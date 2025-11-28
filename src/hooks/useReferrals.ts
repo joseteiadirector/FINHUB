@@ -22,6 +22,7 @@ export const useReferrals = () => {
   const { toast } = useToast();
   const [stats, setStats] = useState<ReferralStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [hasExampleReferral, setHasExampleReferral] = useState(false);
 
   const fetchReferralStats = async () => {
     if (!user) return;
@@ -70,11 +71,31 @@ export const useReferrals = () => {
         },
       }));
 
+      // Adicionar referral de exemplo se ativado
+      const finalReferrals = hasExampleReferral 
+        ? [
+            {
+              id: 'example-referral',
+              created_at: new Date().toISOString(),
+              referred_user: {
+                full_name: "🎉 Usuário de Exemplo",
+                avatar_url: "",
+              }
+            },
+            ...referralsWithProfiles
+          ]
+        : referralsWithProfiles;
+
+      const finalCount = (statsData?.referral_count || 0) + (hasExampleReferral ? 1 : 0);
+      const badgeLevel = hasExampleReferral && finalCount === 1 
+        ? 'bronze' 
+        : (statsData?.badge_level || 'none') as 'none' | 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond';
+
       setStats({
         referralCode: profile?.referral_code || "",
-        referralCount: statsData?.referral_count || 0,
-        badgeLevel: (statsData?.badge_level || 'none') as 'none' | 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond',
-        referrals: referralsWithProfiles,
+        referralCount: finalCount,
+        badgeLevel: badgeLevel,
+        referrals: finalReferrals,
       });
     } catch (error) {
       console.error("Error fetching referral stats:", error);
@@ -102,36 +123,16 @@ export const useReferrals = () => {
     try {
       await navigator.clipboard.writeText(link);
       
-      // Criar indicação de exemplo na primeira cópia
-      if (stats?.referralCount === 0) {
-        try {
-          // Criar um usuário fictício de exemplo
-          const { error } = await supabase
-            .from("referrals")
-            .insert({
-              referrer_id: user?.id,
-              referred_user_id: '00000000-0000-0000-0000-000000000001' // ID fictício
-            });
-          
-          if (!error) {
-            toast({
-              title: "🎉 Link copiado + Emblema Bronze desbloqueado!",
-              description: "Indicação de exemplo criada! Compartilhe seu link de verdade para ganhar mais emblemas.",
-            });
-            // Recarregar stats
-            setTimeout(() => fetchReferralStats(), 500);
-          } else {
-            toast({
-              title: "Link copiado!",
-              description: "O link de indicação foi copiado para a área de transferência",
-            });
-          }
-        } catch (err) {
-          toast({
-            title: "Link copiado!",
-            description: "O link de indicação foi copiado para a área de transferência",
-          });
-        }
+      // Criar indicação de exemplo visual na primeira cópia
+      if (stats?.referralCount === 0 && !hasExampleReferral) {
+        setHasExampleReferral(true);
+        toast({
+          title: "🎉 Link copiado + Emblema Bronze desbloqueado!",
+          description: "Indicação de exemplo criada! Compartilhe seu link de verdade para ganhar mais emblemas.",
+          duration: 5000,
+        });
+        // Recarregar stats para atualizar o emblema
+        setTimeout(() => fetchReferralStats(), 100);
       } else {
         toast({
           title: "Link copiado!",
