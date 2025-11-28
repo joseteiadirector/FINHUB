@@ -22,12 +22,16 @@ interface FinancialChatBotProps {
   currentBalance: number;
 }
 
-export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChatBotProps) => {
+export const FinancialChatBot = ({ transactions = [], currentBalance = 0 }: FinancialChatBotProps) => {
   const [input, setInput] = useState("");
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Garantir dados seguros
+  const safeTransactions = Array.isArray(transactions) ? transactions : [];
+  const safeBalance = typeof currentBalance === 'number' && !isNaN(currentBalance) ? currentBalance : 0;
 
   const handleAssistantResponse = async (text: string) => {
     // Auto-play audio for assistant response
@@ -73,9 +77,18 @@ export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChat
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
     
-    const messageText = input;
-    setInput("");
-    await sendMessage(messageText, transactions, currentBalance);
+    try {
+      const messageText = input;
+      setInput("");
+      await sendMessage(messageText, safeTransactions, safeBalance);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      toast({
+        title: "Erro ao enviar mensagem",
+        description: "Tente novamente em alguns instantes.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

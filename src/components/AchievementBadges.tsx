@@ -15,14 +15,18 @@ interface AchievementBadgesProps {
   transactions: Transaction[];
 }
 
-export const AchievementBadges = ({ transactions }: AchievementBadgesProps) => {
+export const AchievementBadges = ({ transactions = [] }: AchievementBadgesProps) => {
   const navigate = useNavigate();
-  const totalExpenses = transactions.filter(t => t.type === "expense").reduce((sum, t) => sum + t.amount, 0);
-  const totalIncome = transactions.filter(t => t.type === "income").reduce((sum, t) => sum + t.amount, 0);
+  
+  // Garantir que transactions é sempre um array válido
+  const safeTransactions = Array.isArray(transactions) ? transactions : [];
+  
+  const totalExpenses = safeTransactions.filter(t => t.type === "expense").reduce((sum, t) => sum + (typeof t.amount === 'number' ? t.amount : 0), 0);
+  const totalIncome = safeTransactions.filter(t => t.type === "income").reduce((sum, t) => sum + (typeof t.amount === 'number' ? t.amount : 0), 0);
   const savingsRate = totalIncome > 0 ? ((totalIncome - totalExpenses) / totalIncome * 100) : 0;
   
-  const categoryCount = new Set(transactions.map(t => t.category)).size;
-  const transactionCount = transactions.length;
+  const categoryCount = new Set(safeTransactions.map(t => t.category).filter(Boolean)).size;
+  const transactionCount = safeTransactions.length;
 
   const achievements = [
     {

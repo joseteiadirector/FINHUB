@@ -180,4 +180,44 @@ All colors MUST be HSL.
   .snap-center {
     scroll-snap-align: center;
   }
+  
+  /* Mobile safe area support */
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  /* Touch manipulation for better mobile UX */
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Prevent text selection on interactive elements (mobile) */
+  button, [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  
+  /* Smooth scrolling for mobile */
+  @media (max-width: 768px) {
+    * {
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+  
+  /* Fix for iOS viewport height */
+  @supports (-webkit-touch-callout: none) {
+    .min-h-screen {
+      min-height: -webkit-fill-available;
+    }
+  }
+  
+  /* Improve mobile input focus */
+  @media (max-width: 768px) {
+    input:focus, textarea:focus, select:focus {
+      font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+  }
 }
