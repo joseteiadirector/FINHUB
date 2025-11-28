@@ -38,6 +38,7 @@ serve(async (req) => {
           voice_settings: {
             stability: 0.5,
             similarity_boost: 0.5,
+            speed: 1.25, // Faster speech (1.0 is normal, up to 4.0)
           },
         }),
       }

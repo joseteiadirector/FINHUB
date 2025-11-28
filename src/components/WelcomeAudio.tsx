@@ -25,7 +25,7 @@ export const WelcomeAudio = () => {
       const { data, error } = await supabase.functions.invoke('text-to-speech', {
         body: { 
           text: WELCOME_TEXT,
-          voiceId: 'JBFqnCBsd6RMkjVDRZzb' // George voice (masculine)
+          voiceId: 'IKne3meq5aSn9XLyUdCD' // Charlie voice (young masculine, ~35 years)
         }
       });
 
