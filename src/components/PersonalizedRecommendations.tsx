@@ -1,11 +1,13 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Sparkles, ArrowRight, RefreshCw, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 interface Transaction {
   amount: number;
@@ -31,31 +33,53 @@ export const PersonalizedRecommendations = ({ transactions, onActionClick }: Per
   const navigate = useNavigate();
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedRecommendation, setSelectedRecommendation] = useState<any>(null);
+  const [showModal, setShowModal] = useState(false);
   
   const totalExpenses = transactions.filter(t => t.type === "expense").reduce((sum, t) => sum + t.amount, 0);
   const totalIncome = transactions.filter(t => t.type === "income").reduce((sum, t) => sum + t.amount, 0);
 
-  const handleActionClick = (action: string) => {
-    switch(action) {
-      case "Ver dicas de economia":
-      case "Criar orçamento":
-      case "Configurar meta":
-      case "Organizar gastos":
-      case "Gerenciar gastos":
-        navigate("/transactions");
-        break;
-      case "Ativar cashback":
-      case "Usar serviços":
-        navigate("/services");
-        break;
-      case "Ver progresso":
-        navigate("/dashboard");
-        break;
-      default:
-        if (onActionClick) {
-          onActionClick(action);
-        }
-    }
+  const handleActionClick = (action: string, rec: Recommendation) => {
+    // Calcular dados reais baseados nas transações
+    const expenses = transactions.filter(t => t.type === 'expense');
+    const totalExpenses = expenses.reduce((sum, t) => sum + t.amount, 0);
+    
+    // Extrair percentuais e valores da recomendação
+    const percentMatch = rec.description.match(/(\d+)%/);
+    const valueMatch = rec.description.match(/R\$\s*(\d+(?:[.,]\d+)?)/);
+    
+    const reductionPercent = percentMatch ? parseInt(percentMatch[1]) : 20;
+    
+    // Identificar categoria mencionada
+    const categories = ['Alimentação', 'Transporte', 'Saúde', 'Lazer', 'Educação', 'Moradia'];
+    const mentionedCategory = categories.find(cat => 
+      rec.title.toLowerCase().includes(cat.toLowerCase()) || 
+      rec.description.toLowerCase().includes(cat.toLowerCase())
+    ) || 'Despesas Gerais';
+    
+    const categoryExpenses = expenses
+      .filter(t => t.category === mentionedCategory)
+      .reduce((sum, t) => sum + t.amount, 0);
+    
+    const currentAmount = categoryExpenses > 0 ? categoryExpenses : totalExpenses * 0.3;
+    const projectedAmount = currentAmount * (1 - reductionPercent / 100);
+    const actualSavings = currentAmount - projectedAmount;
+    
+    setSelectedRecommendation({
+      title: rec.title,
+      description: rec.description,
+      action: rec.action,
+      category: mentionedCategory,
+      reductionPercent,
+      currentAmount,
+      projectedAmount,
+      savings: actualSavings,
+      comparisonData: [
+        { period: 'Antes', amount: currentAmount },
+        { period: 'Depois', amount: projectedAmount },
+      ]
+    });
+    setShowModal(true);
   };
 
   const generateRecommendations = async () => {
@@ -155,7 +179,7 @@ export const PersonalizedRecommendations = ({ transactions, onActionClick }: Per
                     variant="default" 
                     size="sm" 
                     className="w-full justify-between bg-foreground hover:bg-foreground/90 text-background font-black"
-                    onClick={() => handleActionClick(rec.action!)}
+                    onClick={() => handleActionClick(rec.action!, rec)}
                   >
                     {rec.action}
                     <ArrowRight size={16} />
@@ -184,6 +208,113 @@ export const PersonalizedRecommendations = ({ transactions, onActionClick }: Per
           </>
         )}
       </Button>
+
+      {/* Modal de Análise Detalhada */}
+      <Dialog open={showModal} onOpenChange={setShowModal}>
+        <DialogContent className="max-w-2xl bg-card border-4 border-foreground">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-black text-foreground">
+              📊 ANÁLISE DETALHADA
+            </DialogTitle>
+          </DialogHeader>
+          
+          {selectedRecommendation && (
+            <div className="space-y-6">
+              {/* Título */}
+              <div>
+                <Card className="p-4 bg-foreground text-background border-2 mb-2">
+                  <h4 className="font-black text-lg">{selectedRecommendation.title}</h4>
+                </Card>
+                <p className="text-sm font-bold text-foreground/70">{selectedRecommendation.description}</p>
+              </div>
+
+              {/* Estatísticas */}
+              <div className="grid grid-cols-3 gap-4">
+                <Card className="p-4 border-4 border-red-500 bg-red-50">
+                  <p className="text-xs font-bold text-red-800">GASTO ATUAL</p>
+                  <p className="text-2xl font-black text-red-600">
+                    R$ {selectedRecommendation.currentAmount.toFixed(2)}
+                  </p>
+                  <p className="text-xs text-red-700 mt-1">em {selectedRecommendation.category}</p>
+                </Card>
+                <Card className="p-4 border-4 border-green-500 bg-green-50">
+                  <p className="text-xs font-bold text-green-800">META PROJETADA</p>
+                  <p className="text-2xl font-black text-green-600">
+                    R$ {selectedRecommendation.projectedAmount.toFixed(2)}
+                  </p>
+                  <p className="text-xs text-green-700 mt-1">reduzindo {selectedRecommendation.reductionPercent}%</p>
+                </Card>
+                <Card className="p-4 border-4 border-blue-500 bg-blue-50">
+                  <p className="text-xs font-bold text-blue-800">ECONOMIA MENSAL</p>
+                  <p className="text-2xl font-black text-blue-600">
+                    R$ {selectedRecommendation.savings.toFixed(2)}
+                  </p>
+                  <p className="text-xs text-blue-700 mt-1">por mês</p>
+                </Card>
+              </div>
+
+              {/* Gráfico */}
+              <Card className="p-6 border-4 border-foreground">
+                <h5 className="text-lg font-black mb-4 text-foreground">
+                  COMPARAÇÃO: ANTES vs DEPOIS
+                </h5>
+                <ResponsiveContainer width="100%" height={250}>
+                  <BarChart data={selectedRecommendation.comparisonData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#000" opacity={0.1} />
+                    <XAxis 
+                      dataKey="period" 
+                      tick={{ fill: 'currentColor', fontWeight: 'bold' }}
+                    />
+                    <YAxis 
+                      tick={{ fill: 'currentColor', fontWeight: 'bold' }}
+                    />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'hsl(var(--card))',
+                        border: '3px solid hsl(var(--foreground))',
+                        borderRadius: '8px',
+                        fontWeight: 'bold'
+                      }}
+                      formatter={(value: number) => `R$ ${value.toFixed(2)}`}
+                    />
+                    <Bar dataKey="amount" radius={[8, 8, 0, 0]}>
+                      {selectedRecommendation.comparisonData.map((entry: any, index: number) => (
+                        <Cell key={`cell-${index}`} fill={index === 0 ? '#ef4444' : '#22c55e'} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </Card>
+
+              {/* Impacto */}
+              <Card className="p-4 bg-yellow-50 border-4 border-yellow-500">
+                <p className="text-sm font-bold text-yellow-900">
+                  💰 <strong>IMPACTO ANUAL:</strong> Seguindo esta recomendação durante 12 meses, você economizaria{' '}
+                  <span className="text-yellow-600 font-black text-lg">
+                    R$ {(selectedRecommendation.savings * 12).toFixed(2)}
+                  </span>
+                  !
+                </p>
+              </Card>
+
+              {/* Ação Sugerida */}
+              {selectedRecommendation.action && (
+                <Card className="p-4 bg-foreground text-background border-2">
+                  <p className="text-xs font-bold mb-2">PRÓXIMA AÇÃO SUGERIDA:</p>
+                  <p className="text-lg font-black">{selectedRecommendation.action}</p>
+                </Card>
+              )}
+
+              <Button
+                onClick={() => setShowModal(false)}
+                className="w-full bg-foreground hover:bg-foreground/90 text-background font-black"
+              >
+                FECHAR ANÁLISE
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
