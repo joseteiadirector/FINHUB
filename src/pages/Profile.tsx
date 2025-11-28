@@ -1,7 +1,7 @@
 import { BottomNav } from "@/components/BottomNav";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, User, Bell, Lock, HelpCircle, LogOut, Camera } from "lucide-react";
+import { ArrowLeft, User, Bell, Lock, LogOut, Camera } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
@@ -58,7 +58,6 @@ const Profile = () => {
     { icon: User, title: "Dados pessoais", description: "Edite suas informações", onClick: () => {} },
     { icon: Bell, title: "Notificações", description: "Configure alertas", onClick: () => {} },
     { icon: Lock, title: "Segurança", description: "Senha e privacidade", onClick: () => {} },
-    { icon: HelpCircle, title: "Perguntas Frequentes", description: "Tire suas dúvidas sobre o app", onClick: () => navigate("/faq") },
   ];
 
   return (
