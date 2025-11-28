@@ -93,23 +93,23 @@ export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChat
   ];
 
   return (
-    <Card className="flex flex-col min-h-[500px] h-[75vh] md:h-[600px] max-h-[80vh] bg-gradient-to-br from-card to-card/50 border-4 border-foreground shadow-2xl">
+    <Card className="flex flex-col min-h-[500px] h-[75vh] md:h-[600px] max-h-[80vh] bg-gradient-to-br from-card to-card/50 border-4 border-foreground shadow-2xl overflow-hidden">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:p-4 border-b-4 border-foreground gap-3">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col gap-2 sm:gap-0 sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 border-b-4 border-foreground">
+        <div className="flex items-center gap-2 flex-1 min-w-0">
           <div className="p-2 sm:p-3 rounded-2xl bg-foreground flex-shrink-0">
             <MessageCircle className="text-background" size={20} />
           </div>
-          <div>
+          <div className="min-w-0 flex-1">
             <h3 className="font-black text-foreground text-base sm:text-lg">FINASSIST</h3>
-            <p className="text-xs sm:text-sm font-bold text-foreground/70">Seu assistente financeiro inteligente</p>
+            <p className="text-xs sm:text-sm font-bold text-foreground/70 truncate">Seu assistente financeiro inteligente</p>
           </div>
         </div>
-        <div className="flex items-center gap-2 w-full sm:w-auto justify-between">
-          <Badge variant="secondary" className="text-xs font-black bg-foreground text-background px-3 py-1 flex-shrink-0">
+        <div className="flex items-center gap-2 justify-end flex-shrink-0">
+          <Badge variant="secondary" className="text-[10px] sm:text-xs font-black bg-foreground text-background px-2 sm:px-3 py-1 flex-shrink-0 whitespace-nowrap">
             {isPlayingAudio ? (
               <span className="flex items-center gap-1">
-                <Volume2 size={12} className="animate-pulse" />
+                <Volume2 size={10} className="animate-pulse sm:w-3 sm:h-3" />
                 FALANDO
               </span>
             ) : (
@@ -122,9 +122,9 @@ export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChat
               size="sm"
               onClick={clearChat}
               disabled={isLoading}
-              className="hover:bg-foreground/10 flex-shrink-0"
+              className="hover:bg-foreground/10 flex-shrink-0 h-8 w-8 sm:h-9 sm:w-9 p-0"
             >
-              <Trash2 size={16} />
+              <Trash2 size={14} className="sm:w-4 sm:h-4" />
             </Button>
           )}
         </div>
