@@ -14,6 +14,9 @@ import Profile from "./pages/Profile";
 import PixTransfer from "./pages/PixTransfer";
 import BillPayment from "./pages/BillPayment";
 import Recharge from "./pages/Recharge";
+import Cashback from "./pages/Cashback";
+import Insurance from "./pages/Insurance";
+import Loan from "./pages/Loan";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -99,6 +102,30 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Recharge />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/cashback"
+              element={
+                <ProtectedRoute>
+                  <Cashback />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/insurance"
+              element={
+                <ProtectedRoute>
+                  <Insurance />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/loan"
+              element={
+                <ProtectedRoute>
+                  <Loan />
                 </ProtectedRoute>
               }
             />
