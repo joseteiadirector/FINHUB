@@ -153,11 +153,11 @@ const Index = () => {
         </h1>
 
         {/* Tagline */}
-        <p className="text-lg md:text-xl text-foreground/90 mb-2 font-light drop-shadow-lg">
+        <p className="text-lg md:text-xl text-foreground/90 mb-2 font-bold drop-shadow-lg">
           Seu assistente financeiro inteligente
         </p>
         
-        <p className="text-sm md:text-base text-foreground/75 mb-8 max-w-xl mx-auto drop-shadow-md">
+        <p className="text-sm md:text-base text-foreground/75 mb-8 max-w-xl mx-auto drop-shadow-md font-semibold">
           Controle total dos seus gastos, extrato inteligível e todos os serviços financeiros em um único lugar.
         </p>
 
