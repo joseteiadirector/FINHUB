@@ -101,10 +101,43 @@ export const useReferrals = () => {
     const link = getReferralLink();
     try {
       await navigator.clipboard.writeText(link);
-      toast({
-        title: "Link copiado!",
-        description: "O link de indicação foi copiado para a área de transferência",
-      });
+      
+      // Criar indicação de exemplo na primeira cópia
+      if (stats?.referralCount === 0) {
+        try {
+          // Criar um usuário fictício de exemplo
+          const { error } = await supabase
+            .from("referrals")
+            .insert({
+              referrer_id: user?.id,
+              referred_user_id: '00000000-0000-0000-0000-000000000001' // ID fictício
+            });
+          
+          if (!error) {
+            toast({
+              title: "🎉 Link copiado + Emblema Bronze desbloqueado!",
+              description: "Indicação de exemplo criada! Compartilhe seu link de verdade para ganhar mais emblemas.",
+            });
+            // Recarregar stats
+            setTimeout(() => fetchReferralStats(), 500);
+          } else {
+            toast({
+              title: "Link copiado!",
+              description: "O link de indicação foi copiado para a área de transferência",
+            });
+          }
+        } catch (err) {
+          toast({
+            title: "Link copiado!",
+            description: "O link de indicação foi copiado para a área de transferência",
+          });
+        }
+      } else {
+        toast({
+          title: "Link copiado!",
+          description: "O link de indicação foi copiado para a área de transferência",
+        });
+      }
     } catch (error) {
       toast({
         title: "Erro ao copiar",
