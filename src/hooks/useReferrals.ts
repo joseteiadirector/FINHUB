@@ -119,6 +119,48 @@ export const useReferrals = () => {
     return `${window.location.origin}/?ref=${stats.referralCode}`;
   };
 
+  const unlockBronzeBadge = async () => {
+    setHasExampleReferral(true);
+    
+    // Disparar confete celebrativo
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#FFD700', '#FFA500', '#FF6347', '#4169E1', '#32CD32']
+    });
+    
+    // Enviar email automático de conquista Bronze
+    try {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("full_name")
+        .eq("id", user?.id)
+        .single();
+
+      await supabase.functions.invoke("send-referral-email", {
+        body: {
+          recipientEmail: user?.email || "",
+          recipientName: profile?.full_name || "Usuário",
+          referralLink: `${window.location.origin}/?ref=${stats?.referralCode}`,
+          senderName: "Equipe FinHub",
+          isBronzeAchievement: true,
+        },
+      });
+    } catch (error) {
+      console.error("Error sending bronze achievement email:", error);
+    }
+    
+    toast({
+      title: "🎉 Emblema Bronze desbloqueado!",
+      description: "Parabéns! Você ganhou seu primeiro emblema. Continue compartilhando!",
+      duration: 5000,
+    });
+    
+    // Recarregar stats para atualizar o emblema
+    setTimeout(() => fetchReferralStats(), 100);
+  };
+
   const copyReferralLink = async () => {
     const link = getReferralLink();
     try {
@@ -126,48 +168,7 @@ export const useReferrals = () => {
       
       // Criar indicação de exemplo visual na primeira cópia
       if (stats?.referralCount === 0 && !hasExampleReferral) {
-        setHasExampleReferral(true);
-        
-        // Disparar confete celebrativo
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ['#FFD700', '#FFA500', '#FF6347', '#4169E1', '#32CD32']
-        });
-        
-        // Enviar email automático de conquista Bronze
-        const sendBronzeEmail = async () => {
-          try {
-            const { data: profile } = await supabase
-              .from("profiles")
-              .select("full_name")
-              .eq("id", user?.id)
-              .single();
-
-            await supabase.functions.invoke("send-referral-email", {
-              body: {
-                recipientEmail: user?.email || "",
-                recipientName: profile?.full_name || "Usuário",
-                referralLink: `${window.location.origin}/?ref=${stats?.referralCode}`,
-                senderName: "Equipe FinHub",
-                isBronzeAchievement: true,
-              },
-            });
-          } catch (error) {
-            console.error("Error sending bronze achievement email:", error);
-          }
-        };
-        
-        sendBronzeEmail();
-        
-        toast({
-          title: "🎉 Link copiado + Emblema Bronze desbloqueado!",
-          description: "Indicação de exemplo criada! Compartilhe seu link de verdade para ganhar mais emblemas.",
-          duration: 5000,
-        });
-        // Recarregar stats para atualizar o emblema
-        setTimeout(() => fetchReferralStats(), 100);
+        await unlockBronzeBadge();
       } else {
         toast({
           title: "Link copiado!",
@@ -189,5 +190,7 @@ export const useReferrals = () => {
     getReferralLink,
     copyReferralLink,
     refreshStats: fetchReferralStats,
+    unlockBronzeBadge,
+    hasExampleReferral,
   };
 };

@@ -29,7 +29,7 @@ const emailSchema = z.object({
 });
 
 const Referrals = () => {
-  const { stats, loading, getReferralLink, copyReferralLink } = useReferrals();
+  const { stats, loading, getReferralLink, copyReferralLink, unlockBronzeBadge, hasExampleReferral } = useReferrals();
   const { user } = useAuth();
   const { toast } = useToast();
   const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
@@ -59,6 +59,9 @@ const Referrals = () => {
 
       setIsSending(true);
 
+      // Desbloquear emblema Bronze na primeira vez
+      const isFirstShare = stats?.referralCount === 0 && !hasExampleReferral;
+      
       const { data, error } = await supabase.functions.invoke("send-referral-email", {
         body: {
           recipientEmail: validated.recipientEmail,
@@ -70,10 +73,15 @@ const Referrals = () => {
 
       if (error) throw error;
 
-      toast({
-        title: "✉️ Email enviado com sucesso!",
-        description: `O convite foi enviado para ${validated.recipientEmail}`,
-      });
+      // Se é a primeira vez, desbloquear emblema Bronze
+      if (isFirstShare) {
+        await unlockBronzeBadge();
+      } else {
+        toast({
+          title: "✉️ Email enviado com sucesso!",
+          description: `O convite foi enviado para ${validated.recipientEmail}`,
+        });
+      }
 
       // Limpar campos e fechar modal
       setRecipientEmail("");
