@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, Users, Gift, Sparkles, MessageCircle, Mail } from "lucide-react";
+import { Copy, Users, Gift, Sparkles, MessageCircle, Mail, ArrowLeft } from "lucide-react";
 import { useReferrals } from "@/hooks/useReferrals";
 import { ReferralProgress } from "@/components/ReferralProgress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -22,6 +22,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
+import { useNavigate } from "react-router-dom";
 
 const emailSchema = z.object({
   recipientEmail: z.string().trim().email({ message: "Email inválido" }).max(255),
@@ -32,6 +33,7 @@ const Referrals = () => {
   const { stats, loading, getReferralLink, copyReferralLink, unlockBronzeBadge, hasExampleReferral } = useReferrals();
   const { user } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
   const [recipientEmail, setRecipientEmail] = useState("");
   const [recipientName, setRecipientName] = useState("");
@@ -111,6 +113,16 @@ const Referrals = () => {
   return (
     <div className="min-h-screen pb-24 pt-6 px-4">
       <div className="max-w-2xl mx-auto space-y-6">
+        {/* Botão Voltar */}
+        <Button
+          onClick={() => navigate(-1)}
+          variant="ghost"
+          className="font-bold gap-2"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          VOLTAR
+        </Button>
+
         {/* Header */}
         <div className="text-center space-y-2">
           <h1 className="text-4xl font-black flex items-center justify-center gap-2">
