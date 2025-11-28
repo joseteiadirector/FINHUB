@@ -37,22 +37,22 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background pb-24 md:pb-28 relative overflow-hidden">
       <header className="bg-card/95 backdrop-blur-sm border-b-4 border-foreground p-4 md:p-6 animate-fade-in shadow-xl relative z-10">
-        <div className="max-w-md mx-auto flex items-center justify-between gap-2 md:gap-3">
+        <div className="max-w-md mx-auto flex items-center gap-2 md:gap-3">
           <Button 
             variant="outline" 
             size="icon"
             onClick={() => navigate("/")}
-            className="border-3 md:border-4 border-foreground hover:bg-foreground hover:text-background transition-all h-10 w-10 md:h-11 md:w-11"
+            className="border-3 md:border-4 border-foreground hover:bg-foreground hover:text-background transition-all h-10 w-10 md:h-11 md:w-11 flex-shrink-0"
             aria-label="Ir para início"
           >
             <Home size={20} className="md:hidden" />
             <Home size={24} className="hidden md:block" />
           </Button>
-          <div className="flex-1 min-w-0">
-            <h1 className="text-2xl sm:text-3xl md:text-5xl font-black text-black mb-0.5 md:mb-1 drop-shadow-lg truncate" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.3)' }}>
-              {loading ? "OLÁ! 👋" : `OLÁ, ${userName.split(' ')[0].toUpperCase()}! 👋`}
+          <div className="flex-1 min-w-0 overflow-hidden">
+            <h1 className="text-xl sm:text-2xl md:text-5xl font-black text-black mb-0.5 md:mb-1 drop-shadow-lg break-words leading-tight" style={{ textShadow: "2px 2px 4px rgba(0,0,0,0.3)" }}>
+              {loading ? "OLÁ! 👋" : `OLÁ, ${userName.toUpperCase()}! 👋`}
             </h1>
-            <p className="text-xs sm:text-sm md:text-lg font-bold text-black/80 drop-shadow truncate">Gerencie suas finanças com inteligência</p>
+            <p className="text-xs sm:text-sm md:text-lg font-bold text-black/80 drop-shadow line-clamp-1">Gerencie suas finanças com inteligência</p>
           </div>
           <Avatar className="w-12 h-12 md:w-14 md:h-14 border-3 md:border-4 border-foreground cursor-pointer hover:scale-110 transition-transform shadow-lg flex-shrink-0" onClick={() => navigate("/profile")}>
             <AvatarImage src={profile?.avatar_url || undefined} alt="Avatar" />
