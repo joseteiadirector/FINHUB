@@ -1,15 +1,41 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, Share2, Users, Gift, Sparkles, MessageCircle } from "lucide-react";
+import { Copy, Share2, Users, Gift, Sparkles, MessageCircle, Mail } from "lucide-react";
 import { useReferrals } from "@/hooks/useReferrals";
 import { ReferralProgress } from "@/components/ReferralProgress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+const emailSchema = z.object({
+  recipientEmail: z.string().trim().email({ message: "Email inválido" }).max(255),
+  recipientName: z.string().trim().min(1, { message: "Nome não pode estar vazio" }).max(100),
+});
 
 const Referrals = () => {
   const { stats, loading, getReferralLink, copyReferralLink } = useReferrals();
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
+  const [recipientEmail, setRecipientEmail] = useState("");
+  const [recipientName, setRecipientName] = useState("");
+  const [isSending, setIsSending] = useState(false);
 
   if (loading) {
     return (
@@ -38,6 +64,57 @@ const Referrals = () => {
       }
     } else {
       copyReferralLink();
+    }
+  };
+
+  const handleSendEmail = async () => {
+    try {
+      // Validar dados
+      const validated = emailSchema.parse({
+        recipientEmail: recipientEmail.trim(),
+        recipientName: recipientName.trim(),
+      });
+
+      setIsSending(true);
+
+      const { data, error } = await supabase.functions.invoke("send-referral-email", {
+        body: {
+          recipientEmail: validated.recipientEmail,
+          recipientName: validated.recipientName,
+          referralLink: getReferralLink(),
+          senderName: user?.user_metadata?.full_name || "Um amigo",
+        },
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "✉️ Email enviado com sucesso!",
+        description: `O convite foi enviado para ${validated.recipientEmail}`,
+      });
+
+      // Limpar campos e fechar modal
+      setRecipientEmail("");
+      setRecipientName("");
+      setIsEmailDialogOpen(false);
+    } catch (error: any) {
+      console.error("Error sending email:", error);
+      
+      if (error instanceof z.ZodError) {
+        toast({
+          title: "Erro de validação",
+          description: error.errors[0].message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Erro ao enviar email",
+          description: "Não foi possível enviar o convite. Tente novamente.",
+          variant: "destructive",
+        });
+      }
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -74,22 +151,75 @@ const Referrals = () => {
             {getReferralLink()}
           </div>
 
-          <div className="flex gap-2">
+          <div className="grid grid-cols-3 gap-2">
             <Button
               onClick={copyReferralLink}
-              className="flex-1 font-bold"
+              className="font-bold"
               variant="outline"
             >
               <Copy className="w-4 h-4 mr-2" />
-              COPIAR LINK
+              COPIAR
             </Button>
             <Button
               onClick={handleShare}
-              className="flex-1 font-bold"
+              className="font-bold"
             >
               <Share2 className="w-4 h-4 mr-2" />
               COMPARTILHAR
             </Button>
+            
+            <Dialog open={isEmailDialogOpen} onOpenChange={setIsEmailDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="font-bold" variant="default">
+                  <Mail className="w-4 h-4 mr-2" />
+                  EMAIL
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-black">
+                    📧 Enviar Convite por Email
+                  </DialogTitle>
+                  <DialogDescription className="font-bold">
+                    Digite o email e nome da pessoa que você quer convidar para o FinHub.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="recipient-name" className="font-bold">
+                      Nome do destinatário
+                    </Label>
+                    <Input
+                      id="recipient-name"
+                      placeholder="Ex: João Silva"
+                      value={recipientName}
+                      onChange={(e) => setRecipientName(e.target.value)}
+                      disabled={isSending}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="recipient-email" className="font-bold">
+                      Email do destinatário
+                    </Label>
+                    <Input
+                      id="recipient-email"
+                      type="email"
+                      placeholder="exemplo@email.com"
+                      value={recipientEmail}
+                      onChange={(e) => setRecipientEmail(e.target.value)}
+                      disabled={isSending}
+                    />
+                  </div>
+                  <Button
+                    onClick={handleSendEmail}
+                    className="w-full font-bold"
+                    disabled={isSending || !recipientEmail.trim() || !recipientName.trim()}
+                  >
+                    {isSending ? "Enviando..." : "Enviar Convite"}
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
 
           <div className="bg-primary/10 p-4 rounded-lg space-y-2">
