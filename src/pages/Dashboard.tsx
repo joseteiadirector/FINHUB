@@ -3,7 +3,6 @@ import { TransactionItem } from "@/components/TransactionItem";
 import { BottomNav } from "@/components/BottomNav";
 import { PredictiveAssistant } from "@/components/PredictiveAssistant";
 import { ContextualInsights } from "@/components/ContextualInsights";
-import { AIPersonalizedInsights } from "@/components/AIPersonalizedInsights";
 import { FinancialChatBot } from "@/components/FinancialChatBot";
 import { AchievementBadges } from "@/components/AchievementBadges";
 import { AddTransactionDialog } from "@/components/AddTransactionDialog";
@@ -258,11 +257,11 @@ const Dashboard = () => {
             </div>
             
             <TabsContent value="ia" className="mt-0 space-y-4 flex-1 min-h-0 overflow-auto">
-              <AIPersonalizedInsights 
+              <ContextualInsights transactions={transactions} />
+              <PredictiveAssistant 
                 transactions={transactions} 
                 currentBalance={balance}
               />
-              <ContextualInsights transactions={transactions} />
             </TabsContent>
             
             <TabsContent value="conquistas" className="mt-0 flex-1 min-h-0 overflow-auto">
