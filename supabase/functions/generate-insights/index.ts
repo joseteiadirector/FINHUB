@@ -39,55 +39,58 @@ serve(async (req) => {
         return acc;
       }, {} as Record<string, number>);
 
-    // Gerar um número aleatório para variar os insights
-    const randomSeed = Math.floor(Math.random() * 100);
-    const focusType = randomSeed < 25 ? 'economia' : randomSeed < 50 ? 'alertas' : randomSeed < 75 ? 'padrões' : 'previsões';
+    // Gerar diferentes tipos de análise para variar os insights
+    const analysisTypes = [
+      'economia_oportunidades',
+      'alertas_gastos',
+      'metas_sugeridas',
+      'comparacao_categorias',
+      'habitos_positivos',
+      'previsao_mensal',
+      'dicas_categoria'
+    ];
+    const randomIndex = Math.floor(Math.random() * analysisTypes.length);
+    const analysisType = analysisTypes[randomIndex];
 
-    const prompt = `Você é um assistente financeiro inteligente e empático. Analise esses dados financeiros reais e gere insights VARIADOS e DINÂMICOS focando em: ${focusType}.
+    const prompt = `Você é um assistente financeiro criativo e empático. Analise os dados e gere uma análise DIFERENTE focada em: ${analysisType}.
 
-📊 DADOS FINANCEIROS ATUAIS:
-Saldo atual: R$ ${currentBalance.toFixed(2)}
-Receitas totais: R$ ${totalIncome.toFixed(2)} (${transactions.filter(t => t.type === 'income').length} transações)
-Despesas totais: R$ ${totalExpenses.toFixed(2)} (${transactions.filter(t => t.type === 'expense').length} transações)
+📊 DADOS:
+Saldo: R$ ${currentBalance.toFixed(2)}
+Receitas: R$ ${totalIncome.toFixed(2)} 
+Despesas: R$ ${totalExpenses.toFixed(2)}
+Categorias: ${Object.entries(categoryBreakdown).map(([cat, val]) => `${cat}: R$ ${(val as number).toFixed(2)}`).join(', ')}
 
-Gastos detalhados por categoria:
-${Object.entries(categoryBreakdown).map(([cat, val]) => `- ${cat}: R$ ${(val as number).toFixed(2)} (${(((val as number)/totalExpenses)*100).toFixed(1)}%)`).join('\n')}
+🎯 TIPO DE ANÁLISE: ${analysisType}
 
-🎯 FOCO DESTA ANÁLISE: ${focusType.toUpperCase()}
+GERE INSIGHTS BASEADOS NO TIPO:
 
-TIPOS DE INSIGHTS para variar (use ${focusType} como prioridade):
-1. ECONOMIA: "Você pode economizar R$X reduzindo Y em Z%"
-2. ALERTAS: "⚠️ Gastos com X representam Y% do total, acima do recomendado"
-3. PADRÕES: "✅ Parabéns! Você manteve gastos com X abaixo de R$Y"
-4. PREVISÕES: "No ritmo atual, você terá R$X até o final do mês"
-5. COMPARAÇÕES: "Gastos com X são 2x maiores que gastos com Y"
-6. OPORTUNIDADES: "Redirecione R$X de Y para economia"
+1. economia_oportunidades: "Você economizaria R$X fazendo Y" ou "Reduzindo Z em 10% = R$X/mês"
+2. alertas_gastos: "⚠️ Atenção! Categoria X está Y% acima do ideal" ou "🚨 Gastos com Z ultrapassaram R$X"
+3. metas_sugeridas: "Meta: Reduzir X para R$Y até fim do mês" ou "Objetivo: Economizar R$X em 30 dias"
+4. comparacao_categorias: "Gastos com X são 2x maiores que Y" ou "Z custa R$X mais que W por mês"
+5. habitos_positivos: "✅ Ótimo! Você gastou Y% menos em X este mês" ou "🎉 Parabéns! Economizou R$X"
+6. previsao_mensal: "No ritmo atual: R$X disponível em 30 dias" ou "Projeção: -R$X até fim do mês"
+7. dicas_categoria: "Dica para X: use Y para economizar Z%" ou "Em X, troque W por V = -R$Z"
 
-Retorne APENAS JSON válido (sem markdown):
+Retorne APENAS JSON válido:
 {
-  "healthScore": número 0-100 calculado como ((totalIncome - totalExpenses) / totalIncome * 100),
-  "status": "excellent" (score >80) | "good" (60-80) | "warning" (40-60) | "danger" (<40),
+  "healthScore": número 0-100 variado,
+  "status": varie entre "excellent" | "good" | "warning" | "danger",
   "insights": [
-    "3-5 insights DIFERENTES usando dados reais",
-    "Priorize tipo ${focusType} mas varie os outros",
-    "Use números específicos das transações",
-    "Seja empático e motivador"
+    "3-5 insights CRIATIVOS do tipo ${analysisType}",
+    "Use emojis e linguagem motivadora",
+    "Seja específico com valores reais"
   ],
   "categoryAnalysis": [
-    {
-      "category": "nome real da categoria dos dados",
-      "percentage": porcentagem exata do total de despesas,
-      "status": "safe" (<30% do total) | "attention" (30-50%) | "danger" (>50%)
-    }
+    {"category": "categoria real", "percentage": valor real, "status": "safe|attention|danger"}
   ],
   "recommendations": [
-    "2-4 ações PRÁTICAS E ESPECÍFICAS",
-    "Exemplo: 'Reduza gastos com Alimentação em 15% (economizaria R$X/mês)'",
-    "Seja direto e acionável"
+    "2-4 ações PRÁTICAS tipo ${analysisType}",
+    "Seja criativo e varie entre tipos"
   ]
 }
 
-IMPORTANTE: Varie os insights em CADA geração. Use os números REAIS. Seja específico e empático.`;
+IMPORTANTE: VARIE COMPLETAMENTE os insights baseado no tipo ${analysisType}. Seja criativo!`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
