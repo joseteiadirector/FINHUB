@@ -104,9 +104,13 @@ const Dashboard = () => {
                 <Lightbulb size={14} className="mr-1" />
                 DICAS
               </TabsTrigger>
-              <TabsTrigger value="chat" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background">
-                <MessageCircle size={14} className="mr-1" />
+              <TabsTrigger value="chat" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background relative">
+                <MessageCircle size={14} className="mr-1 animate-pulse" />
                 CHAT
+                <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                </span>
               </TabsTrigger>
               <TabsTrigger value="faq" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background">
                 <HelpCircle size={14} className="mr-1" />
