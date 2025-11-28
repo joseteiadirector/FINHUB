@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 import heroBackground from "@/assets/hero-background.png";
+import { WelcomeAudio } from "@/components/WelcomeAudio";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -178,6 +179,7 @@ const Index = () => {
           >
             Cadastrar
           </Button>
+          <WelcomeAudio />
         </div>
 
         {/* Features Pills */}

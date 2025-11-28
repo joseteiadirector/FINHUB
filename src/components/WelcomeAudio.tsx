@@ -4,7 +4,7 @@ import { Volume2, VolumeX, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
-const WELCOME_TEXT = "Olá! Seja bem-vindo ao FinHub. Sua plataforma completa para gerenciar finanças de forma inteligente. Aqui você encontra categorização automática de despesas, análises personalizadas por IA e acesso a todos os serviços financeiros que você precisa. Vamos começar?";
+const WELCOME_TEXT = "Olá! Seja bem-vindo ao FinHub. Sua plataforma completa para gerenciar finanças de forma inteligente. Aqui você encontra categorização automática de despesas, análises personalizadas por IA e acesso a todos os serviços financeiros que você precisa. Se não tem acesso, crie ou faça seu login. Vamos começar?";
 
 export const WelcomeAudio = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -25,7 +25,7 @@ export const WelcomeAudio = () => {
       const { data, error } = await supabase.functions.invoke('text-to-speech', {
         body: { 
           text: WELCOME_TEXT,
-          voiceId: 'Xb7hH8MSUJpSbSDYk0k2' // Alice voice
+          voiceId: 'JBFqnCBsd6RMkjVDRZzb' // George voice (masculine)
         }
       });
 
