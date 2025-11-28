@@ -115,7 +115,7 @@ const Referrals = () => {
       <div className="max-w-2xl mx-auto space-y-6">
         {/* Botão Voltar */}
         <Button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/dashboard")}
           variant="ghost"
           className="font-bold gap-2"
         >
