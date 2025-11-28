@@ -92,17 +92,25 @@ const Dashboard = () => {
         <div className="bg-card rounded-2xl p-1 border-4 border-foreground shadow-xl">
           <Tabs defaultValue="ia" className="w-full">
             <TabsList className="grid w-full grid-cols-5 mb-3 bg-card border-2 border-foreground">
-              <TabsTrigger value="ia" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background">
-                <Sparkles size={14} className="mr-1" />
+              <TabsTrigger value="ia" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background relative">
+                <Sparkles size={14} className="mr-1 animate-pulse" />
                 IA
+                <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                </span>
               </TabsTrigger>
               <TabsTrigger value="conquistas" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background">
                 <Trophy size={14} className="mr-1" />
                 BADGES
               </TabsTrigger>
-              <TabsTrigger value="dicas" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background">
-                <Lightbulb size={14} className="mr-1" />
+              <TabsTrigger value="dicas" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background relative">
+                <Lightbulb size={14} className="mr-1 animate-pulse" />
                 DICAS
+                <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                </span>
               </TabsTrigger>
               <TabsTrigger value="chat" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background relative">
                 <MessageCircle size={14} className="mr-1 animate-pulse" />
