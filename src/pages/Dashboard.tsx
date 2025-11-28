@@ -6,7 +6,6 @@ import { ContextualInsights } from "@/components/ContextualInsights";
 import { AIPersonalizedInsights } from "@/components/AIPersonalizedInsights";
 import { FinancialChatBot } from "@/components/FinancialChatBot";
 import { AchievementBadges } from "@/components/AchievementBadges";
-import { PersonalizedRecommendations } from "@/components/PersonalizedRecommendations";
 import { AddTransactionDialog } from "@/components/AddTransactionDialog";
 import { Button } from "@/components/ui/button";
 import { TrendingUp, ArrowRight, Sparkles, MessageCircle, Home, Trophy, Lightbulb, HelpCircle, Gift } from "lucide-react";
@@ -89,7 +88,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Seção de Dicas e Recomendações Separada */}
+        {/* Seção de Dicas e Recomendações Separada - temporariamente apenas com Assistente Preditivo para evitar travar o link público */}
         <div className="bg-card rounded-xl md:rounded-2xl p-3 md:p-6 border-3 md:border-4 border-foreground shadow-xl animate-fade-in">
           <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
             <div className="p-2 md:p-3 rounded-xl md:rounded-2xl bg-foreground relative flex-shrink-0">
@@ -100,15 +99,11 @@ const Dashboard = () => {
               </span>
             </div>
             <div className="min-w-0">
-              <h2 className="text-xl md:text-3xl font-black text-foreground truncate">DICAS PERSONALIZADAS</h2>
-              <p className="text-xs md:text-sm font-bold text-foreground/70 truncate">Recomendações inteligentes</p>
+              <h2 className="text-xl md:text-3xl font-black text-foreground truncate">DICAS E ALERTAS</h2>
+              <p className="text-xs md:text-sm font-bold text-foreground/70 truncate">Assistente preditivo ativo</p>
             </div>
           </div>
-          
           <div className="space-y-3 md:space-y-4">
-            <PersonalizedRecommendations 
-              transactions={transactions}
-            />
             <PredictiveAssistant 
               transactions={transactions} 
               currentBalance={balance}
