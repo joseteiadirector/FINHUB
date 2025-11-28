@@ -79,8 +79,8 @@ const Insurance = () => {
   const handleHireInsurance = () => {
     const insurance = insuranceTypes.find(i => i.id === selectedType);
     toast({
-      title: "🎉 Contratação iniciada!",
-      description: `${insurance?.title} será ativado em até 24 horas.`,
+      title: "✅ Contrato enviado!",
+      description: "O contrato do seu seguro será enviado ao seu email cadastrado.",
     });
   };
 
