@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +12,21 @@ import { Loader2 } from "lucide-react";
 export default function Auth() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
+  const [referralCode, setReferralCode] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Captura código de referral da URL
+    const ref = searchParams.get("ref");
+    if (ref) {
+      setReferralCode(ref);
+      toast({
+        title: "Link de indicação detectado! 🎁",
+        description: "Ao se cadastrar, você será vinculado à indicação.",
+      });
+    }
+  }, [searchParams]);
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -104,6 +118,7 @@ export default function Auth() {
         emailRedirectTo: `${window.location.origin}/dashboard`,
         data: {
           full_name: signupData.fullName,
+          referral_code: referralCode, // Armazena código de referral
         },
       },
     });

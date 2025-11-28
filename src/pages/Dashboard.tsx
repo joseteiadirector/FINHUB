@@ -9,7 +9,7 @@ import { AchievementBadges } from "@/components/AchievementBadges";
 import { PersonalizedRecommendations } from "@/components/PersonalizedRecommendations";
 import { AddTransactionDialog } from "@/components/AddTransactionDialog";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, ArrowRight, Sparkles, MessageCircle, Home, Trophy, Lightbulb, HelpCircle } from "lucide-react";
+import { TrendingUp, ArrowRight, Sparkles, MessageCircle, Home, Trophy, Lightbulb, HelpCircle, Gift } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserProfile } from "@/hooks/useUserProfile";
@@ -68,6 +68,25 @@ const Dashboard = () => {
         </div>
 
         <AddTransactionDialog />
+
+        {/* Card de Indicações */}
+        <div 
+          onClick={() => navigate("/referrals")}
+          className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-6 border-4 border-foreground shadow-xl cursor-pointer hover:scale-[1.02] transition-all duration-300 active:scale-95"
+        >
+          <div className="flex items-center justify-between text-white">
+            <div className="flex items-center gap-3">
+              <div className="bg-white/20 p-3 rounded-xl backdrop-blur-sm">
+                <Gift className="w-8 h-8" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-black">INDICAÇÕES</h3>
+                <p className="text-sm font-bold opacity-90">Compartilhe e ganhe emblemas!</p>
+              </div>
+            </div>
+            <ArrowRight className="w-6 h-6 animate-pulse" />
+          </div>
+        </div>
 
         {/* Seção de Personalização: IA, Conquistas, Recomendações, Chat e FAQ */}
         <div className="bg-card rounded-2xl p-1 border-4 border-foreground shadow-xl">
