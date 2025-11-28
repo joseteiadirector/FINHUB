@@ -1,11 +1,12 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, RefreshCw, Loader2, TrendingUp, TrendingDown, AlertTriangle, CheckCircle } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Sparkles, RefreshCw, Loader2, TrendingUp, TrendingDown, AlertTriangle, CheckCircle, ArrowRight } from "lucide-react";
 import { useAIInsights } from "@/hooks/useAIInsights";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
 
 interface Transaction {
   amount: number;
@@ -23,6 +24,8 @@ export const AIPersonalizedInsights = ({ transactions, currentBalance }: AIPerso
   const { generateInsights, insights, isLoading, error } = useAIInsights();
   const { toast } = useToast();
   const [parsedInsights, setParsedInsights] = useState<any>(null);
+  const [selectedRecommendation, setSelectedRecommendation] = useState<any>(null);
+  const [showRecommendationModal, setShowRecommendationModal] = useState(false);
 
   useEffect(() => {
     if (insights) {
@@ -73,6 +76,51 @@ export const AIPersonalizedInsights = ({ transactions, currentBalance }: AIPerso
       case 'danger': return <TrendingDown className="text-red-600" size={32} />;
       default: return <CheckCircle className="text-gray-600" size={32} />;
     }
+  };
+
+  const handleRecommendationClick = (recommendation: string, index: number) => {
+    // Calcular dados reais baseados nas transações
+    const expenses = transactions.filter(t => t.type === 'expense');
+    const totalExpenses = expenses.reduce((sum, t) => sum + t.amount, 0);
+    
+    // Extrair percentuais e valores da recomendação
+    const percentMatch = recommendation.match(/(\d+)%/);
+    const valueMatch = recommendation.match(/R\$\s*(\d+(?:\.\d+)?)/);
+    
+    const reductionPercent = percentMatch ? parseInt(percentMatch[1]) : 20;
+    const potentialSavings = valueMatch ? parseFloat(valueMatch[1]) : totalExpenses * (reductionPercent / 100);
+    
+    // Identificar categoria mencionada na recomendação
+    const categories = ['Alimentação', 'Transporte', 'Saúde', 'Lazer', 'Educação', 'Moradia'];
+    const mentionedCategory = categories.find(cat => 
+      recommendation.toLowerCase().includes(cat.toLowerCase())
+    ) || 'Despesas Gerais';
+    
+    const categoryExpenses = expenses
+      .filter(t => t.category === mentionedCategory)
+      .reduce((sum, t) => sum + t.amount, 0);
+    
+    const currentAmount = categoryExpenses > 0 ? categoryExpenses : totalExpenses * 0.3;
+    const projectedAmount = currentAmount * (1 - reductionPercent / 100);
+    const actualSavings = currentAmount - projectedAmount;
+    
+    setSelectedRecommendation({
+      title: recommendation,
+      category: mentionedCategory,
+      reductionPercent,
+      currentAmount,
+      projectedAmount,
+      savings: actualSavings,
+      chartData: [
+        { name: 'Atual', value: currentAmount, fill: '#ef4444' },
+        { name: 'Projetado', value: projectedAmount, fill: '#22c55e' },
+      ],
+      comparisonData: [
+        { period: 'Antes', amount: currentAmount },
+        { period: 'Depois', amount: projectedAmount },
+      ]
+    });
+    setShowRecommendationModal(true);
   };
 
   const handleGenerateInsights = async () => {
@@ -205,19 +253,30 @@ export const AIPersonalizedInsights = ({ transactions, currentBalance }: AIPerso
             </div>
           )}
 
-          {/* Recomendações */}
+          {/* Recomendações Clicáveis */}
           {parsedInsights.recommendations && parsedInsights.recommendations.length > 0 && (
-            <Card className="p-4 bg-foreground text-background border-4 border-foreground">
-              <h4 className="text-lg font-black mb-3">✨ RECOMENDAÇÕES</h4>
-              <ul className="space-y-2">
-                {parsedInsights.recommendations.map((rec: string, index: number) => (
-                  <li key={index} className="text-sm font-bold flex items-start gap-2">
-                    <span className="text-background">▸</span>
-                    {rec}
-                  </li>
-                ))}
-              </ul>
-            </Card>
+            <div className="space-y-3">
+              <h4 className="text-xl font-black text-foreground flex items-center gap-2">
+                ✨ RECOMENDAÇÕES ATIVAS
+              </h4>
+              {parsedInsights.recommendations.map((rec: string, index: number) => (
+                <Card 
+                  key={index} 
+                  className="p-4 bg-card border-4 border-foreground hover:shadow-xl transition-all cursor-pointer hover:-translate-y-1"
+                  onClick={() => handleRecommendationClick(rec, index)}
+                >
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-bold text-foreground flex-1">
+                      ▸ {rec}
+                    </p>
+                    <ArrowRight className="text-foreground ml-2 flex-shrink-0" size={20} />
+                  </div>
+                  <p className="text-xs text-foreground/60 mt-2 font-bold">
+                    Clique para ver análise detalhada com gráficos
+                  </p>
+                </Card>
+              ))}
+            </div>
           )}
         </div>
       )}
@@ -253,6 +312,103 @@ export const AIPersonalizedInsights = ({ transactions, currentBalance }: AIPerso
           {error}
         </p>
       )}
+
+      {/* Modal de Análise Detalhada de Recomendação */}
+      <Dialog open={showRecommendationModal} onOpenChange={setShowRecommendationModal}>
+        <DialogContent className="max-w-2xl bg-card border-4 border-foreground">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-black text-foreground">
+              📊 ANÁLISE DETALHADA
+            </DialogTitle>
+          </DialogHeader>
+          
+          {selectedRecommendation && (
+            <div className="space-y-6">
+              {/* Título da Recomendação */}
+              <Card className="p-4 bg-foreground text-background border-2">
+                <p className="font-bold">{selectedRecommendation.title}</p>
+              </Card>
+
+              {/* Estatísticas */}
+              <div className="grid grid-cols-3 gap-4">
+                <Card className="p-4 border-4 border-red-500 bg-red-50">
+                  <p className="text-xs font-bold text-red-800">GASTO ATUAL</p>
+                  <p className="text-2xl font-black text-red-600">
+                    R$ {selectedRecommendation.currentAmount.toFixed(2)}
+                  </p>
+                </Card>
+                <Card className="p-4 border-4 border-green-500 bg-green-50">
+                  <p className="text-xs font-bold text-green-800">GASTO PROJETADO</p>
+                  <p className="text-2xl font-black text-green-600">
+                    R$ {selectedRecommendation.projectedAmount.toFixed(2)}
+                  </p>
+                </Card>
+                <Card className="p-4 border-4 border-blue-500 bg-blue-50">
+                  <p className="text-xs font-bold text-blue-800">ECONOMIA</p>
+                  <p className="text-2xl font-black text-blue-600">
+                    R$ {selectedRecommendation.savings.toFixed(2)}
+                  </p>
+                </Card>
+              </div>
+
+              {/* Gráfico de Comparação */}
+              <Card className="p-6 border-4 border-foreground">
+                <h5 className="text-lg font-black mb-4 text-foreground">
+                  COMPARAÇÃO: ANTES vs DEPOIS
+                </h5>
+                <ResponsiveContainer width="100%" height={250}>
+                  <BarChart data={selectedRecommendation.comparisonData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#000" opacity={0.1} />
+                    <XAxis 
+                      dataKey="period" 
+                      tick={{ fill: 'currentColor', fontWeight: 'bold' }}
+                    />
+                    <YAxis 
+                      tick={{ fill: 'currentColor', fontWeight: 'bold' }}
+                    />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'hsl(var(--card))',
+                        border: '3px solid hsl(var(--foreground))',
+                        borderRadius: '8px',
+                        fontWeight: 'bold'
+                      }}
+                      formatter={(value: number) => `R$ ${value.toFixed(2)}`}
+                    />
+                    <Bar dataKey="amount" radius={[8, 8, 0, 0]}>
+                      {selectedRecommendation.comparisonData.map((entry: any, index: number) => (
+                        <Cell key={`cell-${index}`} fill={index === 0 ? '#ef4444' : '#22c55e'} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </Card>
+
+              {/* Impacto Mensal */}
+              <Card className="p-4 bg-yellow-50 border-4 border-yellow-500">
+                <p className="text-sm font-bold text-yellow-900">
+                  💰 <strong>IMPACTO MENSAL:</strong> Seguindo esta recomendação, você economizaria{' '}
+                  <span className="text-yellow-600 font-black">
+                    R$ {selectedRecommendation.savings.toFixed(2)}
+                  </span>
+                  {' '}por mês em {selectedRecommendation.category}, representando uma redução de{' '}
+                  <span className="text-yellow-600 font-black">
+                    {selectedRecommendation.reductionPercent}%
+                  </span>
+                  !
+                </p>
+              </Card>
+
+              <Button
+                onClick={() => setShowRecommendationModal(false)}
+                className="w-full bg-foreground hover:bg-foreground/90 text-background font-black"
+              >
+                FECHAR ANÁLISE
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 };
