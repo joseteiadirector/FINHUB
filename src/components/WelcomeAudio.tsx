@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Volume2, VolumeX, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,8 +15,33 @@ const WELCOME_TEXT = "Olá! Seja bem-vindo ao FinHub. Sua plataforma completa pa
 export const WelcomeAudio = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPreloaded, setIsPreloaded] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const cachedAudioRef = useRef<string | null>(null);
   const { toast } = useToast();
+
+  // Pre-load audio on component mount
+  useEffect(() => {
+    const preloadAudio = async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke('text-to-speech', {
+          body: { 
+            text: WELCOME_TEXT,
+            voiceId: 'IKne3meq5aSn9XLyUdCD'
+          }
+        });
+
+        if (!error && data?.audioContent) {
+          cachedAudioRef.current = data.audioContent;
+          setIsPreloaded(true);
+        }
+      } catch (error) {
+        console.log('Pre-load failed, will load on demand');
+      }
+    };
+
+    preloadAudio();
+  }, []);
 
   const playWelcomeAudio = async () => {
     if (isPlaying && audioRef.current) {
@@ -28,17 +53,24 @@ export const WelcomeAudio = () => {
     setIsLoading(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke('text-to-speech', {
-        body: { 
-          text: WELCOME_TEXT,
-          voiceId: 'IKne3meq5aSn9XLyUdCD' // Charlie voice (young masculine, ~35 years)
-        }
-      });
+      let audioContent = cachedAudioRef.current;
 
-      if (error) throw error;
+      // If not cached, fetch it
+      if (!audioContent) {
+        const { data, error } = await supabase.functions.invoke('text-to-speech', {
+          body: { 
+            text: WELCOME_TEXT,
+            voiceId: 'IKne3meq5aSn9XLyUdCD'
+          }
+        });
 
-      if (data?.audioContent) {
-        const audio = new Audio(`data:audio/mpeg;base64,${data.audioContent}`);
+        if (error) throw error;
+        audioContent = data?.audioContent;
+        cachedAudioRef.current = audioContent;
+      }
+
+      if (audioContent) {
+        const audio = new Audio(`data:audio/mpeg;base64,${audioContent}`);
         audioRef.current = audio;
 
         audio.onended = () => {
@@ -78,7 +110,9 @@ export const WelcomeAudio = () => {
             size="icon"
             onClick={playWelcomeAudio}
             disabled={isLoading}
-            className="rounded-full shadow-2xl border-4 border-primary/50 bg-primary/10 hover:bg-primary/20 hover:scale-110 transition-all animate-[pulse_1.5s_ease-in-out_infinite]"
+            className={`rounded-full shadow-2xl border-4 border-primary/50 bg-primary/10 hover:bg-primary/20 hover:scale-110 transition-all ${
+              isPreloaded ? 'animate-[pulse_1.5s_ease-in-out_infinite]' : 'opacity-70'
+            }`}
             title="Ouvir mensagem de boas-vindas"
           >
             {isLoading ? (
@@ -92,7 +126,9 @@ export const WelcomeAudio = () => {
         </TooltipTrigger>
         <TooltipContent className="bg-card border-4 border-primary shadow-xl">
           <p className="font-black text-base">🎙️ MENSAGEM DE BOAS-VINDAS</p>
-          <p className="text-sm font-semibold text-foreground/80">Clique para ouvir nossa apresentação</p>
+          <p className="text-sm font-semibold text-foreground/80">
+            {isPreloaded ? 'Pronto! Clique para ouvir' : 'Carregando...'}
+          </p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
