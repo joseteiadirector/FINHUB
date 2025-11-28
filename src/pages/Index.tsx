@@ -71,29 +71,11 @@ const Index = () => {
     navigate("/dashboard");
   };
 
-  const handleDirectAccess = async () => {
-    setAuthLoading(true);
-    
-    // Direct access with creator credentials
-    const { error } = await supabase.auth.signInWithPassword({
-      email: "jose.vev26@gmail.com",
-      password: "creator123",
-    });
-
-    setAuthLoading(false);
-
-    if (error) {
-      toast({
-        title: "Acesso direto indisponível",
-        description: "Use o login normal ou crie uma conta.",
-        variant: "destructive",
-      });
-      return;
-    }
-
+  const handleDirectAccess = () => {
+    // Acesso direto do desenvolvedor - bypass de autenticação
     toast({
-      title: "Acesso direto!",
-      description: "Bem-vindo ao FinHub.",
+      title: "Modo Desenvolvedor",
+      description: "Acesso direto ao dashboard.",
     });
     navigate("/dashboard");
   };
@@ -194,10 +176,8 @@ const Index = () => {
           <Button 
             size="lg" 
             onClick={handleDirectAccess}
-            disabled={authLoading}
             className="w-full sm:w-auto min-w-[160px] h-12 text-base rounded-full bg-primary hover:bg-primary/90 shadow-2xl hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
-            {authLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
             Entrar
           </Button>
           <Button 
