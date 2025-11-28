@@ -169,4 +169,15 @@ All colors MUST be HSL.
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
+  
+  /* Snap scroll for tabs */
+  .snap-x {
+    scroll-snap-type: x mandatory;
+  }
+  .snap-mandatory {
+    scroll-snap-type: x mandatory;
+  }
+  .snap-center {
+    scroll-snap-align: center;
+  }
 }
