@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, Share2, Users, Gift, Sparkles } from "lucide-react";
+import { Copy, Share2, Users, Gift, Sparkles, MessageCircle } from "lucide-react";
 import { useReferrals } from "@/hooks/useReferrals";
 import { ReferralProgress } from "@/components/ReferralProgress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -41,6 +41,13 @@ const Referrals = () => {
     }
   };
 
+  const handleWhatsAppShare = () => {
+    const link = getReferralLink();
+    const text = `🎁 *Junte-se ao FinHub!*\n\nUse meu link de indicação e gerencie suas finanças com inteligência:\n\n${link}\n\n💰 Controle de gastos\n📊 Análises por IA\n🏆 Ganhe emblemas exclusivos!`;
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   return (
     <div className="min-h-screen pb-24 pt-6 px-4">
       <div className="max-w-2xl mx-auto space-y-6">
@@ -74,21 +81,32 @@ const Referrals = () => {
             {getReferralLink()}
           </div>
 
-          <div className="flex gap-2">
+          <div className="space-y-2">
+            <div className="flex gap-2">
+              <Button
+                onClick={copyReferralLink}
+                className="flex-1 font-bold"
+                variant="outline"
+              >
+                <Copy className="w-4 h-4 mr-2" />
+                COPIAR LINK
+              </Button>
+              <Button
+                onClick={handleShare}
+                className="flex-1 font-bold"
+              >
+                <Share2 className="w-4 h-4 mr-2" />
+                COMPARTILHAR
+              </Button>
+            </div>
+            
             <Button
-              onClick={copyReferralLink}
-              className="flex-1 font-bold"
-              variant="outline"
+              onClick={handleWhatsAppShare}
+              className="w-full font-bold bg-green-500 hover:bg-green-600 text-white"
+              size="lg"
             >
-              <Copy className="w-4 h-4 mr-2" />
-              COPIAR LINK
-            </Button>
-            <Button
-              onClick={handleShare}
-              className="flex-1 font-bold"
-            >
-              <Share2 className="w-4 h-4 mr-2" />
-              COMPARTILHAR
+              <MessageCircle className="w-5 h-5 mr-2" />
+              COMPARTILHAR NO WHATSAPP
             </Button>
           </div>
 
