@@ -93,7 +93,7 @@ export const FinancialChatBot = ({ transactions, currentBalance }: FinancialChat
   ];
 
   return (
-    <Card className="flex flex-col h-[600px] md:h-[600px] max-h-[70vh] bg-gradient-to-br from-card to-card/50">
+    <Card className="flex flex-col min-h-[500px] h-[75vh] md:h-[600px] max-h-[80vh] bg-gradient-to-br from-card to-card/50 border-4 border-foreground shadow-2xl">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:p-4 border-b-4 border-foreground gap-3">
         <div className="flex items-center gap-2">

@@ -89,59 +89,65 @@ const Dashboard = () => {
         </div>
 
         {/* Seção de Personalização: IA, Conquistas, Recomendações, Chat e FAQ */}
-        <div className="bg-card rounded-2xl p-4 border-4 border-foreground shadow-xl">
-          <Tabs defaultValue="ia" className="w-full">
-            <TabsList className="flex overflow-x-auto gap-2 mb-4 bg-transparent border-0 p-0 scrollbar-hide">
-              <TabsTrigger 
-                value="ia" 
-                className="flex-shrink-0 min-w-[110px] px-4 py-3 rounded-xl font-black text-sm text-foreground border-2 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all relative hover:scale-105"
-              >
-                <Sparkles size={18} className="mr-2 animate-pulse" />
-                IA
-                <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                </span>
-              </TabsTrigger>
-              <TabsTrigger 
-                value="conquistas" 
-                className="flex-shrink-0 min-w-[110px] px-4 py-3 rounded-xl font-black text-sm text-foreground border-2 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all hover:scale-105"
-              >
-                <Trophy size={18} className="mr-2" />
-                BADGES
-              </TabsTrigger>
-              <TabsTrigger 
-                value="dicas" 
-                className="flex-shrink-0 min-w-[110px] px-4 py-3 rounded-xl font-black text-sm text-foreground border-2 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all relative hover:scale-105"
-              >
-                <Lightbulb size={18} className="mr-2 animate-pulse" />
-                DICAS
-                <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                </span>
-              </TabsTrigger>
-              <TabsTrigger 
-                value="chat" 
-                className="flex-shrink-0 min-w-[110px] px-4 py-3 rounded-xl font-black text-sm text-foreground border-2 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all relative hover:scale-105"
-              >
-                <MessageCircle size={18} className="mr-2 animate-pulse" />
-                CHAT
-                <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                </span>
-              </TabsTrigger>
-              <TabsTrigger 
-                value="faq" 
-                className="flex-shrink-0 min-w-[110px] px-4 py-3 rounded-xl font-black text-sm text-foreground border-2 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all hover:scale-105"
-              >
-                <HelpCircle size={18} className="mr-2" />
-                FAQ
-              </TabsTrigger>
-            </TabsList>
+        <div className="bg-card rounded-2xl p-3 md:p-4 border-4 border-foreground shadow-xl min-h-[450px]">
+          <Tabs defaultValue="ia" className="w-full flex flex-col h-full">
+            <div className="relative">
+              <TabsList className="flex overflow-x-auto gap-2 mb-3 md:mb-4 bg-transparent border-0 p-0 pb-2 scrollbar-hide snap-x snap-mandatory">
+                <TabsTrigger 
+                  value="ia" 
+                  className="flex-shrink-0 snap-center min-w-[100px] md:min-w-[110px] px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-black text-xs md:text-sm text-foreground border-3 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all relative hover:scale-105 active:scale-95 shadow-md data-[state=active]:shadow-xl"
+                >
+                  <Sparkles size={16} className="mr-1.5 md:mr-2 animate-pulse" />
+                  IA
+                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                  </span>
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="conquistas" 
+                  className="flex-shrink-0 snap-center min-w-[100px] md:min-w-[110px] px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-black text-xs md:text-sm text-foreground border-3 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all hover:scale-105 active:scale-95 shadow-md data-[state=active]:shadow-xl"
+                >
+                  <Trophy size={16} className="mr-1.5 md:mr-2" />
+                  BADGES
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="dicas" 
+                  className="flex-shrink-0 snap-center min-w-[100px] md:min-w-[110px] px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-black text-xs md:text-sm text-foreground border-3 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all relative hover:scale-105 active:scale-95 shadow-md data-[state=active]:shadow-xl"
+                >
+                  <Lightbulb size={16} className="mr-1.5 md:mr-2 animate-pulse" />
+                  DICAS
+                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                  </span>
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="chat" 
+                  className="flex-shrink-0 snap-center min-w-[100px] md:min-w-[110px] px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-black text-xs md:text-sm text-foreground border-3 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all relative hover:scale-105 active:scale-95 shadow-md data-[state=active]:shadow-xl"
+                >
+                  <MessageCircle size={16} className="mr-1.5 md:mr-2 animate-pulse" />
+                  CHAT
+                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                  </span>
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="faq" 
+                  className="flex-shrink-0 snap-center min-w-[100px] md:min-w-[110px] px-3 md:px-4 py-2.5 md:py-3 rounded-xl font-black text-xs md:text-sm text-foreground border-3 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all hover:scale-105 active:scale-95 shadow-md data-[state=active]:shadow-xl"
+                >
+                  <HelpCircle size={16} className="mr-1.5 md:mr-2" />
+                  FAQ
+                </TabsTrigger>
+              </TabsList>
+              {/* Indicador de mais abas (apenas mobile) */}
+              <div className="absolute right-0 top-0 bottom-2 w-12 bg-gradient-to-l from-card to-transparent pointer-events-none md:hidden flex items-center justify-end pr-2">
+                <ArrowRight size={20} className="text-foreground/50 animate-pulse" />
+              </div>
+            </div>
             
-            <TabsContent value="ia" className="mt-0 space-y-4">
+            <TabsContent value="ia" className="mt-0 space-y-4 flex-1 min-h-0">
               <AIPersonalizedInsights 
                 transactions={transactions} 
                 currentBalance={balance}
@@ -149,11 +155,11 @@ const Dashboard = () => {
               <ContextualInsights transactions={transactions} />
             </TabsContent>
             
-            <TabsContent value="conquistas" className="mt-0">
+            <TabsContent value="conquistas" className="mt-0 flex-1 min-h-0">
               <AchievementBadges transactions={transactions} />
             </TabsContent>
             
-            <TabsContent value="dicas" className="mt-0">
+            <TabsContent value="dicas" className="mt-0 flex-1 min-h-0">
               <PersonalizedRecommendations 
                 transactions={transactions}
               />
@@ -165,14 +171,14 @@ const Dashboard = () => {
               </div>
             </TabsContent>
             
-            <TabsContent value="chat" className="mt-0">
+            <TabsContent value="chat" className="mt-0 flex-1 min-h-0">
               <FinancialChatBot 
                 transactions={transactions}
                 currentBalance={balance}
               />
             </TabsContent>
             
-            <TabsContent value="faq" className="mt-0">
+            <TabsContent value="faq" className="mt-0 flex-1 min-h-0">
               <div className="space-y-4">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="p-3 rounded-2xl bg-foreground">
