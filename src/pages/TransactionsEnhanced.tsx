@@ -151,11 +151,15 @@ const TransactionsEnhanced = () => {
         {/* AI Categorization Button */}
         <Button 
           onClick={handleAIRecategorize} 
-          className="w-full"
+          className="w-full relative"
           variant="outline"
         >
-          <Sparkles className="mr-2" size={20} />
+          <Sparkles className="mr-2 animate-pulse" size={20} />
           Recategorizar com IA
+          <span className="absolute -top-1 -right-1 flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+          </span>
         </Button>
 
         {/* Category Chart */}
@@ -243,6 +247,20 @@ const TransactionsEnhanced = () => {
                 });
               }}
             />
+            
+            {/* Update Insights Button */}
+            <Button 
+              onClick={handleAIRecategorize} 
+              className="w-full relative bg-foreground text-background hover:bg-foreground/90"
+              size="lg"
+            >
+              <Sparkles className="mr-2 animate-pulse" size={20} />
+              ATUALIZAR
+              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+              </span>
+            </Button>
           </TabsContent>
 
           <TabsContent value="achievements" className="space-y-6">
