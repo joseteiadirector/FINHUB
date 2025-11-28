@@ -100,93 +100,93 @@ const Dashboard = () => {
             </div>
           </div>
           
-          <Accordion type="single" collapsible className="space-y-3">
-            <AccordionItem value="item-0" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
-              <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+          <Accordion type="single" collapsible className="space-y-4">
+            <AccordionItem value="item-0" className="bg-background/50 rounded-xl px-4 md:px-6 border-3 border-foreground shadow-lg hover:shadow-xl hover:scale-[1.01] transition-all duration-300 data-[state=open]:bg-foreground/5 data-[state=open]:border-foreground data-[state=open]:shadow-2xl">
+              <AccordionTrigger className="text-left font-black text-foreground hover:no-underline text-sm md:text-base py-5">
                 O que é o FinHub?
               </AccordionTrigger>
-              <AccordionContent className="text-foreground/70 text-sm">
+              <AccordionContent className="text-foreground/80 text-sm md:text-base leading-relaxed pb-5">
                 FinHub é um hub financeiro completo que une controle de gastos, extrato inteligente e diversos serviços financeiros em um único aplicativo. Gerencie suas finanças com tecnologia de IA que categoriza automaticamente suas despesas e oferece insights personalizados.
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-1" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
-              <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+            <AccordionItem value="item-1" className="bg-background/50 rounded-xl px-4 md:px-6 border-3 border-foreground shadow-lg hover:shadow-xl hover:scale-[1.01] transition-all duration-300 data-[state=open]:bg-foreground/5 data-[state=open]:border-foreground data-[state=open]:shadow-2xl">
+              <AccordionTrigger className="text-left font-black text-foreground hover:no-underline text-sm md:text-base py-5">
                 Como funciona a categorização automática?
               </AccordionTrigger>
-              <AccordionContent className="text-foreground/70 text-sm">
+              <AccordionContent className="text-foreground/80 text-sm md:text-base leading-relaxed pb-5">
                 Nossa IA analisa cada transação e categoriza automaticamente seus gastos em categorias como Alimentação, Transporte, Saúde, Entretenimento e outras. Você também pode ajustar manualmente as categorias quando necessário.
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-2" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
-              <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+            <AccordionItem value="item-2" className="bg-background/50 rounded-xl px-4 md:px-6 border-3 border-foreground shadow-lg hover:shadow-xl hover:scale-[1.01] transition-all duration-300 data-[state=open]:bg-foreground/5 data-[state=open]:border-foreground data-[state=open]:shadow-2xl">
+              <AccordionTrigger className="text-left font-black text-foreground hover:no-underline text-sm md:text-base py-5">
                 Quais serviços financeiros estão disponíveis?
               </AccordionTrigger>
-              <AccordionContent className="text-foreground/70 text-sm">
+              <AccordionContent className="text-foreground/80 text-sm md:text-base leading-relaxed pb-5">
                 Oferecemos PIX, pagamento de contas, recarga de celular, cashback em compras, seguros personalizados e empréstimos com taxas competitivas. Todos integrados em uma única plataforma segura.
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-3" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
-              <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+            <AccordionItem value="item-3" className="bg-background/50 rounded-xl px-4 md:px-6 border-3 border-foreground shadow-lg hover:shadow-xl hover:scale-[1.01] transition-all duration-300 data-[state=open]:bg-foreground/5 data-[state=open]:border-foreground data-[state=open]:shadow-2xl">
+              <AccordionTrigger className="text-left font-black text-foreground hover:no-underline text-sm md:text-base py-5">
                 Como funcionam os insights da IA?
               </AccordionTrigger>
-              <AccordionContent className="text-foreground/70 text-sm">
+              <AccordionContent className="text-foreground/80 text-sm md:text-base leading-relaxed pb-5">
                 Nossa IA analisa seus padrões de gastos e gera insights personalizados sobre sua saúde financeira, oportunidades de economia, alertas de gastos elevados e recomendações práticas para melhorar suas finanças.
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-4" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
-              <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+            <AccordionItem value="item-4" className="bg-background/50 rounded-xl px-4 md:px-6 border-3 border-foreground shadow-lg hover:shadow-xl hover:scale-[1.01] transition-all duration-300 data-[state=open]:bg-foreground/5 data-[state=open]:border-foreground data-[state=open]:shadow-2xl">
+              <AccordionTrigger className="text-left font-black text-foreground hover:no-underline text-sm md:text-base py-5">
                 O chat financeiro é seguro?
               </AccordionTrigger>
-              <AccordionContent className="text-foreground/70 text-sm">
+              <AccordionContent className="text-foreground/80 text-sm md:text-base leading-relaxed pb-5">
                 Sim! Todas as conversas são criptografadas e seus dados financeiros são protegidos. O chat usa IA para responder suas perguntas sobre finanças de forma personalizada, analisando apenas suas próprias transações.
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-5" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
-              <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+            <AccordionItem value="item-5" className="bg-background/50 rounded-xl px-4 md:px-6 border-3 border-foreground shadow-lg hover:shadow-xl hover:scale-[1.01] transition-all duration-300 data-[state=open]:bg-foreground/5 data-[state=open]:border-foreground data-[state=open]:shadow-2xl">
+              <AccordionTrigger className="text-left font-black text-foreground hover:no-underline text-sm md:text-base py-5">
                 Como ganho badges e conquistas?
               </AccordionTrigger>
-              <AccordionContent className="text-foreground/70 text-sm">
+              <AccordionContent className="text-foreground/80 text-sm md:text-base leading-relaxed pb-5">
                 Você ganha badges ao atingir marcos importantes: registrar sua primeira transação, alcançar metas de economia, usar os serviços integrados e manter uma saúde financeira positiva. Quanto mais você usa o app, mais conquistas desbloqueia!
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-6" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
-              <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+            <AccordionItem value="item-6" className="bg-background/50 rounded-xl px-4 md:px-6 border-3 border-foreground shadow-lg hover:shadow-xl hover:scale-[1.01] transition-all duration-300 data-[state=open]:bg-foreground/5 data-[state=open]:border-foreground data-[state=open]:shadow-2xl">
+              <AccordionTrigger className="text-left font-black text-foreground hover:no-underline text-sm md:text-base py-5">
                 Posso exportar meus dados?
               </AccordionTrigger>
-              <AccordionContent className="text-foreground/70 text-sm">
+              <AccordionContent className="text-foreground/80 text-sm md:text-base leading-relaxed pb-5">
                 Sim! Você pode exportar seu extrato completo e relatórios financeiros a qualquer momento. Seus dados são seus e você tem controle total sobre eles.
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-7" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
-              <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+            <AccordionItem value="item-7" className="bg-background/50 rounded-xl px-4 md:px-6 border-3 border-foreground shadow-lg hover:shadow-xl hover:scale-[1.01] transition-all duration-300 data-[state=open]:bg-foreground/5 data-[state=open]:border-foreground data-[state=open]:shadow-2xl">
+              <AccordionTrigger className="text-left font-black text-foreground hover:no-underline text-sm md:text-base py-5">
                 Como funciona o cashback?
               </AccordionTrigger>
-              <AccordionContent className="text-foreground/70 text-sm">
+              <AccordionContent className="text-foreground/80 text-sm md:text-base leading-relaxed pb-5">
                 Ao usar nosso serviço de cashback integrado, você recebe uma porcentagem de volta em compras elegíveis. O dinheiro retorna diretamente para sua conta e pode ser usado para novas transações.
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-8" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
-              <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+            <AccordionItem value="item-8" className="bg-background/50 rounded-xl px-4 md:px-6 border-3 border-foreground shadow-lg hover:shadow-xl hover:scale-[1.01] transition-all duration-300 data-[state=open]:bg-foreground/5 data-[state=open]:border-foreground data-[state=open]:shadow-2xl">
+              <AccordionTrigger className="text-left font-black text-foreground hover:no-underline text-sm md:text-base py-5">
                 Meus dados bancários estão seguros?
               </AccordionTrigger>
-              <AccordionContent className="text-foreground/70 text-sm">
+              <AccordionContent className="text-foreground/80 text-sm md:text-base leading-relaxed pb-5">
                 Totalmente! Usamos criptografia de nível bancário e nunca armazenamos senhas de bancos. Todas as transações são processadas através de canais seguros e certificados.
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="item-9" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
-              <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+            <AccordionItem value="item-9" className="bg-background/50 rounded-xl px-4 md:px-6 border-3 border-foreground shadow-lg hover:shadow-xl hover:scale-[1.01] transition-all duration-300 data-[state=open]:bg-foreground/5 data-[state=open]:border-foreground data-[state=open]:shadow-2xl">
+              <AccordionTrigger className="text-left font-black text-foreground hover:no-underline text-sm md:text-base py-5">
                 Como criar metas financeiras?
               </AccordionTrigger>
-              <AccordionContent className="text-foreground/70 text-sm">
+              <AccordionContent className="text-foreground/80 text-sm md:text-base leading-relaxed pb-5">
                 Acesse a seção de metas no seu dashboard, defina um objetivo (viagem, compra, economia) e um valor alvo. O FinHub vai acompanhar seu progresso e sugerir quanto economizar mensalmente para atingir sua meta.
               </AccordionContent>
             </AccordionItem>
