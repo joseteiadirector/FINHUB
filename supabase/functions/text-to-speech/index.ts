@@ -11,7 +11,7 @@ serve(async (req) => {
   }
 
   try {
-    const { text, voiceId = 'Xb7hH8MSUJpSbSDYk0k2' } = await req.json() // Alice voice (default)
+    const { text, voiceId = 'TX3LPaxmHKxFdv7VOQHJ' } = await req.json() // Liam voice (default) - better for Portuguese
 
     if (!text) {
       throw new Error('Text is required')
@@ -34,11 +34,11 @@ serve(async (req) => {
         },
         body: JSON.stringify({
           text,
-          model_id: 'eleven_turbo_v2_5', // Faster model for lower latency
+          model_id: 'eleven_multilingual_v2', // Best for Portuguese pronunciation
           voice_settings: {
             stability: 0.5,
-            similarity_boost: 0.5,
-            speed: 1.2, // Valid range: 0.7 - 1.2
+            similarity_boost: 0.75,
+            speed: 1.1,
           },
         }),
       }
