@@ -12,7 +12,7 @@ export const LegoBackground = () => {
   ];
 
   return (
-    <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
       {blocks.map((block, i) => (
         <div
           key={i}
@@ -20,8 +20,8 @@ export const LegoBackground = () => {
           style={{
             top: block.top,
             left: block.left,
-            width: `${block.size}px`,
-            height: `${block.size}px`,
+            width: `${block.size * 1.4}px`,
+            height: `${block.size * 1.4}px`,
             animationDelay: `${block.delay}s`,
           }}
         >
@@ -29,14 +29,14 @@ export const LegoBackground = () => {
             className="w-full h-full relative"
             style={{
               background: `linear-gradient(135deg, ${block.color} 0%, ${block.color}dd 50%, ${block.color}99 100%)`,
-              borderRadius: '8px',
+              borderRadius: '12px',
               boxShadow: `
-                inset -2px -2px 4px rgba(0,0,0,0.2),
-                inset 2px 2px 4px rgba(255,255,255,0.3),
-                4px 4px 12px rgba(0,0,0,0.15)
+                inset -3px -3px 6px rgba(0,0,0,0.25),
+                inset 3px 3px 6px rgba(255,255,255,0.4),
+                6px 6px 18px rgba(0,0,0,0.2)
               `,
-              transform: 'perspective(600px) rotateX(20deg) rotateY(-10deg)',
-              opacity: 0.25,
+              transform: 'perspective(700px) rotateX(18deg) rotateY(-14deg)',
+              opacity: 0.45,
             }}
           >
             {/* Pinos do Lego */}
