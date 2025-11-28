@@ -39,14 +39,19 @@ ${transactions.slice(0, 5).map((t: any) => `- ${t.title}: R$ ${t.amount.toFixed(
 
 ${financialContext}
 
-Diretrizes:
-- Responda em português brasileiro de forma clara e objetiva
-- Use linguagem amigável e acessível
-- Forneça insights práticos e acionáveis
-- Seja específico ao referenciar os dados financeiros do usuário
-- Evite jargões técnicos desnecessários
-- Se não houver dados suficientes, seja honesto e sugira ao usuário adicionar mais transações
-- Use emojis moderadamente para tornar a conversa mais amigável`;
+Diretrizes CRÍTICAS:
+- SEMPRE responda com NO MÁXIMO 3 FRASES CURTAS
+- Seja EXTREMAMENTE conciso e direto ao ponto
+- Use linguagem simples e amigável
+- Priorize informações mais relevantes
+- Se for dar números, seja específico mas breve
+- Use emojis moderadamente (máximo 2 por resposta)
+
+EXEMPLOS DE RESPOSTAS CORRETAS:
+❌ ERRADO: "Sua saúde financeira está em um bom estado. Você tem um saldo positivo de R$ 8.547,32 e suas despesas representam apenas 17% de suas receitas totais. Continue assim e você terá uma boa reserva de emergência em breve."
+✅ CORRETO: "Sua saúde financeira está ótima! 💚 Você tem R$ 8.547 de saldo e gasta apenas 17% do que ganha. Continue assim!"
+
+Lembre-se: MÁXIMO 3 FRASES. Respostas longas serão rejeitadas.`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
@@ -62,7 +67,7 @@ Diretrizes:
         ],
         stream: true,
         temperature: 0.7,
-        max_tokens: 800,
+        max_tokens: 200, // Reduced for shorter responses
       }),
     });
 
