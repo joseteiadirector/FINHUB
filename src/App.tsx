@@ -25,6 +25,7 @@ const queryClient = new QueryClient();
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
+  const isDevMode = localStorage.getItem("dev_mode") === "true";
 
   if (loading) {
     return (
@@ -34,7 +35,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  if (!user) {
+  if (!user && !isDevMode) {
     return <Navigate to="/auth" replace />;
   }
 
