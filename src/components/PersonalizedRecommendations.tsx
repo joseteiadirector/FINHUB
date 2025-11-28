@@ -168,7 +168,7 @@ export const PersonalizedRecommendations = ({ transactions, onActionClick }: Per
                   <h3 className="font-black text-sm text-foreground">{rec.title}</h3>
                   <p className="text-xs font-bold text-foreground/70 mt-1">{rec.description}</p>
                 </div>
-                <ArrowRight className="text-foreground flex-shrink-0" size={16} />
+                <ArrowRight className="text-foreground flex-shrink-0 animate-pulse" size={16} />
               </div>
             </Card>
           ))}

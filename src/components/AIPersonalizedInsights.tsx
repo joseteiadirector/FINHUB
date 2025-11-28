@@ -223,7 +223,7 @@ export const AIPersonalizedInsights = ({ transactions, currentBalance }: AIPerso
                 >
                   <div className="flex items-center justify-between">
                     <p className="text-xs font-bold text-foreground">▸ {rec}</p>
-                    <ArrowRight className="text-foreground flex-shrink-0" size={16} />
+                    <ArrowRight className="text-foreground flex-shrink-0 animate-pulse" size={16} />
                   </div>
                 </Card>
               ))}
