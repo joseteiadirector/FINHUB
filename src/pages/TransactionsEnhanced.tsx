@@ -176,37 +176,39 @@ const TransactionsEnhanced = () => {
         </Card>
 
         {/* Category Chart */}
-        <Card className="p-6">
+        <Card className="p-4 md:p-6">
           <h2 className="text-lg font-semibold text-foreground mb-4">Gastos por Categoria</h2>
-          <ChartContainer
-            config={{
-              value: {
-                label: "Valor",
-                color: "hsl(var(--chart-1))",
-              },
-            }}
-            className="h-[300px]"
-          >
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={chartData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {chartData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <ChartTooltip content={<ChartTooltipContent />} />
-              </PieChart>
-            </ResponsiveContainer>
-          </ChartContainer>
+          <div className="w-full flex items-center justify-center">
+            <ChartContainer
+              config={{
+                value: {
+                  label: "Valor",
+                  color: "hsl(var(--chart-1))",
+                },
+              }}
+              className="h-[320px] w-full max-w-[320px] mx-auto"
+            >
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={chartData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    outerRadius="70%"
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {chartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                </PieChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </div>
         </Card>
 
         {/* Filters */}
