@@ -34,11 +34,11 @@ serve(async (req) => {
         },
         body: JSON.stringify({
           text,
-          model_id: 'eleven_multilingual_v2', // Best for Portuguese pronunciation
+          model_id: 'eleven_turbo_v2_5', // Fastest model with multilingual support
           voice_settings: {
             stability: 0.5,
             similarity_boost: 0.75,
-            speed: 1.1,
+            speed: 1.15,
           },
         }),
       }
