@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, Share2, Users, Gift, Sparkles, MessageCircle, Mail } from "lucide-react";
+import { Copy, Users, Gift, Sparkles, MessageCircle, Mail } from "lucide-react";
 import { useReferrals } from "@/hooks/useReferrals";
 import { ReferralProgress } from "@/components/ReferralProgress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -48,24 +48,6 @@ const Referrals = () => {
       </div>
     );
   }
-
-  const handleShare = async () => {
-    const link = getReferralLink();
-    const text = `Junte-se ao FinHub! Use meu link de indicação e gerencie suas finanças com inteligência: ${link}`;
-
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "FinHub - Convite de Indicação",
-          text: text,
-        });
-      } catch (error) {
-        console.error("Error sharing:", error);
-      }
-    } else {
-      copyReferralLink();
-    }
-  };
 
   const handleSendEmail = async () => {
     try {
@@ -151,28 +133,21 @@ const Referrals = () => {
             {getReferralLink()}
           </div>
 
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 gap-2">
             <Button
               onClick={copyReferralLink}
               className="font-bold"
               variant="outline"
             >
               <Copy className="w-4 h-4 mr-2" />
-              COPIAR
-            </Button>
-            <Button
-              onClick={handleShare}
-              className="font-bold"
-            >
-              <Share2 className="w-4 h-4 mr-2" />
-              COMPARTILHAR
+              COPIAR LINK
             </Button>
             
             <Dialog open={isEmailDialogOpen} onOpenChange={setIsEmailDialogOpen}>
               <DialogTrigger asChild>
                 <Button className="font-bold" variant="default">
                   <Mail className="w-4 h-4 mr-2" />
-                  EMAIL
+                  ENVIAR EMAIL
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-md">
