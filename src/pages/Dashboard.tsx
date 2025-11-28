@@ -106,13 +106,24 @@ const Dashboard = () => {
           </div>
           
           <div className="space-y-3 md:space-y-4">
-            <PersonalizedRecommendations 
-              transactions={transactions}
-            />
-            <PredictiveAssistant 
-              transactions={transactions} 
-              currentBalance={balance}
-            />
+            {transactions && transactions.length > 0 ? (
+              <>
+                <PersonalizedRecommendations 
+                  transactions={transactions}
+                />
+                <PredictiveAssistant 
+                  transactions={transactions} 
+                  currentBalance={balance}
+                />
+              </>
+            ) : (
+              <div className="p-6 text-center bg-muted rounded-xl border-2 border-foreground">
+                <Lightbulb className="mx-auto mb-3 text-foreground/50" size={32} />
+                <p className="text-foreground/70 font-bold text-sm">
+                  Adicione transações para ver dicas personalizadas
+                </p>
+              </div>
+            )}
           </div>
         </div>
 

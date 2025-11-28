@@ -16,18 +16,25 @@ interface PredictiveAssistantProps {
   currentBalance: number;
 }
 
-export const PredictiveAssistant = ({ transactions, currentBalance }: PredictiveAssistantProps) => {
+export const PredictiveAssistant = ({ transactions = [], currentBalance = 0 }: PredictiveAssistantProps) => {
+  // Garantir que transactions é sempre um array válido
+  const safeTransactions = Array.isArray(transactions) ? transactions : [];
+  const safeBalance = typeof currentBalance === 'number' && !isNaN(currentBalance) ? currentBalance : 0;
+  
   // Análise preditiva
   const calculatePredictions = () => {
-    const expenses = transactions.filter(t => t.type === "expense");
-    const income = transactions.filter(t => t.type === "income");
+    const expenses = safeTransactions.filter(t => t.type === "expense");
+    const income = safeTransactions.filter(t => t.type === "income");
     
-    const avgDailyExpense = expenses.reduce((sum, t) => sum + t.amount, 0) / 30;
-    const avgMonthlyIncome = income.reduce((sum, t) => sum + t.amount, 0);
+    const totalExpenses = expenses.reduce((sum, t) => sum + t.amount, 0);
+    const totalIncome = income.reduce((sum, t) => sum + t.amount, 0);
     
-    const daysUntilZero = Math.floor(currentBalance / avgDailyExpense);
-    const projectedEndOfMonth = currentBalance - (avgDailyExpense * 30);
-    const burnRate = (avgDailyExpense / avgMonthlyIncome) * 100;
+    const avgDailyExpense = totalExpenses > 0 ? totalExpenses / 30 : 0;
+    const avgMonthlyIncome = totalIncome;
+    
+    const daysUntilZero = avgDailyExpense > 0 ? Math.floor(safeBalance / avgDailyExpense) : 999;
+    const projectedEndOfMonth = safeBalance - (avgDailyExpense * 30);
+    const burnRate = avgMonthlyIncome > 0 ? (avgDailyExpense / avgMonthlyIncome) * 100 : 0;
     
     // Categoria que mais gasta
     const categorySpending: Record<string, number> = {};
