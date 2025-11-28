@@ -1,6 +1,5 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Sparkles, RefreshCw, Loader2, TrendingUp, TrendingDown, AlertTriangle, CheckCircle, ArrowRight } from "lucide-react";
 import { useAIInsights } from "@/hooks/useAIInsights";
@@ -161,9 +160,6 @@ export const AIPersonalizedInsights = ({ transactions, currentBalance }: AIPerso
             <p className="text-sm font-bold text-foreground/70">Análise inteligente com visualizações</p>
           </div>
         </div>
-        <Badge variant="secondary" className="bg-foreground text-background font-black text-xs px-3 py-1">
-          LOVABLE AI
-        </Badge>
       </div>
 
       {parsedInsights && (

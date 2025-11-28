@@ -1,6 +1,5 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Sparkles, ArrowRight, RefreshCw, Loader2 } from "lucide-react";
 import { useState } from "react";
@@ -146,9 +145,6 @@ export const PersonalizedRecommendations = ({ transactions, onActionClick }: Per
             <p className="text-sm font-bold text-foreground/70">Dicas personalizadas para você</p>
           </div>
         </div>
-        <Badge variant="secondary" className="bg-foreground text-background font-black px-3 py-1">
-          LOVABLE AI
-        </Badge>
       </div>
 
       {recommendations.length === 0 && !isLoading && (
