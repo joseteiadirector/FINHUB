@@ -55,10 +55,10 @@ const Profile = () => {
   };
 
   const menuItems = [
-    { icon: User, title: "Dados pessoais", description: "Edite suas informações" },
-    { icon: Bell, title: "Notificações", description: "Configure alertas" },
-    { icon: Lock, title: "Segurança", description: "Senha e privacidade" },
-    { icon: HelpCircle, title: "Ajuda", description: "Central de suporte" },
+    { icon: User, title: "Dados pessoais", description: "Edite suas informações", onClick: () => {} },
+    { icon: Bell, title: "Notificações", description: "Configure alertas", onClick: () => {} },
+    { icon: Lock, title: "Segurança", description: "Senha e privacidade", onClick: () => {} },
+    { icon: HelpCircle, title: "Perguntas Frequentes", description: "Tire suas dúvidas sobre o app", onClick: () => navigate("/faq") },
   ];
 
   return (
@@ -118,6 +118,7 @@ const Profile = () => {
                 key={item.title} 
                 className="p-4 cursor-pointer hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 group animate-fade-in border-4 border-foreground hover:bg-foreground/5"
                 style={{ animationDelay: `${(index + 1) * 100}ms` }}
+                onClick={item.onClick}
               >
                 <div className="flex items-center gap-4">
                   <div className="p-3 bg-foreground rounded-2xl group-hover:scale-110 transition-all duration-300 shadow-lg">
