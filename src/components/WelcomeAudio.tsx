@@ -78,21 +78,21 @@ export const WelcomeAudio = () => {
             size="icon"
             onClick={playWelcomeAudio}
             disabled={isLoading}
-            className="rounded-full shadow-lg animate-pulse hover:animate-none"
+            className="rounded-full shadow-2xl border-4 border-primary/50 bg-primary/10 hover:bg-primary/20 hover:scale-110 transition-all animate-[pulse_1.5s_ease-in-out_infinite]"
             title="Ouvir mensagem de boas-vindas"
           >
             {isLoading ? (
-              <Loader2 className="h-5 w-5 animate-spin" />
+              <Loader2 className="h-6 w-6 animate-spin text-primary" />
             ) : isPlaying ? (
-              <VolumeX className="h-5 w-5" />
+              <VolumeX className="h-6 w-6 text-primary" />
             ) : (
-              <Volume2 className="h-5 w-5" />
+              <Volume2 className="h-6 w-6 text-primary animate-bounce" />
             )}
           </Button>
         </TooltipTrigger>
-        <TooltipContent>
-          <p className="font-semibold">🎙️ Mensagem de Boas-Vindas</p>
-          <p className="text-xs text-muted-foreground">Clique para ouvir</p>
+        <TooltipContent className="bg-card border-4 border-primary shadow-xl">
+          <p className="font-black text-base">🎙️ MENSAGEM DE BOAS-VINDAS</p>
+          <p className="text-sm font-semibold text-foreground/80">Clique para ouvir nossa apresentação</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
