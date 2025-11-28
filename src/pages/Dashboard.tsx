@@ -89,44 +89,59 @@ const Dashboard = () => {
         </div>
 
         {/* Seção de Personalização: IA, Conquistas, Recomendações, Chat e FAQ */}
-        <div className="bg-card rounded-2xl p-1 border-4 border-foreground shadow-xl">
+        <div className="bg-card rounded-2xl p-4 border-4 border-foreground shadow-xl">
           <Tabs defaultValue="ia" className="w-full">
-            <TabsList className="grid w-full grid-cols-5 mb-3 bg-card border-2 border-foreground">
-              <TabsTrigger value="ia" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background relative">
-                <Sparkles size={14} className="mr-1 animate-pulse" />
+            <TabsList className="flex overflow-x-auto gap-2 mb-4 bg-transparent border-0 p-0 scrollbar-hide">
+              <TabsTrigger 
+                value="ia" 
+                className="flex-shrink-0 min-w-[110px] px-4 py-3 rounded-xl font-black text-sm text-foreground border-2 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all relative hover:scale-105"
+              >
+                <Sparkles size={18} className="mr-2 animate-pulse" />
                 IA
                 <span className="absolute -top-1 -right-1 flex h-3 w-3">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                 </span>
               </TabsTrigger>
-              <TabsTrigger value="conquistas" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background">
-                <Trophy size={14} className="mr-1" />
+              <TabsTrigger 
+                value="conquistas" 
+                className="flex-shrink-0 min-w-[110px] px-4 py-3 rounded-xl font-black text-sm text-foreground border-2 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all hover:scale-105"
+              >
+                <Trophy size={18} className="mr-2" />
                 BADGES
               </TabsTrigger>
-              <TabsTrigger value="dicas" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background relative">
-                <Lightbulb size={14} className="mr-1 animate-pulse" />
+              <TabsTrigger 
+                value="dicas" 
+                className="flex-shrink-0 min-w-[110px] px-4 py-3 rounded-xl font-black text-sm text-foreground border-2 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all relative hover:scale-105"
+              >
+                <Lightbulb size={18} className="mr-2 animate-pulse" />
                 DICAS
                 <span className="absolute -top-1 -right-1 flex h-3 w-3">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                 </span>
               </TabsTrigger>
-              <TabsTrigger value="chat" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background relative">
-                <MessageCircle size={14} className="mr-1 animate-pulse" />
+              <TabsTrigger 
+                value="chat" 
+                className="flex-shrink-0 min-w-[110px] px-4 py-3 rounded-xl font-black text-sm text-foreground border-2 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all relative hover:scale-105"
+              >
+                <MessageCircle size={18} className="mr-2 animate-pulse" />
                 CHAT
                 <span className="absolute -top-1 -right-1 flex h-3 w-3">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                 </span>
               </TabsTrigger>
-              <TabsTrigger value="faq" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background">
-                <HelpCircle size={14} className="mr-1" />
+              <TabsTrigger 
+                value="faq" 
+                className="flex-shrink-0 min-w-[110px] px-4 py-3 rounded-xl font-black text-sm text-foreground border-2 border-foreground data-[state=active]:bg-foreground data-[state=active]:text-background transition-all hover:scale-105"
+              >
+                <HelpCircle size={18} className="mr-2" />
                 FAQ
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="ia" className="mt-0 px-3 pb-3 space-y-4">
+            <TabsContent value="ia" className="mt-0 space-y-4">
               <AIPersonalizedInsights 
                 transactions={transactions} 
                 currentBalance={balance}
@@ -134,11 +149,11 @@ const Dashboard = () => {
               <ContextualInsights transactions={transactions} />
             </TabsContent>
             
-            <TabsContent value="conquistas" className="mt-0 px-3 pb-3">
+            <TabsContent value="conquistas" className="mt-0">
               <AchievementBadges transactions={transactions} />
             </TabsContent>
             
-            <TabsContent value="dicas" className="mt-0 px-3 pb-3">
+            <TabsContent value="dicas" className="mt-0">
               <PersonalizedRecommendations 
                 transactions={transactions}
               />
@@ -150,14 +165,14 @@ const Dashboard = () => {
               </div>
             </TabsContent>
             
-            <TabsContent value="chat" className="mt-0 px-3 pb-3">
+            <TabsContent value="chat" className="mt-0">
               <FinancialChatBot 
                 transactions={transactions}
                 currentBalance={balance}
               />
             </TabsContent>
             
-            <TabsContent value="faq" className="mt-0 px-3 pb-3">
+            <TabsContent value="faq" className="mt-0">
               <div className="space-y-4">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="p-3 rounded-2xl bg-foreground">
