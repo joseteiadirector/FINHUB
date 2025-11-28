@@ -23,7 +23,7 @@ const Services = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="min-h-screen bg-background pb-28">
       <header className="bg-card border-b-4 border-foreground p-6 sticky top-0 z-10 shadow-xl">
         <div className="max-w-md mx-auto flex items-center gap-4">
           <Button 

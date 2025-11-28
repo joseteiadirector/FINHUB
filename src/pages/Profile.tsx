@@ -61,7 +61,7 @@ const Profile = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="min-h-screen bg-background pb-28">
       <header className="bg-card border-b-4 border-foreground p-4 shadow-lg">
         <div className="max-w-md mx-auto flex items-center gap-4">
           <Button 

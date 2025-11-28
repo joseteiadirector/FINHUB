@@ -104,7 +104,7 @@ const TransactionsEnhanced = () => {
   const totalExpense = transactions.filter((t) => t.type === "expense").reduce((sum, t) => sum + t.amount, 0);
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="min-h-screen bg-background pb-28">
       <header className="bg-card border-b border-border p-4 sticky top-0 z-10">
         <div className="max-w-md mx-auto flex items-center gap-4">
           <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard")}>

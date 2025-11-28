@@ -35,7 +35,7 @@ const Dashboard = () => {
   const balance = totalIncome - totalExpenses;
 
   return (
-    <div className="min-h-screen bg-background pb-20 relative overflow-hidden">
+    <div className="min-h-screen bg-background pb-28 relative overflow-hidden">
       <header className="bg-card/95 backdrop-blur-sm border-b-4 border-foreground p-6 animate-fade-in shadow-xl relative z-10">
         <div className="max-w-md mx-auto flex items-center justify-between gap-3">
           <Button 
