@@ -8,11 +8,17 @@ import { FinancialChatBot } from "@/components/FinancialChatBot";
 import { AchievementBadges } from "@/components/AchievementBadges";
 import { PersonalizedRecommendations } from "@/components/PersonalizedRecommendations";
 import { Button } from "@/components/ui/button";
-import { TrendingUp, ArrowRight, Sparkles, MessageCircle, Home, Trophy, Lightbulb } from "lucide-react";
+import { TrendingUp, ArrowRight, Sparkles, MessageCircle, Home, Trophy, Lightbulb, HelpCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -65,10 +71,10 @@ const Dashboard = () => {
           <BalanceCard balance={8547.32} income={5000} expenses={1452.18} />
         </div>
 
-        {/* Seção de Personalização: IA, Conquistas e Recomendações */}
+        {/* Seção de Personalização: IA, Conquistas, Recomendações, Chat e FAQ */}
         <div className="bg-card rounded-2xl p-1 border-4 border-foreground shadow-xl">
           <Tabs defaultValue="ia" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-3 bg-card border-2 border-foreground">
+            <TabsList className="grid w-full grid-cols-5 mb-3 bg-card border-2 border-foreground">
               <TabsTrigger value="ia" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background">
                 <Sparkles size={14} className="mr-1" />
                 IA
@@ -84,6 +90,10 @@ const Dashboard = () => {
               <TabsTrigger value="chat" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background">
                 <MessageCircle size={14} className="mr-1" />
                 CHAT
+              </TabsTrigger>
+              <TabsTrigger value="faq" className="text-xs font-black text-foreground data-[state=active]:bg-foreground data-[state=active]:text-background">
+                <HelpCircle size={14} className="mr-1" />
+                FAQ
               </TabsTrigger>
             </TabsList>
             
@@ -116,6 +126,112 @@ const Dashboard = () => {
                 transactions={recentTransactions}
                 currentBalance={8547.32}
               />
+            </TabsContent>
+            
+            <TabsContent value="faq" className="mt-0 px-3 pb-3">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="p-3 rounded-2xl bg-foreground">
+                    <HelpCircle className="text-background" size={24} />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-black text-foreground">PERGUNTAS FREQUENTES</h2>
+                    <p className="text-sm font-bold text-foreground/70">Tire suas dúvidas sobre o FinHub</p>
+                  </div>
+                </div>
+                
+                <Accordion type="single" collapsible className="space-y-3">
+                  <AccordionItem value="item-0" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
+                    <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+                      O que é o FinHub?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-foreground/70 text-sm">
+                      FinHub é um hub financeiro completo que une controle de gastos, extrato inteligente e diversos serviços financeiros em um único aplicativo. Gerencie suas finanças com tecnologia de IA que categoriza automaticamente suas despesas e oferece insights personalizados.
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="item-1" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
+                    <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+                      Como funciona a categorização automática?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-foreground/70 text-sm">
+                      Nossa IA analisa cada transação e categoriza automaticamente seus gastos em categorias como Alimentação, Transporte, Saúde, Entretenimento e outras. Você também pode ajustar manualmente as categorias quando necessário.
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="item-2" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
+                    <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+                      Quais serviços financeiros estão disponíveis?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-foreground/70 text-sm">
+                      Oferecemos PIX, pagamento de contas, recarga de celular, cashback em compras, seguros personalizados e empréstimos com taxas competitivas. Todos integrados em uma única plataforma segura.
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="item-3" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
+                    <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+                      Como funcionam os insights da IA?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-foreground/70 text-sm">
+                      Nossa IA analisa seus padrões de gastos e gera insights personalizados sobre sua saúde financeira, oportunidades de economia, alertas de gastos elevados e recomendações práticas para melhorar suas finanças.
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="item-4" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
+                    <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+                      O chat financeiro é seguro?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-foreground/70 text-sm">
+                      Sim! Todas as conversas são criptografadas e seus dados financeiros são protegidos. O chat usa IA para responder suas perguntas sobre finanças de forma personalizada, analisando apenas suas próprias transações.
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="item-5" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
+                    <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+                      Como ganho badges e conquistas?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-foreground/70 text-sm">
+                      Você ganha badges ao atingir marcos importantes: registrar sua primeira transação, alcançar metas de economia, usar os serviços integrados e manter uma saúde financeira positiva. Quanto mais você usa o app, mais conquistas desbloqueia!
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="item-6" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
+                    <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+                      Posso exportar meus dados?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-foreground/70 text-sm">
+                      Sim! Você pode exportar seu extrato completo e relatórios financeiros a qualquer momento. Seus dados são seus e você tem controle total sobre eles.
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="item-7" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
+                    <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+                      Como funciona o cashback?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-foreground/70 text-sm">
+                      Ao usar nosso serviço de cashback integrado, você recebe uma porcentagem de volta em compras elegíveis. O dinheiro retorna diretamente para sua conta e pode ser usado para novas transações.
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="item-8" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
+                    <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+                      Meus dados bancários estão seguros?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-foreground/70 text-sm">
+                      Totalmente! Usamos criptografia de nível bancário e nunca armazenamos senhas de bancos. Todas as transações são processadas através de canais seguros e certificados.
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="item-9" className="bg-card rounded-lg px-4 border-2 border-foreground shadow-sm">
+                    <AccordionTrigger className="text-left font-bold text-foreground hover:no-underline text-sm">
+                      Como criar metas financeiras?
+                    </AccordionTrigger>
+                    <AccordionContent className="text-foreground/70 text-sm">
+                      Acesse a seção de metas no seu dashboard, defina um objetivo (viagem, compra, economia) e um valor alvo. O FinHub vai acompanhar seu progresso e sugerir quanto economizar mensalmente para atingir sua meta.
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </div>
             </TabsContent>
           </Tabs>
         </div>
