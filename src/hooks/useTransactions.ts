@@ -13,6 +13,20 @@ interface Transaction {
   ai_categorized?: boolean;
 }
 
+// Dados de demonstração fixos para MVP
+const DEMO_TRANSACTIONS: Transaction[] = [
+  { id: "demo-1", title: "Salário", date: "2025-01-15", amount: 5500, type: "income", category: "Salário" },
+  { id: "demo-2", title: "Freelance Design", date: "2025-01-20", amount: 1200, type: "income", category: "Freelance" },
+  { id: "demo-3", title: "Aluguel", date: "2025-01-10", amount: 1500, type: "expense", category: "Moradia" },
+  { id: "demo-4", title: "Supermercado Extra", date: "2025-01-12", amount: 350, type: "expense", category: "Alimentação" },
+  { id: "demo-5", title: "Uber", date: "2025-01-14", amount: 45, type: "expense", category: "Transporte" },
+  { id: "demo-6", title: "Netflix", date: "2025-01-16", amount: 55, type: "expense", category: "Entretenimento" },
+  { id: "demo-7", title: "Farmácia", date: "2025-01-18", amount: 120, type: "expense", category: "Saúde" },
+  { id: "demo-8", title: "Restaurante", date: "2025-01-22", amount: 180, type: "expense", category: "Alimentação" },
+  { id: "demo-9", title: "Academia", date: "2025-01-05", amount: 150, type: "expense", category: "Saúde" },
+  { id: "demo-10", title: "Conta de Luz", date: "2025-01-08", amount: 220, type: "expense", category: "Contas" },
+];
+
 export const useTransactions = () => {
   const { user } = useAuth();
   const { toast } = useToast();
@@ -20,7 +34,12 @@ export const useTransactions = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchTransactions = async () => {
-    if (!user) return;
+    // Se não houver usuário, usar dados de demonstração
+    if (!user) {
+      setTransactions(DEMO_TRANSACTIONS);
+      setLoading(false);
+      return;
+    }
 
     try {
       const { data, error } = await supabase
@@ -36,13 +55,15 @@ export const useTransactions = () => {
         type: t.type as "income" | "expense",
       }));
 
-      setTransactions(formattedData);
+      // Se não houver transações do usuário, usar dados demo
+      setTransactions(formattedData.length > 0 ? formattedData : DEMO_TRANSACTIONS);
     } catch (error) {
       console.error("Error fetching transactions:", error);
+      // Em caso de erro, usar dados demo
+      setTransactions(DEMO_TRANSACTIONS);
       toast({
-        title: "Erro ao carregar transações",
-        description: "Não foi possível carregar suas transações",
-        variant: "destructive",
+        title: "Usando dados de demonstração",
+        description: "Exibindo exemplo de transações",
       });
     } finally {
       setLoading(false);
@@ -147,7 +168,7 @@ export const useTransactions = () => {
 
   useEffect(() => {
     fetchTransactions();
-  }, [user]);
+  }, [user]); // Sempre executa, mesmo sem user
 
   return {
     transactions,

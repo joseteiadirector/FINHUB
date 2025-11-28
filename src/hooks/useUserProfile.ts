@@ -8,6 +8,13 @@ interface UserProfile {
   avatar_url: string | null;
 }
 
+// Perfil de demonstração para MVP
+const DEMO_PROFILE: UserProfile = {
+  id: "demo-user",
+  full_name: "Visitante Demo",
+  avatar_url: null,
+};
+
 export const useUserProfile = () => {
   const { user } = useAuth();
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -16,7 +23,8 @@ export const useUserProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       if (!user) {
-        setProfile(null);
+        // Usar perfil de demonstração quando não houver usuário
+        setProfile(DEMO_PROFILE);
         setLoading(false);
         return;
       }
@@ -30,11 +38,15 @@ export const useUserProfile = () => {
 
         if (error) {
           console.error("Error fetching profile:", error);
+          // Em caso de erro, usar perfil demo
+          setProfile(DEMO_PROFILE);
         } else {
           setProfile(data);
         }
       } catch (error) {
         console.error("Error:", error);
+        // Em caso de erro, usar perfil demo
+        setProfile(DEMO_PROFILE);
       } finally {
         setLoading(false);
       }
