@@ -49,11 +49,14 @@ serve(async (req) => {
       throw new Error(`ElevenLabs API error: ${response.status}`)
     }
 
-    // Convert audio to base64
+    // Convert audio to base64 in a safe way (avoid spreading large arrays)
     const arrayBuffer = await response.arrayBuffer()
-    const base64Audio = btoa(
-      String.fromCharCode(...new Uint8Array(arrayBuffer))
-    )
+    const uint8Array = new Uint8Array(arrayBuffer)
+    let binaryString = ''
+    for (let i = 0; i < uint8Array.byteLength; i++) {
+      binaryString += String.fromCharCode(uint8Array[i])
+    }
+    const base64Audio = btoa(binaryString)
 
     return new Response(
       JSON.stringify({ audioContent: base64Audio }),
