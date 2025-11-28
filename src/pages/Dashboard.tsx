@@ -7,6 +7,7 @@ import { AIPersonalizedInsights } from "@/components/AIPersonalizedInsights";
 import { FinancialChatBot } from "@/components/FinancialChatBot";
 import { AchievementBadges } from "@/components/AchievementBadges";
 import { PersonalizedRecommendations } from "@/components/PersonalizedRecommendations";
+import { LegoBackground } from "@/components/LegoBackground";
 import { Button } from "@/components/ui/button";
 import { TrendingUp, ArrowRight, Sparkles, MessageCircle, Home, Trophy, Lightbulb, HelpCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -39,8 +40,9 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background pb-20">
-      <header className="bg-card border-b-4 border-foreground p-6 animate-fade-in shadow-xl">
+    <div className="min-h-screen bg-background pb-20 relative overflow-hidden">
+      <LegoBackground />
+      <header className="bg-card/95 backdrop-blur-sm border-b-4 border-foreground p-6 animate-fade-in shadow-xl relative z-10">
         <div className="max-w-md mx-auto flex items-center justify-between gap-3">
           <Button 
             variant="outline" 
@@ -52,10 +54,10 @@ const Dashboard = () => {
             <Home size={24} />
           </Button>
           <div className="flex-1">
-            <h1 className="text-4xl font-black text-foreground mb-1">
+            <h1 className="text-5xl font-black text-black mb-1 drop-shadow-lg" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.3)' }}>
               {loading ? "OLÁ! 👋" : `OLÁ, ${userName.toUpperCase()}! 👋`}
             </h1>
-            <p className="text-base font-semibold text-foreground/70">Gerencie suas finanças com inteligência</p>
+            <p className="text-lg font-bold text-black/80 drop-shadow">Gerencie suas finanças com inteligência</p>
           </div>
           <Avatar className="w-14 h-14 border-4 border-foreground cursor-pointer hover:scale-110 transition-transform shadow-lg" onClick={() => navigate("/profile")}>
             <AvatarImage src={profile?.avatar_url || undefined} alt="Avatar" />
@@ -238,10 +240,10 @@ const Dashboard = () => {
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <TrendingUp className="text-foreground" size={24} />
-            <h2 className="text-2xl font-black text-foreground">GASTOS DO MÊS</h2>
+            <TrendingUp className="text-black" size={28} />
+            <h2 className="text-3xl font-black text-black drop-shadow-md" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.2)' }}>GASTOS DO MÊS</h2>
           </div>
-          <p className="text-base font-bold text-foreground/70">Novembro</p>
+          <p className="text-lg font-bold text-black/70">Novembro</p>
         </div>
 
         <div className="bg-card rounded-2xl p-4 border-4 border-foreground shadow-lg">
@@ -257,12 +259,12 @@ const Dashboard = () => {
 
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-black text-foreground">TRANSAÇÕES RECENTES</h2>
+            <h2 className="text-3xl font-black text-black drop-shadow-md" style={{ textShadow: '1px 1px 3px rgba(0,0,0,0.2)' }}>TRANSAÇÕES RECENTES</h2>
             <Button 
               variant="ghost" 
               size="sm"
               onClick={() => navigate("/transactions")}
-              className="text-foreground font-bold hover:bg-foreground/10"
+              className="text-black font-bold hover:bg-foreground/10"
             >
               Ver todas <ArrowRight size={18} className="ml-1" />
             </Button>
