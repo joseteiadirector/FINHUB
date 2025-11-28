@@ -66,10 +66,17 @@ const TransactionsEnhanced = () => {
       }
     }
 
-    setTransactions(updatedTransactions);
+    // Ordenar: receitas (verdes) no topo, despesas (vermelhas) abaixo
+    const sortedTransactions = updatedTransactions.sort((a, b) => {
+      if (a.type === "income" && b.type === "expense") return -1;
+      if (a.type === "expense" && b.type === "income") return 1;
+      return 0;
+    });
+
+    setTransactions(sortedTransactions);
     toast({
       title: "Categorização concluída!",
-      description: "Suas transações foram recategorizadas automaticamente",
+      description: "Receitas no topo, despesas abaixo",
     });
   };
 
