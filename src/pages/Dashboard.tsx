@@ -63,7 +63,7 @@ const Dashboard = () => {
         </div>
       </header>
 
-      <main className="max-w-md mx-auto p-3 md:p-4 space-y-4 md:space-y-6 animate-fade-in">
+      <main className="max-w-md mx-auto px-3 py-3 md:px-4 md:py-4 space-y-4 md:space-y-6 animate-fade-in">
         <div className="animate-scale-in">
           <BalanceCard balance={balance} income={totalIncome} expenses={totalExpenses} />
         </div>
@@ -222,7 +222,7 @@ const Dashboard = () => {
         </div>
 
         {/* Seção de Personalização: IA, Conquistas, Recomendações, Chat e FAQ */}
-        <div className="bg-card rounded-xl md:rounded-2xl p-2.5 md:p-4 border-3 md:border-4 border-foreground shadow-xl min-h-[400px] md:min-h-[450px]">
+        <div className="bg-card rounded-xl md:rounded-2xl p-2.5 md:p-4 border-3 md:border-4 border-foreground shadow-xl min-h-[400px] md:min-h-[450px] overflow-hidden">
           <Tabs defaultValue="ia" className="w-full flex flex-col h-full">
             <div className="relative">
               <TabsList className="flex overflow-x-auto gap-1.5 md:gap-2 mb-3 md:mb-4 bg-transparent border-0 p-0 pb-2 scrollbar-hide snap-x snap-mandatory">
@@ -262,7 +262,7 @@ const Dashboard = () => {
               </div>
             </div>
             
-            <TabsContent value="ia" className="mt-0 space-y-4 flex-1 min-h-0">
+            <TabsContent value="ia" className="mt-0 space-y-4 flex-1 min-h-0 overflow-auto">
               <AIPersonalizedInsights 
                 transactions={transactions} 
                 currentBalance={balance}
@@ -270,16 +270,18 @@ const Dashboard = () => {
               <ContextualInsights transactions={transactions} />
             </TabsContent>
             
-            <TabsContent value="conquistas" className="mt-0 flex-1 min-h-0">
+            <TabsContent value="conquistas" className="mt-0 flex-1 min-h-0 overflow-auto">
               <AchievementBadges transactions={transactions} />
             </TabsContent>
             
             
-            <TabsContent value="chat" className="mt-0 flex-1 min-h-0">
-              <FinancialChatBot 
-                transactions={transactions}
-                currentBalance={balance}
-              />
+            <TabsContent value="chat" className="mt-0 flex-1 min-h-0 overflow-hidden">
+              <div className="h-full overflow-auto">
+                <FinancialChatBot 
+                  transactions={transactions}
+                  currentBalance={balance}
+                />
+              </div>
             </TabsContent>
           </Tabs>
         </div>
