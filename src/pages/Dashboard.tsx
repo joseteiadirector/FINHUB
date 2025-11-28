@@ -63,7 +63,7 @@ const Dashboard = () => {
         </div>
       </header>
 
-      <main className="max-w-md mx-auto px-3 py-3 md:px-4 md:py-4 space-y-4 md:space-y-6 animate-fade-in">
+      <main className="max-w-md mx-auto px-3 py-3 md:px-4 md:py-4 space-y-4 md:space-y-6 animate-fade-in relative z-10">
         <div className="animate-scale-in">
           <BalanceCard balance={balance} income={totalIncome} expenses={totalExpenses} />
         </div>
@@ -73,7 +73,7 @@ const Dashboard = () => {
         {/* Card de Indicações */}
         <div 
           onClick={() => navigate("/referrals")}
-          className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl md:rounded-2xl p-4 md:p-6 border-3 md:border-4 border-foreground shadow-xl cursor-pointer hover:scale-[1.02] transition-all duration-300 active:scale-95 animate-fade-in"
+          className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl md:rounded-2xl p-4 md:p-6 border-3 md:border-4 border-foreground shadow-xl cursor-pointer hover:scale-[1.02] transition-all duration-300 active:scale-95 animate-fade-in relative z-10"
         >
           <div className="flex items-center justify-between text-white">
             <div className="flex items-center gap-2 md:gap-3">

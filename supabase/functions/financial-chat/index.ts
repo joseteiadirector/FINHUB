@@ -68,8 +68,7 @@ Lembre-se: MÁXIMO 3 FRASES e TODOS os números por extenso.`;
           ...messages,
         ],
         stream: true,
-        temperature: 0.7,
-        max_tokens: 200, // Reduced for shorter responses
+        max_tokens: 200,
       }),
     });
 
