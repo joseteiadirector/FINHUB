@@ -18,6 +18,7 @@ import Cashback from "./pages/Cashback";
 import Insurance from "./pages/Insurance";
 import Loan from "./pages/Loan";
 import NotFound from "./pages/NotFound";
+import FAQ from "./pages/FAQ";
 
 const queryClient = new QueryClient();
 
@@ -126,6 +127,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Loan />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/faq"
+              element={
+                <ProtectedRoute>
+                  <FAQ />
                 </ProtectedRoute>
               }
             />
